@@ -1,6 +1,7 @@
 package stas.lines2019.game;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -13,6 +14,7 @@ import stas.lines2019.game.Entities.LibGdxTextureItem;
 
 public class MenuBall extends LibGdxTextureItem {
 
+    private float path;
 
     public MenuBall() {
         super();
@@ -36,12 +38,17 @@ public class MenuBall extends LibGdxTextureItem {
 
     @Override
     public void update(float dt) {
+
         if (velocity != null) {
             position.x += velocity.x*dt;
             position.y += velocity.y*dt;
             setBounds(position.x,position.y,width,height);
+
+            path += Math.sqrt(velocity.x*velocity.x + velocity.y*velocity.y)*dt;
         }
     }
 
-
+    public float getPath() {
+        return path;
+    }
 }

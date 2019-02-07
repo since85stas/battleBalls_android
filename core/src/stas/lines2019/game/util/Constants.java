@@ -60,4 +60,10 @@ public class Constants {
     public static final float HUD_FONT_TITLE = 0.04f;
     public static final float HUD_FONT_HUGE = 0.08f;
 
+    // константы для шариков на основн экране
+    public static int MENU_BALLS_INIT_NUMBERS = 30;
+    public static int MENU_BALLS_INIT_ADD = 2;
+    public static float MENU_BALLS_VEL_MIN = 50.f;
+    public static float MENU_BALLS_VEL_MAX = 90.f;
+    public static float MENU_BALLS_VEL_RANGE = 50.f;
 }

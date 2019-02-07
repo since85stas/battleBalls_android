@@ -5,16 +5,19 @@ import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.utils.DelayedRemovalArray;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import stas.lines2019.game.LinesGame;
 import stas.lines2019.game.MenuBall;
@@ -30,6 +33,8 @@ public class MainMenuScreen extends InputAdapter implements Screen{
     private static final String TAG = MainMenuScreen.class.getName().toString();
 
     private static final int numButtons = 4;
+
+    private DelayedRemovalArray<MenuBall> menuBalls;
 
     private static final String[] buttonNames = {
             "continue",
@@ -80,8 +85,16 @@ public class MainMenuScreen extends InputAdapter implements Screen{
         stage.draw();
 
         batch.begin();
-        ball.render(batch,delta);
-//        ball.update(delta);
+        for (int i = 0; i < menuBalls.size; i++) {
+            menuBalls.get(i).render(batch,delta);
+            menuBalls.get(i).update(delta);
+            if (menuBalls.get(i).getPath() > height - 100) {
+                menuBalls.removeIndex(i);
+                MenuBall ball = generateOneBall();
+                menuBalls.add(ball);
+                stage.addActor(ball);
+            }
+        }
         batch.end();
     }
 
@@ -174,21 +187,142 @@ public class MainMenuScreen extends InputAdapter implements Screen{
 //    }
 
     public void generateBalls() {
-        ball = new MenuBall(new Vector2(widtht/2,height/2),100,100);
-        ball.initTexture(Assets.instance.blueBallAssets.texture);
-        ball.setVelocity(new Vector2(20,20));
+        menuBalls = new DelayedRemovalArray();
+        for (int i = 0; i < Constants.MENU_BALLS_INIT_NUMBERS; i++) {
+            MenuBall ball = generateOneBall();
+            menuBalls.add(ball);
+            stage.addActor(ball);
+
+        }
+
+//        ball = new MenuBall(new Vector2(widtht/2,height/2),100,100);
+//        ball.initTexture(Assets.instance.blueBallAssets.texture);
+//        ball.setVelocity(new Vector2(20,20));
+//        ball.addListener(new InputListener() {
+//            @Override
+//            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+//                Gdx.app.log(TAG,"ball pressed");
+//                return super.touchDown(event, x, y, pointer, button);
+//
+//            }
+//        });
+//        stage.addActor(ball);
+    }
+
+    private MenuBall generateOneBall() {
+        int random = MathUtils.random(0,1);
+        Vector2 initPos = new Vector2();
+        Vector2 initVel = new Vector2();
+        if(random == 0) {
+            int x = generateXinit();
+            int y = MathUtils.random(0,height);
+            initPos = new Vector2(x,y);
+            initVel = generateBallVelocity(initPos,0);
+        } else if (random == 1) {
+            int x = MathUtils.random(0,widtht );
+            int y = generateYinit();
+            initPos = new Vector2(x,y);
+            initVel = generateBallVelocity(initPos,1);
+        }
+        int randomSize = MathUtils.random(-10,10);
+        final MenuBall ball = new MenuBall(initPos,
+                50  +randomSize ,
+                50  + randomSize);
+        ball.setVelocity(initVel);
+        ball.initTexture(getBallColorText(MathUtils.random(0,3)));
         ball.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                Gdx.app.log(TAG,"ball pressed");
-                return super.touchDown(event, x, y, pointer, button);
-
+                for (int i = 0; i < menuBalls.size; i++) {
+                    if (menuBalls.get(i).equals(ball)) {
+                        menuBalls.removeIndex(i);
+                        menuBalls.add(generateOneBall());
+                    }
+                }
+                return true;
             }
         });
-        stage.addActor(ball);
+        return ball;
     }
-    private void buttonPressed(int button) {
 
+    private int generateXinit () {
+        int xRandom =  100;
+        int x = 0;
+        int random = MathUtils.random(0,1);
+        if(random == 0) {
+            x = 0 - MathUtils.random(5,xRandom);
+        } else if (random == 1) {
+            x = MathUtils.random(widtht,widtht + xRandom );
+        }
+        return x;
+    }
+
+    private int generateYinit () {
+        int yRandom =  200;
+        int x = 0;
+        int random = MathUtils.random(0,1);
+        if(random == 0) {
+            x = 0 - MathUtils.random(5,yRandom);
+        } else if (random == 1) {
+            x = MathUtils.random(height,height + yRandom );
+        }
+        return x;
+    }
+
+    private Vector2 generateBallVelocity(Vector2 initPos, int axisType) {
+        Vector2 vel = new Vector2();
+        if(axisType == 0) {
+            int dx = (int)initPos.x - widtht/2;
+            int dy = (int)initPos.y - height/2;
+            if (dx <= 0) {
+                float vX = MathUtils.random(Constants.MENU_BALLS_VEL_MIN,Constants.MENU_BALLS_VEL_MAX);
+                float vY = MathUtils.random(-Constants.MENU_BALLS_VEL_RANGE,Constants.MENU_BALLS_VEL_RANGE);
+                vel = new Vector2(vX,vY);
+            } else {
+                float vX = -MathUtils.random(Constants.MENU_BALLS_VEL_MIN,Constants.MENU_BALLS_VEL_MAX);
+                float vY = MathUtils.random(-Constants.MENU_BALLS_VEL_RANGE,Constants.MENU_BALLS_VEL_RANGE);
+                vel = new Vector2(vX,vY);
+            }
+        }  else if (axisType == 1) {
+            int dx = (int)initPos.x - widtht/2;
+            int dy = (int)initPos.y - height/2;
+            if (dy <= 0) {
+                float vX = MathUtils.random(-Constants.MENU_BALLS_VEL_RANGE,Constants.MENU_BALLS_VEL_RANGE);
+                float vY = MathUtils.random(Constants.MENU_BALLS_VEL_MIN,Constants.MENU_BALLS_VEL_MAX);
+                vel = new Vector2(vX,vY);
+            } else {
+                float vX = MathUtils.random(-Constants.MENU_BALLS_VEL_RANGE,Constants.MENU_BALLS_VEL_RANGE);
+                float vY = -MathUtils.random(Constants.MENU_BALLS_VEL_MIN,Constants.MENU_BALLS_VEL_MAX);
+                vel = new Vector2(vX,vY);
+            }
+        }
+
+
+        return vel;
+    }
+
+    public Texture getBallColorText( int ballColor ) {
+        String textureName = null;
+        Texture texture = null;
+        switch (ballColor) {
+            case 0:
+                //textureName = "sphere_blue.png";
+                texture = Assets.instance.blueBallAssets.texture;
+                break;
+            case 1:
+//                textureName = "sphere_green.png";
+                texture = Assets.instance.greenBallAssets.texture;
+                break;
+            case 2:
+//                textureName = "sphere_purle.png";
+                texture = Assets.instance.purpleBallAssets.texture;
+                break;
+            case 3:
+//                textureName = "sphere_yellow.png";
+                texture = Assets.instance.yellowBallAssets.texture;
+                break;
+        }
+        return texture;
     }
 
 }
