@@ -13,14 +13,20 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.TimeUtils;
+
+import de.tomgrill.gdxdialogs.core.GDXDialogs;
+import de.tomgrill.gdxdialogs.core.GDXDialogsSystem;
+import de.tomgrill.gdxdialogs.core.dialogs.GDXButtonDialog;
 import stas.lines2019.game.Screens.GameScreen;
 import stas.lines2019.game.funcs.CheckBallLines;
 import stas.lines2019.game.funcs.FindBallPath;
 import stas.lines2019.game.util.Assets;
 import stas.lines2019.game.util.Constants;
+
 
 import java.util.ArrayList;
 import java.util.Hashtable;
@@ -58,6 +64,7 @@ public class GameField {
     private boolean isDrawBallPath = false;
     private boolean achieveUnlock  = false;
     private boolean drawNewAchievment = false;
+    private boolean isInputProccActive = false;
     private Vector2 selectedBall;
     private Vector2 transportPosition;
     private Vector2[] nextTurnBallCells;
@@ -80,9 +87,14 @@ public class GameField {
     private int ballMoveNumber = 1;
     private int lineLong;
 
+    GDXButtonDialog exitDilog;
+    GDXButtonDialog endGameDialog;
+
     public GameField(GameScreen gameScreen) {
         this.gameScreen = gameScreen;
         shapeRenderer = new ShapeRenderer();
+//        GDXDialogs dialogs = GDXDialogsSystem.install();
+        isInputProccActive = true;
 
         Gdx.gl.glClearColor(67, 99, 135, 0.5f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -139,6 +151,8 @@ public class GameField {
         gamePref.putFloat(Constants.PREF_TIME_PLAYED,gameTime);
         gamePref.putFloat(Constants.PREF_SCORE,gameScore);
         gamePref.putFloat(Constants.PREF_TURNS,numberOfTurns);
+        gamePref.putFloat(Constants.PREF_TIME_PLAYED_FULL,gameTime + gameTimeFullOld);
+        gamePref.putFloat(Constants.PREF_SCORE_FULL,gameScore + gameScoreFullOld);
 
         Hashtable<String, String> hashTable = new Hashtable<String, String>();
         Json json = new Json();
@@ -298,81 +312,95 @@ public class GameField {
         if (isBallSelected && selectedBall != null) {
             squares[(int) selectedBall.x][(int) selectedBall.y].update(dt);
         }
-
-        Gdx.input.setInputProcessor(new InputAdapter() {
-            public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-                Vector2 clickPosition = null;
-//                spawnParticleEffect(screenX,screenY);
-                if (button == Input.Buttons.LEFT) {
-
-                    if (isBallSelected) {
-                        // если шар уже выбран то проверяем куда потом нажали
-                        clickPosition = checkClickEvent(screenX, screenY);
-
-                        // проверяем на наличие прохода для шарика
-                        FindBallPath finder = new FindBallPath(squares,
-                                selectedBall,
-                                clickPosition);
-
-                        // передаем путь до точки
-                        boolean pathIsFind = finder.findPath();
-                        Gdx.app.log(TAG,"pathFind =" + pathIsFind);
-                        if (clickPosition.equals(selectedBall)) {
-                            returnSquareInitState(clickPosition, false);
-
-                            isBallSelected = false;
-                            selectedBall = null;
-                        } else if (squares[(int) clickPosition.x][(int) clickPosition.y].isHasBall()) {
-                            Gdx.app.log(TAG, "clicked  to ball i,j " + clickPosition.x + " " + clickPosition.y );
-                        } else if (pathIsFind) {
-                            // получаем информацию из выбранного шара и убераем его
-                            int color = squares[(int) selectedBall.x][(int) selectedBall.y].getBallColor();
-
-
-                            path = finder.getPath();
-
-                            // получаем координаты центров ячеек
-                            ballPathCellsCoord = new Vector2[path.length];
-                            for (int i = 0; i < path.length; i++) {
-                                ballPathCellsCoord[i] = squares[(int) path[i].x][(int) path[i].y].getPosition();
-                            }
-
-                            ballMoveX = ballPathCellsCoord[0].x;
-                            ballMoveY = ballPathCellsCoord[0].y;
-                            textureBall = squares[(int) selectedBall.x][(int) selectedBall.y].getBallColorText();
-                            returnSquareInitState(new Vector2(selectedBall), true);
-
-                            if (path.length > 1) {
-                                isDrawBallPath = true;
-                            }
-
-                            // переносим в другую ячейку
-                            transportPosition = clickPosition;
-
-                            squares[(int) clickPosition.x][(int) clickPosition.y].setBallColor(color);
-                            if (squares[(int) clickPosition.x][(int) clickPosition.y].isNextTurnBall()) {
-                                addNextTurnBalls();
-                            }
-                            isBallSelected = false;
-                            selectedBall = null;
-                        }
-                    } else if (!isBallSelected) {
-                        // если шар еще не выбран то выбираем его
-                        clickPosition = checkClickEvent(screenX, screenY);
-                        if (clickPosition != null) {
-                            if (squares[(int) clickPosition.x][(int) clickPosition.y].isHasBall()) {
-                                squares[(int) clickPosition.x][(int) clickPosition.y].setActive(true);
-                                squares[(int) clickPosition.x][(int) clickPosition.y].update(dt);
-                                isBallSelected = true;
-                                selectedBall = clickPosition;
-                            }
-                        }
+        if (isInputProccActive) {
+            Gdx.input.setInputProcessor(new InputAdapter() {
+                @Override
+                public boolean keyDown(int keycode) {
+                    if (keycode == Input.Keys.BACK) {
+                        isInputProccActive = false;
+                        gameScreen.showExitDialog();
+                        // Respond to the back button click here
+//                    dispose();
+//                    gameScreen.lineGame.setMainMenuScreen();
+                        return true;
                     }
-                    return true;
+                    return false;
                 }
-                return false;
-            }
-        });
+
+                public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+                    Vector2 clickPosition = null;
+//                spawnParticleEffect(screenX,screenY);
+                    if (button == Input.Buttons.LEFT) {
+
+                        if (isBallSelected) {
+                            // если шар уже выбран то проверяем куда потом нажали
+                            clickPosition = checkClickEvent(screenX, screenY);
+
+                            // проверяем на наличие прохода для шарика
+                            FindBallPath finder = new FindBallPath(squares,
+                                    selectedBall,
+                                    clickPosition);
+
+                            // передаем путь до точки
+                            boolean pathIsFind = finder.findPath();
+                            Gdx.app.log(TAG, "pathFind =" + pathIsFind);
+                            if (clickPosition.equals(selectedBall)) {
+                                returnSquareInitState(clickPosition, false);
+
+                                isBallSelected = false;
+                                selectedBall = null;
+                            } else if (squares[(int) clickPosition.x][(int) clickPosition.y].isHasBall()) {
+                                Gdx.app.log(TAG, "clicked  to ball i,j " + clickPosition.x + " " + clickPosition.y);
+                            } else if (pathIsFind) {
+                                // получаем информацию из выбранного шара и убераем его
+                                int color = squares[(int) selectedBall.x][(int) selectedBall.y].getBallColor();
+
+
+                                path = finder.getPath();
+
+                                // получаем координаты центров ячеек
+                                ballPathCellsCoord = new Vector2[path.length];
+                                for (int i = 0; i < path.length; i++) {
+                                    ballPathCellsCoord[i] = squares[(int) path[i].x][(int) path[i].y].getPosition();
+                                }
+
+                                ballMoveX = ballPathCellsCoord[0].x;
+                                ballMoveY = ballPathCellsCoord[0].y;
+                                textureBall = squares[(int) selectedBall.x][(int) selectedBall.y].getBallColorText();
+                                returnSquareInitState(new Vector2(selectedBall), true);
+
+                                if (path.length > 1) {
+                                    isDrawBallPath = true;
+                                }
+
+                                // переносим в другую ячейку
+                                transportPosition = clickPosition;
+
+                                squares[(int) clickPosition.x][(int) clickPosition.y].setBallColor(color);
+                                if (squares[(int) clickPosition.x][(int) clickPosition.y].isNextTurnBall()) {
+                                    addNextTurnBalls();
+                                }
+                                isBallSelected = false;
+                                selectedBall = null;
+                            }
+                        } else if (!isBallSelected) {
+                            // если шар еще не выбран то выбираем его
+                            clickPosition = checkClickEvent(screenX, screenY);
+                            if (clickPosition != null) {
+                                if (squares[(int) clickPosition.x][(int) clickPosition.y].isHasBall()) {
+                                    squares[(int) clickPosition.x][(int) clickPosition.y].setActive(true);
+                                    squares[(int) clickPosition.x][(int) clickPosition.y].update(dt);
+                                    isBallSelected = true;
+                                    selectedBall = clickPosition;
+                                }
+                            }
+                        }
+                        return true;
+                    }
+                    return false;
+                }
+            });
+        }
     }
 
     private void updateMove(float dt) {
@@ -545,11 +573,11 @@ public class GameField {
         }
     }
 
-    public void dispose() {
-        gamePref.putFloat(Constants.PREF_TIME_PLAYED_FULL,gameTime + gameTimeFullOld);
-        gamePref.putFloat(Constants.PREF_SCORE_FULL,gameScore + gameScoreFullOld);
-        gamePref.flush();
-    }
+//    public void dispose() {
+//        gamePref.putFloat(Constants.PREF_TIME_PLAYED_FULL,gameTime + gameTimeFullOld);
+//        gamePref.putFloat(Constants.PREF_SCORE_FULL,gameScore + gameScoreFullOld);
+//        gamePref.flush();
+//    }
 
     public int getGameScoreFullOld() {
         return gameScoreFullOld;

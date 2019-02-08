@@ -115,23 +115,26 @@ public class Assets implements Disposable, AssetErrorListener {
         param.shadowColor = Color.BLACK;
         float ppi = Gdx.graphics.getPpiY();
 //        param.size = Math.round( ppi / 2);
-        param.size = 32;
+
         param.size = (int)(Gdx.graphics.getHeight() *Constants.HUD_FONT_HUGE);
         fontsByName.put( "huge-font", generator.generateFont( param ));
-        param.size = 42;
+
         param.size = (int)(Gdx.graphics.getHeight() *Constants.HUD_FONT_HUGE);
         fontsByName.put( "menu-font", generator.generateFont( param ));
 //        param.size = Math.round( ppi / 3);
-        param.size = 22;
+
         param.size = (int)(Gdx.graphics.getHeight() *Constants.HUD_FONT_TITLE);
         fontsByName.put( "big-font", generator.generateFont( param ));
 //        param.size = Math.round( ppi / 4);
-        param.size = 12;
+
         param.size = (int)(Gdx.graphics.getHeight() *Constants.HUD_FONT_SMALL);
         fontsByName.put( "small-font", generator.generateFont( param ));
-        param.size = 12;
+
         param.size = (int)(Gdx.graphics.getHeight() *Constants.HUD_FONT_IN_GAME);
         fontsByName.put( "game-font", generator.generateFont( param ));
+
+        param.size = (int)(Gdx.graphics.getHeight() *Constants.HUD_FONT_IN_DIALOG);
+        fontsByName.put( "dialog-font", generator.generateFont( param ));
 
         generator.dispose();
         return fontsByName;

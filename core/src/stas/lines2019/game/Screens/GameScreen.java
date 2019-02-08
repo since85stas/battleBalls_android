@@ -4,13 +4,19 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import stas.lines2019.game.GameField;
 import stas.lines2019.game.LinesGame;
+import stas.lines2019.game.Widgets.ExitDialog;
 import stas.lines2019.game.util.Assets;
 import stas.lines2019.game.util.Constants;
 
@@ -140,6 +146,39 @@ public class GameScreen implements Screen {
         stage.draw();
     }
 
+    public void showExitDialog() {
+
+	    Gdx.input.setInputProcessor(stage);
+
+        ExitDialog dialog = new ExitDialog("",Assets.instance.skinAssets.skin );
+        dialog.setTransform(true);
+//        dialog.setSize(width*0.5f,height*0.3f);
+        dialog.getBackground();
+        dialog.getBackground();
+        dialog.text("exit to main menu",
+                Assets.instance.skinAssets.skin.get("dialog", Label.LabelStyle.class)).align(Align.center);
+        dialog.button("Yes",
+                true,
+                Assets.instance.skinAssets.skin.get("small", TextButton.TextButtonStyle.class)
+                ).addListener(new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+
+                lineGame.setMainMenuScreen();
+                return true;
+            }
+        }); //sends "true" as the result
+//        dialog.bu
+        dialog.button("No",
+                false,
+                Assets.instance.skinAssets.skin.get("small", TextButton.TextButtonStyle.class)
+                ); //sends "false" as the result
+        Gdx.input.setInputProcessor(stage);
+        dialog.show(stage);
+
+
+    }
+
     private VerticalGroup timeHudLable(String title, int digit ) {
 
         Skin skin = Assets.instance.skinAssets.skin;
@@ -176,13 +215,14 @@ public class GameScreen implements Screen {
 	@Override
 	public void dispose () {
 		batch.dispose();
-		gameField.dispose();
+//		gameField.dispose();
 		//img.dispose();
 	}
 
     @Override
     public void hide() {
         batch.dispose();
+//        gameField.dispose();
     }
 
     @Override

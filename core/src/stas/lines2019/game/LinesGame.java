@@ -10,6 +10,9 @@ import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.StringBuilder;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+
+import de.tomgrill.gdxdialogs.core.GDXDialogs;
+import de.tomgrill.gdxdialogs.core.GDXDialogsSystem;
 import stas.lines2019.game.Screens.AchieveScreen;
 import stas.lines2019.game.Screens.GameScreen;
 import stas.lines2019.game.Screens.MainMenuScreen;
@@ -29,7 +32,6 @@ public class LinesGame extends Game {
 
     @Override
     public void create () {
-
         batch = new SpriteBatch();
 //        viewport   = new FitViewport(1280,720);
 
@@ -37,15 +39,16 @@ public class LinesGame extends Game {
         AssetManager am = new AssetManager();
         Assets.instance.init(am);
 
+        // создаем достижения
+        achivementsList = new AchivementsList(this);
+        achivementsList.generateAchivemnets();
+        Gdx.input.setCatchBackKey(true);
+
         setMainMenuScreen();
     }
 
     public void setMainMenuScreen() {
 
-        // создаем достижения
-        achivementsList = new AchivementsList(this);
-        achivementsList.generateAchivemnets();
-//        dropAcievmComplete();
         loadAchieve();
 
         setScreen(new MainMenuScreen(this));
@@ -94,19 +97,10 @@ public class LinesGame extends Game {
 
         Json json = new Json();
         StringBuilder defaultAcieveStr = new StringBuilder();
-                ;
-//        for (int i = 0; i < ConstantsAchiveEng.NUM_ACHIVEMENTS; i++) {
-//            if (i != ConstantsAchiveEng.NUM_ACHIVEMENTS -1) {
-//                defaultAcieveStr.append("0,");
-//            } else {
-//                defaultAcieveStr.append("0");
-//            }
-//        }
 
         String defaultStr = defaultAcieveStr.toString();
         String serializedInts = prefs.getString(Constants.PREF_ACHIEV_MASSIVE);
         int[] deserializedInts = json.fromJson(int[].class, serializedInts);
-        //you need to pass the class type - be aware of it!
         if ( deserializedInts != null) {
             for (int i = 0; i < achivementsList.getAchievCompArray().length; i++) {
                 if (deserializedInts[i] == 1) {

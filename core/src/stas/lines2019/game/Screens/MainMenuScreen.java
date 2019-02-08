@@ -1,6 +1,7 @@
 package stas.lines2019.game.Screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
@@ -23,6 +24,7 @@ import stas.lines2019.game.LinesGame;
 import stas.lines2019.game.MenuBall;
 import stas.lines2019.game.util.Assets;
 import stas.lines2019.game.util.Constants;
+import stas.lines2019.game.util.ConstantsAchiveEng;
 
 /**
  * Created by seeyo on 04.12.2018.
@@ -36,7 +38,7 @@ public class MainMenuScreen extends InputAdapter implements Screen{
 
     private DelayedRemovalArray<MenuBall> menuBalls;
 
-    private static final String[] buttonNames = {
+    private final String[] buttonNames = {
             "continue",
             "new game",
             "achievements",
@@ -48,7 +50,7 @@ public class MainMenuScreen extends InputAdapter implements Screen{
     LinesGame mGame;
 
     private Stage stage;
-    private Skin mySkin;
+    public Skin mySkin;
     int widtht;
     int height;
 
@@ -88,7 +90,7 @@ public class MainMenuScreen extends InputAdapter implements Screen{
         for (int i = 0; i < menuBalls.size; i++) {
             menuBalls.get(i).render(batch,delta);
             menuBalls.get(i).update(delta);
-            if (menuBalls.get(i).getPath() > height - 100) {
+            if (menuBalls.get(i).getPath() > height ) {
                 menuBalls.removeIndex(i);
                 MenuBall ball = generateOneBall();
                 menuBalls.add(ball);
@@ -144,6 +146,9 @@ public class MainMenuScreen extends InputAdapter implements Screen{
         float buttonY = height - height*Constants.BUTTONS_UPPER_OFFSET;
 
 //        TextButton.TextButtonStyle style = mySkin.get
+        String achiveText  =buttonNames[2] +  " " +
+        Integer.toString(mGame.achivementsList.getCompleteAchievsNumber()) + "/" +
+                Integer.toString(ConstantsAchiveEng.NUM_ACHIVEMENTS);
 
         for (int i = 0; i < buttons.length; i++) {
             buttonY -= height*Constants.BUTTONS_HEIGHT + height*Constants.BUTTONS_BETWEEN_SPACE;
@@ -161,6 +166,18 @@ public class MainMenuScreen extends InputAdapter implements Screen{
             final int finalI = i;
             buttons[i].addListener(new InputListener(){
                 @Override
+                public boolean keyDown(InputEvent event, int keycode) {
+                    if(keycode == Input.Keys.BACK){
+
+                        // Respond to the back button click here
+//                    dispose();
+                        Gdx.app.log(TAG,"ssss");
+                        return true;
+                    }
+                    return false;
+                }
+
+                @Override
                 public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
                     Gdx.app.log("PreScreen","Pressed");
                     switch (finalI){
@@ -175,6 +192,7 @@ public class MainMenuScreen extends InputAdapter implements Screen{
                             mGame.setAchieveScreen();
                             break;
                         case 3:
+                            Gdx.app.exit();
                             break;
                     }
 
@@ -183,6 +201,7 @@ public class MainMenuScreen extends InputAdapter implements Screen{
             });
             stage.addActor(buttons[i]);
         }
+        buttons[2].setText(achiveText);
     }
 //    }
 

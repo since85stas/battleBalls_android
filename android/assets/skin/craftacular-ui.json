@@ -84,6 +84,9 @@ com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
 	game: {
 		font: game-font
 	}
+	dialog: {
+		font: dialog-font
+	}
 	xp: {
 		font: bold
 		fontColor: green
@@ -141,6 +144,12 @@ com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
 		over: button-hover
 		disabled: button-disabled
 	}
+	game: {
+		font: game-font
+		up: button
+		over: button-hover
+		disabled: button-disabled
+	}
 	default: {
 		font: big-font
 		up: button
@@ -171,8 +180,11 @@ com.badlogic.gdx.scenes.scene2d.ui.TextTooltip$TextTooltipStyle: {
 }
 com.badlogic.gdx.scenes.scene2d.ui.Window$WindowStyle: {
 	default: {
+
 		background: window
-		titleFont: font
+		titleFont: big-font
 	}
+
+
 }
 }
