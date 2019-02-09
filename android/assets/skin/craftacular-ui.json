@@ -69,7 +69,7 @@ com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
 	}
 	menu: {
 		font: menu-font
-		fontColor: gray
+		fontColor: green
 	}
 	bold: {
 		font: bold

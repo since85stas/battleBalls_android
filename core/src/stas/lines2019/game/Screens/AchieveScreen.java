@@ -1,6 +1,9 @@
 package stas.lines2019.game.Screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -12,7 +15,9 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import stas.lines2019.game.GameField;
 import stas.lines2019.game.LinesGame;
+import stas.lines2019.game.Widgets.AchieveItemButton;
 import stas.lines2019.game.util.Assets;
+import stas.lines2019.game.util.Constants;
 
 public class AchieveScreen implements Screen {
 
@@ -49,11 +54,7 @@ public class AchieveScreen implements Screen {
         stage = new Stage();
         stage.setViewport(hudViewport);
         Gdx.input.setInputProcessor(stage);
-
-//        PagedScrollPane scroll = new PagedScrollPane();
-//        ScrollPane commonScroll = new ScrollPane()
-//        scroll.setFlingTime(0.1f);
-//        scroll.setPageSpacing(25);
+        Gdx.input.setCatchBackKey(true);
 
         String[] achievsDescr = lineGame.achivementsList.getAchievDescrArray();
         Button[] acievmentsItems = new Button[achievsDescr.length];
@@ -69,6 +70,7 @@ public class AchieveScreen implements Screen {
 
 //        scroll.addPage(achievments);
         ScrollPane commonScroll = new ScrollPane(achievments,mySkin);
+//        achievments.setSize(200,200);
         commonScroll.setPosition(0,0);
         commonScroll.setFillParent(true);
 //        commonScroll.scr
@@ -80,14 +82,10 @@ public class AchieveScreen implements Screen {
 
         stage.addActor(commonScroll);
 
-//        container = new Table();
-//        stage.addActor(container);
-//        container.setFillParent(true);
-//        container.add(scroll).expand().fill();
     }
 
     public Button createAchieveItem(String descr, int number, int isComplete) {
-        Button button = new Button(mySkin,"default");
+        Button button = new AchieveItemButton(mySkin,"default");
 
         //
         Label label = new Label(descr, mySkin,"small");
@@ -98,12 +96,13 @@ public class AchieveScreen implements Screen {
         // create image
         Image image;
         if (isComplete == 1) {
-            image = new Image(Assets.instance.starAssets.texture);
+            image = new Image(Assets.instance.starAssets.achieveTexture);
         }  else if (isComplete == 0) {
             image = new Image(Assets.instance.lockAssets.texture);
         } else {
             image = new Image(Assets.instance.lockAssets.texture);
         }
+        image.setSize(Constants.ACHIEVE_HEIGHT*height/2,Constants.ACHIEVE_HEIGHT*height/2);
 
         image.setAlign(Align.left);
 
@@ -120,8 +119,10 @@ public class AchieveScreen implements Screen {
         if (isComplete == 0) {
             button.setDisabled(true);
         }
+//        button.setWidth(400);
+//        button.setFillParent(true);
 //        button.setDisabled(true);
-//        button.setSize(width*0.5f,100);
+//        button.setSize(width*1f,100);
 //        button.addListener(levelClickListener);
         return button;
     }
@@ -132,6 +133,9 @@ public class AchieveScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();
+        if(Gdx.input.isKeyPressed(Input.Keys.BACK)){
+            lineGame.setMainMenuScreen();
+        }
 //        Table(stage);
     }
 

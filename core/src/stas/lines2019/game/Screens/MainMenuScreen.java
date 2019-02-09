@@ -34,13 +34,14 @@ public class MainMenuScreen extends InputAdapter implements Screen{
 
     private static final String TAG = MainMenuScreen.class.getName().toString();
 
-    private static final int numButtons = 4;
+    private static final int numButtons = 5;
 
     private DelayedRemovalArray<MenuBall> menuBalls;
 
     private final String[] buttonNames = {
             "continue",
             "new game",
+            "puzzle mode",
             "achievements",
             "exit"
     };
@@ -146,7 +147,7 @@ public class MainMenuScreen extends InputAdapter implements Screen{
         float buttonY = height - height*Constants.BUTTONS_UPPER_OFFSET;
 
 //        TextButton.TextButtonStyle style = mySkin.get
-        String achiveText  =buttonNames[2] +  " " +
+        String achiveText  =buttonNames[3] +  " " +
         Integer.toString(mGame.achivementsList.getCompleteAchievsNumber()) + "/" +
                 Integer.toString(ConstantsAchiveEng.NUM_ACHIVEMENTS);
 
@@ -154,6 +155,9 @@ public class MainMenuScreen extends InputAdapter implements Screen{
             buttonY -= height*Constants.BUTTONS_HEIGHT + height*Constants.BUTTONS_BETWEEN_SPACE;
 
             buttons[i] = new TextButton(buttonNames[i],mySkin,"default");
+            if (i == 2) {
+                buttons[i].setDisabled(true);
+            }
 
             if(!mGame.findSaveGame) {
                 buttons[0].setDisabled(true);
@@ -188,10 +192,10 @@ public class MainMenuScreen extends InputAdapter implements Screen{
                             mGame.findSaveGame = false;
                             mGame.setGameScreen();
                             break;
-                        case 2:
+                        case 3:
                             mGame.setAchieveScreen();
                             break;
-                        case 3:
+                        case 4:
                             Gdx.app.exit();
                             break;
                     }
@@ -201,7 +205,11 @@ public class MainMenuScreen extends InputAdapter implements Screen{
             });
             stage.addActor(buttons[i]);
         }
-        buttons[2].setText(achiveText);
+        buttons[3].setText(achiveText);
+        Table table = new Table();
+        table.row();
+        table.add(new Label("soon", mySkin,"small"));
+        buttons[2].add(table);
     }
 //    }
 
@@ -243,15 +251,20 @@ public class MainMenuScreen extends InputAdapter implements Screen{
             initPos = new Vector2(x,y);
             initVel = generateBallVelocity(initPos,1);
         }
-        int randomSize = MathUtils.random(-10,10);
+
+        int BALL_INIT_SIZE =(int) (widtht* 0.05);
+        int BALL_DEL_SIZE = (int) (widtht* 0.02);
+
+        int randomSize = MathUtils.random(-BALL_DEL_SIZE,BALL_DEL_SIZE);
         final MenuBall ball = new MenuBall(initPos,
-                50  +randomSize ,
-                50  + randomSize);
+                BALL_INIT_SIZE  +randomSize ,
+                BALL_INIT_SIZE  + randomSize);
         ball.setVelocity(initVel);
-        ball.initTexture(getBallColorText(MathUtils.random(0,3)));
+        ball.initTexture(getBallColorText(MathUtils.random(0,6)));
         ball.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                Assets.instance.soundsBase.bubbleSound.play();
                 for (int i = 0; i < menuBalls.size; i++) {
                     if (menuBalls.get(i).equals(ball)) {
                         menuBalls.removeIndex(i);
@@ -339,6 +352,18 @@ public class MainMenuScreen extends InputAdapter implements Screen{
             case 3:
 //                textureName = "sphere_yellow.png";
                 texture = Assets.instance.yellowBallAssets.texture;
+                break;
+            case 4:
+//                textureName = "sphere_yellow.png";
+                texture = Assets.instance.pinkBallAssets.texture;
+                break;
+            case 5:
+//                textureName = "sphere_yellow.png";
+                texture = Assets.instance.redBallAssets.texture;
+                break;
+            case 6:
+//                textureName = "sphere_yellow.png";
+                texture = Assets.instance.lBlueBallAssets.texture;
                 break;
         }
         return texture;

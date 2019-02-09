@@ -14,8 +14,8 @@ public class Constants {
     // константы для ячейки
     public static float BALL_SIZE_RATIO = 0.7f;
     public static float BALL_PREVIEW_RATIO = 0.4f;
-    public static float BALL_VELOCITY = 40.f ;
-    public static float DEFORMATION_VELOCITY = 30f;
+    public static float BALL_VELOCITY = 1f ;
+    public static float DEFORMATION_VELOCITY = 0.9f;
     public static float DEFORMATION_RATIO = 0.2f;
     public static float UPPER_OFFSET = 0.1f;
 
@@ -43,6 +43,7 @@ public class Constants {
     public static final String PREF_SCORE   = "game_score";
     public static final String PREF_SCORE_FULL   = "game_score";
     public static final String PREF_TURNS   = "game_turns";
+    public static final String PREF_HIGH_SCORE   = "high_score";
 
     // константы для размеров гаме HUD
     public static final float HUD_OFFSET = 0.05f;
@@ -50,21 +51,24 @@ public class Constants {
     public static final float HUD_ITEM_HOR_SIZE = 0.3f;
 
     public static final float BUTTONS_HEIGHT = 0.1f;
-    public static final float BUTTONS_WIDTH = 0.7f;
+    public static final float BUTTONS_WIDTH = 0.8f;
     public static final float TITLE_UPPER_OFFSET = 0.1f;
-    public static final float BUTTONS_UPPER_OFFSET = 0.3f;
-    public static final float BUTTONS_BETWEEN_SPACE = 0.05f;
+    public static final float BUTTONS_UPPER_OFFSET = 0.2f;
+    public static final float BUTTONS_BETWEEN_SPACE = 0.03f;
 
     public static final float HUD_FONT_SMALL = 0.02f;
     public static final float HUD_FONT_IN_DIALOG = 0.03f;
     public static final float HUD_FONT_IN_GAME = 0.04f;
     public static final float HUD_FONT_TITLE = 0.04f;
-    public static final float HUD_FONT_HUGE = 0.08f;
+    public static final float HUD_FONT_HUGE = 0.09f;
+
+    public static final float ACHIEVE_WIDTH = 0.8f;
+    public static final float ACHIEVE_HEIGHT = 0.08f;
 
     // константы для шариков на основн экране
     public static int MENU_BALLS_INIT_NUMBERS = 30;
     public static int MENU_BALLS_INIT_ADD = 2;
-    public static float MENU_BALLS_VEL_MIN = 50.f;
-    public static float MENU_BALLS_VEL_MAX = 90.f;
-    public static float MENU_BALLS_VEL_RANGE = 50.f;
+    public static float MENU_BALLS_VEL_MIN = 100.f;
+    public static float MENU_BALLS_VEL_MAX = 170.f;
+    public static float MENU_BALLS_VEL_RANGE = 80.f;
 }

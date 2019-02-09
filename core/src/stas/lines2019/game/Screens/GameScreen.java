@@ -7,13 +7,16 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+
 import stas.lines2019.game.GameField;
 import stas.lines2019.game.LinesGame;
 import stas.lines2019.game.Widgets.ExitDialog;
@@ -26,34 +29,28 @@ public class GameScreen implements Screen {
 
     //
     private static final String TAG = GameScreen.class.getName();
-
     //
-    private float accumulator = 0;
-    private float gametime ;
-    private Stage stage;
-
-    //
-    public LinesGame lineGame  ;
-    private  SpriteBatch batch ;
-    public GameField gameField ;
-
+    public LinesGame lineGame;
+    public GameField gameField;
+    public float lableItemHeight;
     // Add ScreenViewport for HUD
     ScreenViewport hudViewport;
-
+    Label timeLable;
+    Label scoreLable;
+    //
+    private float accumulator = 0;
+    private float gametime;
+    private Stage stage;
+    private SpriteBatch batch;
     private int width;
     private int height;
 
-    public float lableItemHeight;
-
-    Label timeLable;
-    Label scoreLable;
-
-	public  GameScreen (LinesGame lineGame,SpriteBatch batch){
-		this.lineGame = lineGame;
-		this.batch      = batch ;
-		width = Gdx.graphics.getWidth();
-		height = Gdx.graphics.getHeight();
-	}
+    public GameScreen(LinesGame lineGame, SpriteBatch batch) {
+        this.lineGame = lineGame;
+        this.batch = batch;
+        width = Gdx.graphics.getWidth();
+        height = Gdx.graphics.getHeight();
+    }
 
     @Override
     public void show() {
@@ -62,15 +59,15 @@ public class GameScreen implements Screen {
         // Initialize the HUD viewport
         hudViewport = new ScreenViewport();
 
-        VerticalGroup scoreLable = scoreHudLable("score",0);
-        scoreLable.setPosition(2*Constants.HUD_OFFSET *width,
-                height - lableItemHeight   );
-        scoreLable.setSize(Constants.HUD_ITEM_HOR_SIZE*width,lableItemHeight);
+        VerticalGroup scoreLable = scoreHudLable("score", 0);
+        scoreLable.setPosition(2 * Constants.HUD_OFFSET * width,
+                height - lableItemHeight);
+        scoreLable.setSize(Constants.HUD_ITEM_HOR_SIZE * width, lableItemHeight);
 
-        VerticalGroup timeLable = timeHudLable("time",100);
-        timeLable.setPosition(width - 2*Constants.HUD_OFFSET *width - Constants.HUD_ITEM_HOR_SIZE*width,
-                height - lableItemHeight  );
-        timeLable.setSize(Constants.HUD_ITEM_HOR_SIZE*width,lableItemHeight);
+        VerticalGroup timeLable = timeHudLable("time", 100);
+        timeLable.setPosition(width - 2 * Constants.HUD_OFFSET * width - Constants.HUD_ITEM_HOR_SIZE * width,
+                height - lableItemHeight);
+        timeLable.setSize(Constants.HUD_ITEM_HOR_SIZE * width, lableItemHeight);
 
         stage.addActor(scoreLable);
         stage.addActor(timeLable);
@@ -112,16 +109,16 @@ public class GameScreen implements Screen {
             Gdx.app.log(TAG, "fps =" + fps);
         }
 
-        int  time = (int)gameField.getGameTime();
+        int time = (int) gameField.getGameTime();
         String timeString = "";
-        if (time < 60 ) {
+        if (time < 60) {
             timeString = Integer.toString(time);
-        } else if ( time > 60 && time < 3600) {
+        } else if (time > 60 && time < 3600) {
             int min = (int) (time / 60);
-            int sec = time%60;
+            int sec = time % 60;
             if (sec > 9) {
                 timeString = "0" + Integer.toString(min) + ":" + Integer.toString(sec);
-            }  else {
+            } else {
                 timeString = "0" + Integer.toString(min) + ":0" + Integer.toString(sec);
             }
         }
@@ -130,60 +127,99 @@ public class GameScreen implements Screen {
         String scoreString = "";
 
         if (score < 10) {
-            scoreString = "000" +  Integer.toString(score)   ;
-        } else if (score>=10 && score < 100) {
-            scoreString = "00" +  Integer.toString(score)    ;
-        } else if (score>=100 && score < 1000) {
-            scoreString = "0" +  Integer.toString(score)     ;
-        } else if (score>=1000 && score < 10000) {
-            scoreString = "" +  Integer.toString(score)      ;
-        } else if (score>=10000 && score < 100000) {
-            scoreString = "10k" +  Integer.toString(score -10000) ;
+            scoreString = "000" + Integer.toString(score);
+        } else if (score >= 10 && score < 100) {
+            scoreString = "00" + Integer.toString(score);
+        } else if (score >= 100 && score < 1000) {
+            scoreString = "0" + Integer.toString(score);
+        } else if (score >= 1000 && score < 10000) {
+            scoreString = "" + Integer.toString(score);
+        } else if (score >= 10000 && score < 100000) {
+            scoreString = "10k" + Integer.toString(score - 10000);
         }
-        scoreLable.setText(scoreString );
+        scoreLable.setText(scoreString);
+
+//        addRulesButton();
         batch.end();
 
         stage.draw();
+        stage.act();
     }
 
     public void showExitDialog() {
-
-	    Gdx.input.setInputProcessor(stage);
-
-        ExitDialog dialog = new ExitDialog("",Assets.instance.skinAssets.skin );
+        ExitDialog dialog = new ExitDialog("", Assets.instance.skinAssets.skin,lineGame);
         dialog.setTransform(true);
-//        dialog.setSize(width*0.5f,height*0.3f);
         dialog.getBackground();
-        dialog.getBackground();
-        dialog.text("exit to main menu",
-                Assets.instance.skinAssets.skin.get("dialog", Label.LabelStyle.class)).align(Align.center);
-        dialog.button("Yes",
-                true,
-                Assets.instance.skinAssets.skin.get("small", TextButton.TextButtonStyle.class)
-                ).addListener(new InputListener() {
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 
-                lineGame.setMainMenuScreen();
-                return true;
-            }
-        }); //sends "true" as the result
-//        dialog.bu
+        dialog.text("exit to main menu",
+                Assets.instance.skinAssets.skin.get("dialog", Label.LabelStyle.class))
+                .align(Align.center);
+        dialog.button("Yes",
+                          true,
+                Assets.instance.skinAssets.skin.get("small", TextButton.TextButtonStyle.class)
+        );
         dialog.button("No",
                 false,
                 Assets.instance.skinAssets.skin.get("small", TextButton.TextButtonStyle.class)
-                ); //sends "false" as the result
+        ); //sends "false" as the result
+
         Gdx.input.setInputProcessor(stage);
         dialog.show(stage);
-
-
     }
 
-    private VerticalGroup timeHudLable(String title, int digit ) {
+    public void gameOverDialog() {
+        ExitDialog gameOverDialog = new ExitDialog("", Assets.instance.skinAssets.skin,lineGame);
+        gameOverDialog.setTransform(true);
+        gameOverDialog.getBackground();
+
+//        Table table = new Table();
+        Label gameLable = new Label("Game Over",
+                Assets.instance.skinAssets.skin,
+                "dialog");
+        gameLable.setAlignment(Align.center);
+//        table.add(gameLable);
+        gameOverDialog.getContentTable().add(gameLable).padTop(40);
+        gameOverDialog.getContentTable().row();
+
+        Table table = new Table();
+        Label resultLable = new Label("Game Score " + gameField.getGameScore(),
+                Assets.instance.skinAssets.skin,
+                "dialog");
+        resultLable.setAlignment(Align.center);
+        table.add(resultLable);
+        table.row();
+        Label highLable = new Label("High scores " + gameField.getHighScores(),
+                Assets.instance.skinAssets.skin,
+                "dialog");
+        highLable.setAlignment(Align.center);
+        table.add(highLable);
+        gameOverDialog.getContentTable().add(table);
+//        Button button = new TextButton("Ok",
+//                true,
+//                Assets.instance.skinAssets.skin.get("small", TextButton.TextButtonStyle.class));
+//        gameOverDialog.text("Game Over",
+//                Assets.instance.skinAssets.skin.get("dialog", Label.LabelStyle.class))
+//                .align(Align.center);
+        gameOverDialog.button("Ok",
+                true,
+                Assets.instance.skinAssets.skin.get("small", TextButton.TextButtonStyle.class)
+        );
+
+//        gameOverDialog.button("No",
+//                false,
+//                Assets.instance.skinAssets.skin.get("small", TextButton.TextButtonStyle.class)
+//        ); //sends "false" as the result
+
+        Gdx.input.setInputProcessor(stage);
+        gameOverDialog.show(stage);
+    }
+
+
+    private VerticalGroup timeHudLable(String title, int digit) {
 
         Skin skin = Assets.instance.skinAssets.skin;
-        Label titleLable =  new Label(title,skin,"small");
-        timeLable = new Label(Integer.toString(digit),skin,"game");
+        Label titleLable = new Label(title, skin, "small");
+        timeLable = new Label(Integer.toString(digit), skin, "game");
         float size1 = titleLable.getHeight();
         float size2 = timeLable.getHeight();
         lableItemHeight = size1 + size2;
@@ -193,11 +229,11 @@ public class GameScreen implements Screen {
         return group;
     }
 
-    private VerticalGroup scoreHudLable(String title, int digit ) {
+    private VerticalGroup scoreHudLable(String title, int digit) {
 
         Skin skin = Assets.instance.skinAssets.skin;
-        Label titleLable =  new Label(title,skin,"small");
-        scoreLable = new Label(Integer.toString(digit),skin,"game");
+        Label titleLable = new Label(title, skin, "small");
+        scoreLable = new Label(Integer.toString(digit), skin, "game");
         float size1 = titleLable.getHeight();
         float size2 = scoreLable.getHeight();
         lableItemHeight = size1 + size2;
@@ -208,20 +244,62 @@ public class GameScreen implements Screen {
     }
 
 
-    public void update (float dt) {
+
+    public void rulesDialog() {
+        ExitDialog gameOverDialog = new ExitDialog("", Assets.instance.skinAssets.skin, lineGame);
+        gameOverDialog.setTransform(true);
+        gameOverDialog.getBackground();
+
+//        Table table = new Table();
+        Label gameLable = new Label("Move balls to consist horizontal, vertical or diagonal lines of " +
+                "minimum 5 balls.  ",
+                Assets.instance.skinAssets.skin,
+                "dialog");
+        gameLable.setAlignment(Align.center);
+//        table.add(gameLable);
+        gameOverDialog.getContentTable().add(gameLable).padTop(40);
+        gameOverDialog.getContentTable().row();
+
+//        Table table = new Table();
+//        Label resultLable = new Label("Game Score " + gameField.getGameScore(),
+//                Assets.instance.skinAssets.skin,
+//                "dialog");
+//        resultLable.setAlignment(Align.center);
+//        table.add(resultLable);
+//        table.row();
+//        Label highLable = new Label("High scores " + gameField.getHighScores(),
+//                Assets.instance.skinAssets.skin,
+//                "dialog");
+//        highLable.setAlignment(Align.center);
+//        table.add(highLable);
+//        gameOverDialog.getContentTable().add(table);
+//        Button button = new TextButton("Ok",
+//                true,
+//                Assets.instance.skinAssets.skin.get("small", TextButton.TextButtonStyle.class));
+//        gameOverDialog.text("Game Over",
+//                Assets.instance.skinAssets.skin.get("dialog", Label.LabelStyle.class))
+//                .align(Align.center);
+        gameOverDialog.button("Ok",
+                true,
+                Assets.instance.skinAssets.skin.get("small", TextButton.TextButtonStyle.class)
+        );
+        gameOverDialog.show(stage);
+    }
+
+        public void update(float dt) {
 
     }
-	
-	@Override
-	public void dispose () {
-		batch.dispose();
+
+    @Override
+    public void dispose() {
+        batch.dispose();
 //		gameField.dispose();
-		//img.dispose();
-	}
+        //img.dispose();
+    }
 
     @Override
     public void hide() {
-        batch.dispose();
+//        batch.dispose();
 //        gameField.dispose();
     }
 

@@ -1,5 +1,6 @@
 package stas.lines2019.game;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
@@ -30,10 +31,13 @@ public class SquareItem {
     private boolean hasBall  = false;
     private boolean isActive = false;
     private float ballactiveTime ;
-    private float ballVelocity = Constants.BALL_VELOCITY;
-    private float ballDeformationVelocity    = Constants.DEFORMATION_VELOCITY;
+    private float ballVelocity =
+            Constants.BALL_VELOCITY* Gdx.graphics.getWidth()/10;
+    private float ballDeformationVelocity    =
+            Constants.DEFORMATION_VELOCITY* Gdx.graphics.getWidth()/10;
     private int   ballColor   = -3   ;
     private boolean nextTurnBall = false;
+    private boolean isSoundStart = false ;
 
     // collision parameters
     private float ballDeformation   ;
@@ -85,12 +89,18 @@ public class SquareItem {
         ballactiveTime += dt;
 
         if ( ballPosition.y - position.y <= 0 && !stopCollision ) {
+            if(!isSoundStart) {
+                Assets.instance.soundsBase.tookSound.play();
+                
+                isSoundStart = true;
+            }
             if (  Math.abs(ballDeformation) >= height*Constants.DEFORMATION_RATIO) {
                 ballVelocity = ballVelocity*(-1);
                 ballDeformationVelocity = ballDeformationVelocity*(-1);
                 afterCollision = true;
             } else if (ballDeformation > 0 && afterCollision) {
                 stopCollision = true;
+                isSoundStart =false;
             }
             ballPosition.y = position.y;
             ballDeformation -= ballDeformationVelocity*dt;
@@ -138,6 +148,18 @@ public class SquareItem {
             case 3:
 //                textureName = "sphere_yellow.png";
                 texture = Assets.instance.yellowBallAssets.texture;
+                break;
+            case 4:
+//                textureName = "sphere_yellow.png";
+                texture = Assets.instance.pinkBallAssets.texture;
+                break;
+            case 5:
+//                textureName = "sphere_yellow.png";
+                texture = Assets.instance.redBallAssets.texture;
+                break;
+            case 6:
+//                textureName = "sphere_yellow.png";
+                texture = Assets.instance.lBlueBallAssets.texture;
                 break;
         }
         return texture;

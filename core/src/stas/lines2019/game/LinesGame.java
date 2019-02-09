@@ -39,9 +39,13 @@ public class LinesGame extends Game {
         AssetManager am = new AssetManager();
         Assets.instance.init(am);
 
+
         // создаем достижения
         achivementsList = new AchivementsList(this);
         achivementsList.generateAchivemnets();
+
+//        dropAcievmComplete();
+
         Gdx.input.setCatchBackKey(true);
 
         setMainMenuScreen();
