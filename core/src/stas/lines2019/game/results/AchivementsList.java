@@ -90,7 +90,7 @@ public class AchivementsList {
                     }
                     break;
                 case  ConstantsAchiveEng.TYPE_LINES_SIZE:
-                    if (game.getGameScreen().gameField.getLineLong() > achivements[i].getCrit() &&
+                    if (game.getGameScreen().gameField.getLineLong() > achivements[i].getCrit() -1 &&
                             achivements[i].isComplete() != 1)  {
                         achivements[i].setComplete(1);
                         achivementComplete = true;

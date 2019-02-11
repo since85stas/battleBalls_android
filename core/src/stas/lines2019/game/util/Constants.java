@@ -67,6 +67,7 @@ public class Constants {
 
     // константы для шариков на основн экране
     public static int MENU_BALLS_INIT_NUMBERS = 30;
+    public static int GAME_BALLS_INIT_NUMBERS = 10;
     public static int MENU_BALLS_INIT_ADD = 2;
     public static float MENU_BALLS_VEL_MIN = 100.f;
     public static float MENU_BALLS_VEL_MAX = 170.f;

@@ -15,11 +15,14 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.DelayedRemovalArray;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import stas.lines2019.game.GameField;
 import stas.lines2019.game.LinesGame;
+import stas.lines2019.game.MenuBall;
 import stas.lines2019.game.Widgets.ExitDialog;
+import stas.lines2019.game.Widgets.RulesDialog;
 import stas.lines2019.game.util.Assets;
 import stas.lines2019.game.util.Constants;
 
@@ -44,6 +47,8 @@ public class GameScreen implements Screen {
     private SpriteBatch batch;
     private int width;
     private int height;
+
+    DelayedRemovalArray<MenuBall> menuBalls;
 
     public GameScreen(LinesGame lineGame, SpriteBatch batch) {
         this.lineGame = lineGame;
@@ -72,6 +77,8 @@ public class GameScreen implements Screen {
         stage.addActor(scoreLable);
         stage.addActor(timeLable);
 
+//        generateBalls();
+
         gameField = new GameField(this);
     }
 
@@ -98,9 +105,18 @@ public class GameScreen implements Screen {
 //        batch.disableBlending();
         batch.begin();
 
-        //gameField.update(delta);
+        gameField.update(delta);
         gameField.render(batch, delta);
-
+//        for (int i = 0; i < menuBalls.size; i++) {
+//            menuBalls.get(i).render(batch,delta);
+//            menuBalls.get(i).update(delta);
+//            if (menuBalls.get(i).getPath() > height ) {
+//                menuBalls.removeIndex(i);
+//                final MenuBall ball = MenuBall.generateOneBall();
+//                menuBalls.add(ball);
+//                stage.addActor(ball);
+//            }
+//        }
         // Draw the number of player deaths in the top left
         gametime = gameField.getGameTime();
 
@@ -246,44 +262,32 @@ public class GameScreen implements Screen {
 
 
     public void rulesDialog() {
-        ExitDialog gameOverDialog = new ExitDialog("", Assets.instance.skinAssets.skin, lineGame);
-        gameOverDialog.setTransform(true);
-        gameOverDialog.getBackground();
-
-//        Table table = new Table();
-        Label gameLable = new Label("Move balls to consist horizontal, vertical or diagonal lines of " +
-                "minimum 5 balls.  ",
+        RulesDialog rulesDialog = new RulesDialog("",
                 Assets.instance.skinAssets.skin,
-                "dialog");
-        gameLable.setAlignment(Align.center);
-//        table.add(gameLable);
-        gameOverDialog.getContentTable().add(gameLable).padTop(40);
-        gameOverDialog.getContentTable().row();
-
+                lineGame);
+        rulesDialog.setTransform(true);
+        rulesDialog.getBackground();
+        Gdx.input.setInputProcessor(stage);
 //        Table table = new Table();
-//        Label resultLable = new Label("Game Score " + gameField.getGameScore(),
-//                Assets.instance.skinAssets.skin,
-//                "dialog");
-//        resultLable.setAlignment(Align.center);
-//        table.add(resultLable);
-//        table.row();
-//        Label highLable = new Label("High scores " + gameField.getHighScores(),
-//                Assets.instance.skinAssets.skin,
-//                "dialog");
-//        highLable.setAlignment(Align.center);
-//        table.add(highLable);
-//        gameOverDialog.getContentTable().add(table);
-//        Button button = new TextButton("Ok",
-//                true,
-//                Assets.instance.skinAssets.skin.get("small", TextButton.TextButtonStyle.class));
-//        gameOverDialog.text("Game Over",
-//                Assets.instance.skinAssets.skin.get("dialog", Label.LabelStyle.class))
-//                .align(Align.center);
-        gameOverDialog.button("Ok",
-                true,
+        Label gameLable = new Label("Move the balls from cell to cell to group" +
+                " them into the lines of the same color." +"However, after each of your moves the" +
+                " computer drops three more balls onto the board. To avoid filling up the board you"+
+                " should gather the balls into horizontal, vertical or diagonal lines of 5 or more "+
+                "balls. When such a line is " +
+                "complete, the balls are removed from the field and your score grows." ,
+                Assets.instance.skinAssets.skin,
+                "small");
+        gameLable.setWrap(true);
+        gameLable.setAlignment(Align.right);
+//        table.add(gameLable);
+        rulesDialog.getContentTable().add(gameLable).padTop(40);
+        rulesDialog.getContentTable().row();
+
+        rulesDialog.button("Ok",
+                false,
                 Assets.instance.skinAssets.skin.get("small", TextButton.TextButtonStyle.class)
         );
-        gameOverDialog.show(stage);
+        rulesDialog.show(stage);
     }
 
         public void update(float dt) {
@@ -321,5 +325,28 @@ public class GameScreen implements Screen {
 
         // Set font scale to min(width, height) / reference screen size
 //        font.getData().setScale(Math.min(width, height) / Constants.HUD_FONT_REFERENCE_SCREEN_SIZE);
+    }
+
+    public void generateBalls() {
+        menuBalls = new DelayedRemovalArray();
+        for (int i = 0; i < Constants.GAME_BALLS_INIT_NUMBERS; i++) {
+            final MenuBall ball = MenuBall.generateOneBall();
+            ball.addListener(new InputListener() {
+                @Override
+                public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                    Assets.instance.soundsBase.bubbleSound.play();
+                    for (int i = 0; i < menuBalls.size; i++) {
+                        if (menuBalls.get(i).equals(ball)) {
+                            menuBalls.removeIndex(i);
+                            menuBalls.add(MenuBall.generateOneBall());
+                        }
+                    }
+                    return true;
+                }
+            });
+            menuBalls.add(ball);
+            stage.addActor(ball);
+
+        }
     }
 }

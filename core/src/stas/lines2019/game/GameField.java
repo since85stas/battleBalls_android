@@ -266,8 +266,9 @@ public class GameField {
                 boolean hasLine = check.startCheck();
                 if (hasLine && check.getBallsInLine() != null) {
                     deleteBalls(check.getBallsInLine());
-                    lineLong = check.getNumberBallsInLine();
-                    gameScore += lineLong * Constants.SCORED_PER_BALL;
+                    lineLong = check.getNumberBallsInLine() ;
+                    gameScore += lineLong * Constants.SCORED_PER_BALL +
+                            (check.getNumberBallsInLine() - 5) * 4;;
                 } else {
                     aiTurn();
                 }
@@ -418,6 +419,7 @@ public class GameField {
                                     selectedBall = clickPosition;
                                 }
                             } else if (clickPosition.equals(new Vector2(666,665) ))   {
+                                isInputProccActive = false;
                                 gameScreen.rulesDialog();
                             }
                         }
