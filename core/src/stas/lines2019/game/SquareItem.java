@@ -90,8 +90,8 @@ public class SquareItem {
 
         if ( ballPosition.y - position.y <= 0 && !stopCollision ) {
             if(!isSoundStart) {
-                Assets.instance.soundsBase.tookSound.play();
-                
+//                Assets.instance.soundsBase.tookSound.play();
+
                 isSoundStart = true;
             }
             if (  Math.abs(ballDeformation) >= height*Constants.DEFORMATION_RATIO) {

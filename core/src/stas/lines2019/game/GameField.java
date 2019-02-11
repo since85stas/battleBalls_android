@@ -96,8 +96,13 @@ public class GameField {
     Button rulesButton;
     Rectangle rulesHitBox;
 
+    long startTime;
+
 
     public GameField(GameScreen gameScreen) {
+
+        startTime = TimeUtils.millis();
+
         this.gameScreen = gameScreen;
         shapeRenderer = new ShapeRenderer();
 //        GDXDialogs dialogs = GDXDialogsSystem.install();
@@ -158,8 +163,8 @@ public class GameField {
         gamePref = Gdx.app.getPreferences(Constants.PREF_GAME);
         gamePref.putBoolean(Constants.PREF_GAME_IS_PLAY, true);
         gamePref.putFloat(Constants.PREF_TIME_PLAYED, gameTime);
-        gamePref.putFloat(Constants.PREF_SCORE, gameScore);
-        gamePref.putFloat(Constants.PREF_TURNS, numberOfTurns);
+        gamePref.putInteger(Constants.PREF_SCORE, gameScore);
+        gamePref.putInteger(Constants.PREF_TURNS, numberOfTurns);
         gamePref.putFloat(Constants.PREF_TIME_PLAYED_FULL, gameTime + gameTimeFullOld);
         gamePref.putInteger(Constants.PREF_SCORE_FULL, gameScore + gameScoreFullOld);
         if (gameScore > highScores) {
@@ -184,15 +189,14 @@ public class GameField {
         gamePref = Gdx.app.getPreferences(Constants.PREF_GAME);
         gameTimeFullOld = gamePref.getFloat(Constants.PREF_TIME_PLAYED_FULL, 0);
         gameScoreFullOld = gamePref.getInteger(Constants.PREF_SCORE_FULL, 0);
-
         highScores = gamePref.getInteger(Constants.PREF_HIGH_SCORE, 0);
         if (gameScreen.lineGame.findSaveGame) {
-            gameTime = gamePref.getFloat(Constants.PREF_TIME_PLAYED);
-            gameScore = (int) gamePref.getFloat(Constants.PREF_SCORE);
-            numberOfTurns = (int) gamePref.getFloat(Constants.PREF_TURNS);
+            gameTime = gamePref.getFloat(Constants.PREF_TIME_PLAYED,0);
+            gameScore = (int) gamePref.getInteger(Constants.PREF_SCORE,0);
+            numberOfTurns = (int) gamePref.getInteger(Constants.PREF_TURNS,0);
             Json json = new Json();
-            String serializedInts = gamePref.getString(Constants.PREF_GAME_MASSIVE);
             try {
+                String serializedInts = gamePref.getString(Constants.PREF_GAME_MASSIVE);
                 ballColors = json.fromJson(int[][].class, serializedInts); //you need to pass the class type - be aware of it!
             } catch (Exception e) {
                 Gdx.app.log(TAG, "exception getiing field", e);
@@ -203,7 +207,6 @@ public class GameField {
     }
 
     private void deleteBalls(Vector2[] balls) {
-
         for (int i = 0; i < balls.length; i++) {
 
             float x = squares[(int) balls[i].x][(int) balls[i].y].getCenterPosition().x;
@@ -298,17 +301,15 @@ public class GameField {
                     Gdx.graphics.getWidth() / 2 - starSize * 2f,
                     initPos.y - Constants.HUD_OFFSET * Gdx.graphics.getHeight());
 
-
             batch.draw(Assets.instance.starAssets.texture,
                     Gdx.graphics.getWidth() / 2 - starSize * 3f,
                     initPos.y - Constants.HUD_OFFSET * Gdx.graphics.getHeight() - starSize / 2,
                     starSize + starSize / 5 * MathUtils.sin(gameTime),
                     starSize + starSize / 5 * MathUtils.sin(gameTime)
             );
-
-//            batch.draw()
-
         }
+        long elapsedTime = TimeUtils.timeSinceMillis(startTime);
+        gameTime = elapsedTime / 1000;
     }
 
     private void spawnParticleEffect(int x, int y) {
@@ -331,7 +332,7 @@ public class GameField {
     public void update(final float dt) {
 
         // время игры
-        gameTime += dt;
+//        gameTime += dt;
 
         if (isBallSelected && selectedBall != null) {
             squares[(int) selectedBall.x][(int) selectedBall.y].update(dt);
@@ -359,7 +360,7 @@ public class GameField {
                         if (isBallSelected) {
                             // если шар уже выбран то проверяем куда потом нажали
                             clickPosition = checkClickEvent(screenX, screenY);
-                            if (!clickPosition.equals(new Vector2(666, 665))) {
+                            if (!clickPosition.equals(new Vector2(666, 665)) && !clickPosition.equals(new Vector2(66, 77))) {
                                 // проверяем на наличие прохода для шарика
                                 FindBallPath finder = new FindBallPath(squares,
                                         selectedBall,
@@ -376,6 +377,7 @@ public class GameField {
                                 } else if (squares[(int) clickPosition.x][(int) clickPosition.y].isHasBall()) {
                                     Gdx.app.log(TAG, "clicked  to ball i,j " + clickPosition.x + " " + clickPosition.y);
                                 } else if (pathIsFind) {
+
                                     // получаем информацию из выбранного шара и убераем его
                                     int color = squares[(int) selectedBall.x][(int) selectedBall.y].getBallColor();
 
@@ -411,7 +413,9 @@ public class GameField {
 
                             // если шар еще не выбран то выбираем его
                             clickPosition = checkClickEvent(screenX, screenY);
-                            if (clickPosition != null && !clickPosition.equals(new Vector2(666,665))) {
+                            if (clickPosition != null &&
+                                    !clickPosition.equals(new Vector2(666,665)) &&
+                                    !clickPosition.equals(new Vector2(66, 77))) {
                                 if (squares[(int) clickPosition.x][(int) clickPosition.y].isHasBall()) {
                                     squares[(int) clickPosition.x][(int) clickPosition.y].setActive(true);
                                     squares[(int) clickPosition.x][(int) clickPosition.y].update(dt);
@@ -503,7 +507,9 @@ public class GameField {
         if (rulesHitBox.contains(screenX, Gdx.graphics.getHeight() - screenY)) {
             clickPosition = new Vector2(666, 665);
         }
-
+        if (clickPosition == null) {
+            clickPosition = new Vector2(66,77);
+        }
         return clickPosition;
     }
 

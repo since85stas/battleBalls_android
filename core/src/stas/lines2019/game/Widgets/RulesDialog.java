@@ -15,7 +15,7 @@ public class RulesDialog extends Dialog {
     LinesGame game;
 
     public int WIDTH =(int)( Gdx.graphics.getWidth()*0.95);
-    public int HEIGHT =(int)( Gdx.graphics.getWidth()*0.7);
+    public int HEIGHT =(int)( Gdx.graphics.getHeight()*0.5);
 
     public RulesDialog(String title, WindowStyle windowStyle) {
         super(title, windowStyle);
@@ -24,7 +24,7 @@ public class RulesDialog extends Dialog {
     public RulesDialog(String title, Skin skin, LinesGame game) {
         super(title, skin);
         this.game = game;
-        getContentTable().defaults().width(WIDTH);
+        getContentTable().defaults().width(WIDTH - 0.05f*WIDTH);
     }
 
     @Override

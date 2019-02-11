@@ -118,14 +118,13 @@ public class GameScreen implements Screen {
 //            }
 //        }
         // Draw the number of player deaths in the top left
-        gametime = gameField.getGameTime();
 
         if (frameTime % 0.5 == 0) {
             float fps = 1 / delta;
             Gdx.app.log(TAG, "fps =" + fps);
         }
 
-        int time = (int) gameField.getGameTime();
+        int time = (int)gameField.getGameTime();
         String timeString = "";
         if (time < 60) {
             timeString = Integer.toString(time);
@@ -139,7 +138,7 @@ public class GameScreen implements Screen {
             }
         }
         timeLable.setText(timeString);
-        int score = gameField.getGameScore();
+        int score =(int) gameField.getGameScore();
         String scoreString = "";
 
         if (score < 10) {
@@ -270,22 +269,21 @@ public class GameScreen implements Screen {
         Gdx.input.setInputProcessor(stage);
 //        Table table = new Table();
         Label gameLable = new Label("Move the balls from cell to cell to group" +
-                " them into the lines of the same color." +"However, after each of your moves the" +
-                " computer drops three more balls onto the board. To avoid filling up the board you"+
-                " should gather the balls into horizontal, vertical or diagonal lines of 5 or more "+
-                "balls. When such a line is " +
-                "complete, the balls are removed from the field and your score grows." ,
+                " them into the lines of the same color." +" To avoid filling up the board you "+
+                "should gather the balls into horizontal, vertical or diagonal lines of 5 or more "+
+                "balls. ",
                 Assets.instance.skinAssets.skin,
-                "small");
+                "dialog");
         gameLable.setWrap(true);
-        gameLable.setAlignment(Align.right);
+        gameLable.setAlignment(Align.left);
 //        table.add(gameLable);
         rulesDialog.getContentTable().add(gameLable).padTop(40);
         rulesDialog.getContentTable().row();
 
         rulesDialog.button("Ok",
                 false,
-                Assets.instance.skinAssets.skin.get("small", TextButton.TextButtonStyle.class)
+                Assets.instance.skinAssets.skin.get("small",
+                        TextButton.TextButtonStyle.class)
         );
         rulesDialog.show(stage);
     }

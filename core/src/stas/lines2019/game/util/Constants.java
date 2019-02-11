@@ -51,7 +51,7 @@ public class Constants {
     public static final float HUD_ITEM_HOR_SIZE = 0.3f;
 
     public static final float BUTTONS_HEIGHT = 0.1f;
-    public static final float BUTTONS_WIDTH = 0.8f;
+    public static final float BUTTONS_WIDTH = 0.9f;
     public static final float TITLE_UPPER_OFFSET = 0.1f;
     public static final float BUTTONS_UPPER_OFFSET = 0.2f;
     public static final float BUTTONS_BETWEEN_SPACE = 0.03f;
@@ -60,9 +60,9 @@ public class Constants {
     public static final float HUD_FONT_IN_DIALOG = 0.03f;
     public static final float HUD_FONT_IN_GAME = 0.04f;
     public static final float HUD_FONT_TITLE = 0.04f;
-    public static final float HUD_FONT_HUGE = 0.09f;
+    public static final float HUD_FONT_HUGE = 0.08f;
 
-    public static final float ACHIEVE_WIDTH = 0.8f;
+    public static final float ACHIEVE_WIDTH = 0.9f;
     public static final float ACHIEVE_HEIGHT = 0.08f;
 
     // константы для шариков на основн экране

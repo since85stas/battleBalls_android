@@ -45,7 +45,6 @@ public class ConstantsAchiveEng {
             "achivement 31",
             "achivement 32",
             "achivement 33"
-
     };
 
     public static final String[] achievementsDescr = {
@@ -73,16 +72,15 @@ public class ConstantsAchiveEng {
             "play 5 hours total" ,
             "play 10 hours total",
             "play 24 hours total",
-            "played 20 turns",
-            "played 40 turns",
             "played 100 turns",
             "played 200 turns",
             "played 500 turns",
+            "played 1000 turns",
+            "played 5000 turns",
             "get 6 ball line",
             "get 7 ball line",
             "get 8 ball line",
             "get 9 ball line"
-
     };
 
     public static final int[] achivementsCriteria = {
@@ -110,11 +108,11 @@ public class ConstantsAchiveEng {
             5*60*60,
             10*60*60,
             24*60*60,
-            20,
-            40,
             100,
             200,
             500,
+            1000,
+            5000,
             6,
             7,
             8,
