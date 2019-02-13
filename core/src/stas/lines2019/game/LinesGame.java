@@ -15,6 +15,7 @@ import de.tomgrill.gdxdialogs.core.GDXDialogs;
 import de.tomgrill.gdxdialogs.core.GDXDialogsSystem;
 import stas.lines2019.game.Screens.AchieveScreen;
 import stas.lines2019.game.Screens.GameScreen;
+import stas.lines2019.game.Screens.GameSurvScreen;
 import stas.lines2019.game.Screens.MainMenuScreen;
 import stas.lines2019.game.results.AchivementsList;
 import stas.lines2019.game.util.Assets;
@@ -59,7 +60,8 @@ public class LinesGame extends Game {
     }
 
     public void setGameScreen() {
-        gameScreen = new GameScreen(this,batch);
+//        gameScreen = new GameScreen(this,batch);
+        gameScreen = new GameSurvScreen(this,batch);
         setScreen(gameScreen);
     }
 

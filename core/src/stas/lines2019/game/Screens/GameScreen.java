@@ -32,19 +32,26 @@ public class GameScreen implements Screen {
 
     //
     private static final String TAG = GameScreen.class.getName();
+    public static final String RULES_DIALOG_STR = "Move the balls from cell to cell to group" +
+            " them into the lines of the same color." +" To avoid filling up the board you "+
+            "should gather the balls into horizontal, vertical or diagonal lines of 5 or more "+
+            "balls. ";
     //
     public LinesGame lineGame;
     public GameField gameField;
     public float lableItemHeight;
+
     // Add ScreenViewport for HUD
     ScreenViewport hudViewport;
     Label timeLable;
     Label scoreLable;
+
     //
     private float accumulator = 0;
     private float gametime;
     private Stage stage;
     private SpriteBatch batch;
+    Skin mySkin;
     private int width;
     private int height;
 
@@ -63,22 +70,37 @@ public class GameScreen implements Screen {
 
         // Initialize the HUD viewport
         hudViewport = new ScreenViewport();
+        mySkin = Assets.instance.skinAssets.skin;
+        scoreLable = new Label("0",mySkin , "game");
+        timeLable = new Label("0",mySkin , "game");
 
-        VerticalGroup scoreLable = scoreHudLable("score", 0);
-        scoreLable.setPosition(2 * Constants.HUD_OFFSET * width,
+        VerticalGroup timeLableGroup = new VerticalGroup();
+        timeLableGroup.setPosition(width-2*Constants.HUD_OFFSET*width-Constants.HUD_ITEM_HOR_SIZE*width,
                 height - lableItemHeight);
-        scoreLable.setSize(Constants.HUD_ITEM_HOR_SIZE * width, lableItemHeight);
+        timeLableGroup.setSize(Constants.HUD_ITEM_HOR_SIZE * width, lableItemHeight);
+        Label titleLable = new Label("time", mySkin, "small");
+//        timeLable = new Label(Integer.toString(digit), mySkin, "game");
+        float size1 = titleLable.getHeight();
+        float size2 = timeLable.getHeight();
+        lableItemHeight = size1 + size2;
+        timeLableGroup.addActor(titleLable);
+        timeLableGroup.addActor(timeLable);
 
-        VerticalGroup timeLable = timeHudLable("time", 100);
-        timeLable.setPosition(width - 2 * Constants.HUD_OFFSET * width - Constants.HUD_ITEM_HOR_SIZE * width,
+        VerticalGroup scoreLableGroup = new VerticalGroup();
+        scoreLableGroup.setPosition(2 * Constants.HUD_OFFSET * width,
                 height - lableItemHeight);
-        timeLable.setSize(Constants.HUD_ITEM_HOR_SIZE * width, lableItemHeight);
+        scoreLableGroup.setSize(Constants.HUD_ITEM_HOR_SIZE * width, lableItemHeight);
+        titleLable = new Label("score", mySkin, "small");
+        scoreLableGroup.addActor(titleLable);
+        scoreLableGroup.addActor(scoreLable);
 
-        stage.addActor(scoreLable);
-        stage.addActor(timeLable);
+        stage.addActor(scoreLableGroup);
+        stage.addActor(timeLableGroup);
 
-//        generateBalls();
+        setGameField();
+    }
 
+    public void setGameField() {
         gameField = new GameField(this);
     }
 
@@ -99,24 +121,10 @@ public class GameScreen implements Screen {
 
         hudViewport.apply();
 
-        // Set the SpriteBatch's projection matrix
-//        batch.setProjectionMatrix(hudViewport.getCamera().combined);
-
-//        batch.disableBlending();
         batch.begin();
 
         gameField.update(delta);
         gameField.render(batch, delta);
-//        for (int i = 0; i < menuBalls.size; i++) {
-//            menuBalls.get(i).render(batch,delta);
-//            menuBalls.get(i).update(delta);
-//            if (menuBalls.get(i).getPath() > height ) {
-//                menuBalls.removeIndex(i);
-//                final MenuBall ball = MenuBall.generateOneBall();
-//                menuBalls.add(ball);
-//                stage.addActor(ball);
-//            }
-//        }
         // Draw the number of player deaths in the top left
 
         if (frameTime % 0.5 == 0) {
@@ -125,6 +133,24 @@ public class GameScreen implements Screen {
         }
 
         int time = (int)gameField.getGameTime();
+        setTimeLable(time);
+
+        int score =(int) gameField.getGameScore();
+        setScoreLable(score);
+
+//        addRulesButton();
+        batch.end();
+
+        stage.draw();
+        stage.act();
+    }
+
+    public void setTimeLable(int time) {
+
+        timeLable.setText(timeFormat(time));
+    }
+
+    public String timeFormat(int time) {
         String timeString = "";
         if (time < 60) {
             timeString = Integer.toString(time);
@@ -137,10 +163,16 @@ public class GameScreen implements Screen {
                 timeString = "0" + Integer.toString(min) + ":0" + Integer.toString(sec);
             }
         }
-        timeLable.setText(timeString);
-        int score =(int) gameField.getGameScore();
-        String scoreString = "";
+        return timeString;
+    }
 
+    public void setScoreLable(int score) {
+
+        scoreLable.setText(scoreFormat(score));
+    }
+
+    public String scoreFormat(int score) {
+        String scoreString = "";
         if (score < 10) {
             scoreString = "000" + Integer.toString(score);
         } else if (score >= 10 && score < 100) {
@@ -152,14 +184,9 @@ public class GameScreen implements Screen {
         } else if (score >= 10000 && score < 100000) {
             scoreString = "10k" + Integer.toString(score - 10000);
         }
-        scoreLable.setText(scoreString);
-
-//        addRulesButton();
-        batch.end();
-
-        stage.draw();
-        stage.act();
+        return scoreString;
     }
+
 
     public void showExitDialog() {
         ExitDialog dialog = new ExitDialog("", Assets.instance.skinAssets.skin,lineGame);
@@ -209,56 +236,15 @@ public class GameScreen implements Screen {
         highLable.setAlignment(Align.center);
         table.add(highLable);
         gameOverDialog.getContentTable().add(table);
-//        Button button = new TextButton("Ok",
-//                true,
-//                Assets.instance.skinAssets.skin.get("small", TextButton.TextButtonStyle.class));
-//        gameOverDialog.text("Game Over",
-//                Assets.instance.skinAssets.skin.get("dialog", Label.LabelStyle.class))
-//                .align(Align.center);
         gameOverDialog.button("Ok",
                 true,
                 Assets.instance.skinAssets.skin.get("small", TextButton.TextButtonStyle.class)
         );
 
-//        gameOverDialog.button("No",
-//                false,
-//                Assets.instance.skinAssets.skin.get("small", TextButton.TextButtonStyle.class)
-//        ); //sends "false" as the result
-
         Gdx.input.setInputProcessor(stage);
+
         gameOverDialog.show(stage);
     }
-
-
-    private VerticalGroup timeHudLable(String title, int digit) {
-
-        Skin skin = Assets.instance.skinAssets.skin;
-        Label titleLable = new Label(title, skin, "small");
-        timeLable = new Label(Integer.toString(digit), skin, "game");
-        float size1 = titleLable.getHeight();
-        float size2 = timeLable.getHeight();
-        lableItemHeight = size1 + size2;
-        VerticalGroup group = new VerticalGroup();
-        group.addActor(titleLable);
-        group.addActor(timeLable);
-        return group;
-    }
-
-    private VerticalGroup scoreHudLable(String title, int digit) {
-
-        Skin skin = Assets.instance.skinAssets.skin;
-        Label titleLable = new Label(title, skin, "small");
-        scoreLable = new Label(Integer.toString(digit), skin, "game");
-        float size1 = titleLable.getHeight();
-        float size2 = scoreLable.getHeight();
-        lableItemHeight = size1 + size2;
-        VerticalGroup group = new VerticalGroup();
-        group.addActor(titleLable);
-        group.addActor(scoreLable);
-        return group;
-    }
-
-
 
     public void rulesDialog() {
         RulesDialog rulesDialog = new RulesDialog("",
@@ -268,10 +254,7 @@ public class GameScreen implements Screen {
         rulesDialog.getBackground();
         Gdx.input.setInputProcessor(stage);
 //        Table table = new Table();
-        Label gameLable = new Label("Move the balls from cell to cell to group" +
-                " them into the lines of the same color." +" To avoid filling up the board you "+
-                "should gather the balls into horizontal, vertical or diagonal lines of 5 or more "+
-                "balls. ",
+        Label gameLable = new Label(setRulesLable(),
                 Assets.instance.skinAssets.skin,
                 "dialog");
         gameLable.setWrap(true);
@@ -286,6 +269,10 @@ public class GameScreen implements Screen {
                         TextButton.TextButtonStyle.class)
         );
         rulesDialog.show(stage);
+    }
+
+    public String setRulesLable() {
+        return RULES_DIALOG_STR;
     }
 
         public void update(float dt) {

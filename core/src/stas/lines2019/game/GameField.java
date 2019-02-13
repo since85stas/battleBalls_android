@@ -39,7 +39,7 @@ import java.util.Hashtable;
 public class GameField {
     private static final String TAG = GameField.class.getName();
 
-    private GameScreen gameScreen;
+    public GameScreen gameScreen;
     private Texture textureBall;
     private ShapeRenderer shapeRenderer;
     private Preferences gamePref;
@@ -98,6 +98,9 @@ public class GameField {
 
     long startTime;
 
+    public GameField() {
+
+    }
 
     public GameField(GameScreen gameScreen) {
 
@@ -270,8 +273,7 @@ public class GameField {
                 if (hasLine && check.getBallsInLine() != null) {
                     deleteBalls(check.getBallsInLine());
                     lineLong = check.getNumberBallsInLine() ;
-                    gameScore += lineLong * Constants.SCORED_PER_BALL +
-                            (check.getNumberBallsInLine() - 5) * 4;;
+                    lineIsSet();
                 } else {
                     aiTurn();
                 }
@@ -280,8 +282,7 @@ public class GameField {
                 hasLine = check.startCheck();
                 if (hasLine && check.getBallsInLine() != null) {
                     deleteBalls(check.getBallsInLine());
-                    gameScore += check.getNumberBallsInLine() * Constants.SCORED_PER_BALL +
-                            (check.getNumberBallsInLine() - 5) * 4;
+                    lineIsSet();
                 }
             }
             Gdx.app.log("Move", "move time=" + ballMoveTime);
@@ -310,6 +311,11 @@ public class GameField {
         }
         long elapsedTime = TimeUtils.timeSinceMillis(startTime);
         gameTime = elapsedTime / 1000;
+    }
+
+    public void lineIsSet() {
+        gameScore += lineLong * Constants.SCORED_PER_BALL +
+                (lineLong - 5) * 4;;
     }
 
     private void spawnParticleEffect(int x, int y) {
