@@ -22,6 +22,7 @@ public class GameSurvScreen extends GameScreen {
     private int ballTimeAdd  = 2;
     private int treshholdPenalty = 20;
     public int clearGameFieldNumber = 25;
+    private int gameDifficult;
 
     public GameSurvScreen(LinesGame lineGame, SpriteBatch batch) {
 
@@ -36,6 +37,7 @@ public class GameSurvScreen extends GameScreen {
                 initTimeBank = 1*40;
                 ballTimeAdd  = 2;
                 treshholdPenalty = 20;
+                gameDifficult = Constants.DIFFICULT_EASY;
                 break;
             case Constants.DIFFICULT_NORMAL:
 
@@ -61,7 +63,11 @@ public class GameSurvScreen extends GameScreen {
         }
 
         if (surviveTime < 0) {
-            gameOverDialog(false,true);
+            boolean isWin = true;
+            gameOverDialog(false,isWin);
+            if(isWin) {
+
+            }
         }
 
     }

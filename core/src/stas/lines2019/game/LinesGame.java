@@ -122,14 +122,43 @@ public class LinesGame extends Game {
 
         Preferences survPref = Gdx.app.getPreferences(Constants.PREF_SURVIVE);
         try {
-            survLevelIsComp[0] = survPref.getBoolean(Constants.DIFFICULT_EASY,false);
-            survLevelIsComp[1] = survPref.getBoolean(Constants.DIFFICULT_NORMAL,false);
-            survLevelIsComp[2] = survPref.getBoolean(Constants.DIFFICULT_HARD,false);
-            survLevelIsComp[3] = survPref.getBoolean(Constants.DIFFICULT_NIGHTMARE,false);
-            survLevelIsComp[0] = survPref.getBoolean(Constants.DIFFICULT_ENDLESS,false);
+            survLevelIsComp[0] = survPref.getBoolean(Constants.PREF_DIFFICULT_EASY,false);
+            survLevelIsComp[1] = survPref.getBoolean(Constants.PREF_DIFFICULT_NORMAL,false);
+            survLevelIsComp[2] = survPref.getBoolean(Constants.PREF_DIFFICULT_HARD,false);
+            survLevelIsComp[3] = survPref.getBoolean(Constants.PREF_DIFFICULT_NIGHTMARE,false);
+            survLevelIsComp[0] = survPref.getBoolean(Constants.PREF_DIFFICULT_ENDLESS,false);
         } catch (Exception e) {
             Gdx.app.log("lineGame","catch e");
         }
+    }
+
+    public void saveSurvPref(int diffType) {
+        Preferences survPref = Gdx.app.getPreferences(Constants.PREF_SURVIVE);
+        switch(diffType) {
+            case(Constants.DIFFICULT_EASY):
+                survPref.putBoolean(Constants.PREF_DIFFICULT_EASY,true);
+                break;
+            case(Constants.DIFFICULT_NORMAL):
+                survPref.putBoolean(Constants.PREF_DIFFICULT_NORMAL,true);
+                break;
+            case(Constants.DIFFICULT_HARD):
+                survPref.putBoolean(Constants.PREF_DIFFICULT_HARD,true);
+                break;
+            case(Constants.DIFFICULT_NIGHTMARE):
+                survPref.putBoolean(Constants.PREF_DIFFICULT_NIGHTMARE,true);
+                break;
+            case(Constants.DIFFICULT_ENDLESS):
+                survPref.putBoolean(Constants.PREF_DIFFICULT_ENDLESS,true);
+                break;
+
+        }
+
+        loadAchieve();
+//        survLevelIsComp[0] = survPref.putBoolean(Constants.PREF_DIFFICULT_EASY)
+//        survLevelIsComp[1] = survPref.getBoolean(Constants.PREF_DIFFICULT_NORMAL,false);
+//        survLevelIsComp[2] = survPref.getBoolean(Constants.PREF_DIFFICULT_HARD,false);
+//        survLevelIsComp[3] = survPref.getBoolean(Constants.PREF_DIFFICULT_NIGHTMARE,false);
+//        survLevelIsComp[0] = survPref.getBoolean(Constants.PREF_DIFFICULT_ENDLESS,false);
     }
 
     public void dropAcievmComplete() {

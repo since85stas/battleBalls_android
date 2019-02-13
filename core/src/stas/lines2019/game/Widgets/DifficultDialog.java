@@ -4,9 +4,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
+import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
+
+import java.util.ArrayList;
 
 import stas.lines2019.game.LinesGame;
 import stas.lines2019.game.util.Assets;
@@ -35,14 +38,12 @@ public class DifficultDialog extends Dialog {
         float size = style.font.getCapHeight();
         this.game = game;
         VerticalGroup group = new VerticalGroup().pad(size).space(size/2);
-//        group.setWidth(200);
-//        group.pad(40);
-//        group.center();
-//        group.top();
 
         TextButton easyButton = new TextButton("easy",
                 Assets.instance.skinAssets.skin,
                 styleName);
+
+        final ArrayList<TextButton> diffButtonsList = new ArrayList<TextButton>();
         easyButton.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -53,18 +54,22 @@ public class DifficultDialog extends Dialog {
             }
         });
         group.addActor(easyButton);
+        diffButtonsList.add(easyButton);
 
-        TextButton normalButton = new TextButton("normal",
+        final TextButton normalButton = new TextButton("normal",
                 Assets.instance.skinAssets.skin,
                 styleName);
         normalButton.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 Gdx.app.log("dial","normal mode");
+                game.setGameSurvivScreen(Constants.DIFFICULT_NORMAL);
+                hide();
                 return super.touchDown(event, x, y, pointer, button);
             }
         });
         group.addActor(normalButton);
+        diffButtonsList.add(normalButton);
 
         TextButton hardButton = new TextButton("hard",
                 Assets.instance.skinAssets.skin,
@@ -73,10 +78,13 @@ public class DifficultDialog extends Dialog {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 Gdx.app.log("dial","hard mode");
+                game.setGameSurvivScreen(Constants.DIFFICULT_HARD);
+                hide();
                 return super.touchDown(event, x, y, pointer, button);
             }
         });
         group.addActor(hardButton);
+        diffButtonsList.add(hardButton);
 
         TextButton nightmareButton = new TextButton("nightmare",
                 Assets.instance.skinAssets.skin,
@@ -85,10 +93,13 @@ public class DifficultDialog extends Dialog {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 Gdx.app.log("dial","nightmare mode");
+                game.setGameSurvivScreen(Constants.DIFFICULT_NIGHTMARE);
+                hide();
                 return super.touchDown(event, x, y, pointer, button);
             }
         });
         group.addActor(nightmareButton);
+        diffButtonsList.add(nightmareButton);
 
         TextButton endlessButton = new TextButton("endless",
                 Assets.instance.skinAssets.skin,
@@ -101,6 +112,15 @@ public class DifficultDialog extends Dialog {
             }
         });
         group.addActor(endlessButton);
+        diffButtonsList.add(endlessButton);
+
+        for (int i = 1; i < diffButtonsList.size(); i++) {
+
+            if(!game.survLevelIsComp[i-1]) {
+                diffButtonsList.get(i).setDisabled(true);
+
+            }
+        }
 
         TextButton cancelButton = new TextButton("cancel",
                 Assets.instance.skinAssets.skin,

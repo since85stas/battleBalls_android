@@ -39,9 +39,11 @@ public class ExitDialog extends Dialog {
 
     @Override
     protected void result(Object object) {
-        Gdx.app.log("dia", object.toString());
+        Gdx.app.log("Exit dialog", object.toString());
         if (object.equals(true)) {
+            hide();
             game.setMainMenuScreen();
+
         } else if (object.equals(false)){
             game.getGameScreen().gameField.setInputProccActive(true);
         }

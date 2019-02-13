@@ -236,8 +236,6 @@ public class MainMenuScreen extends InputAdapter implements Screen{
         dialog.setTransform(true);
         dialog.getBackground();
 
-
-
         Gdx.input.setInputProcessor(stage);
         dialog.show(stage);
     }

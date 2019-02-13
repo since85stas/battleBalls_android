@@ -81,10 +81,16 @@ public class Constants {
 
     // констатны сложности уровней
     public static final int  NUM_DIFFICULTIES = 5;
-    public static final String DIFFICULT_EASY  = "-3";
-    public static final String DIFFICULT_NORMAL  = "-4";
-    public static final String DIFFICULT_HARD  = "-5";
-    public static final String DIFFICULT_NIGHTMARE  = "-6";
-    public static final String DIFFICULT_ENDLESS  = "-7";
+    public static final int DIFFICULT_EASY  = -3;
+    public static final int DIFFICULT_NORMAL  = -4;
+    public static final int DIFFICULT_HARD  = -5;
+    public static final int DIFFICULT_NIGHTMARE  = -6;
+    public static final int DIFFICULT_ENDLESS  = -7;
+
+    public static final String PREF_DIFFICULT_EASY  = "-3";
+    public static final String PREF_DIFFICULT_NORMAL  = "-4";
+    public static final String PREF_DIFFICULT_HARD  = "-5";
+    public static final String PREF_DIFFICULT_NIGHTMARE  = "-6";
+    public static final String PREF_DIFFICULT_ENDLESS  = "-7";
 
 }
