@@ -370,10 +370,11 @@ public class GameField {
                                 boolean pathIsFind = finder.findPath();
                                 Gdx.app.log(TAG, "pathFind =" + pathIsFind);
                                 if (clickPosition.equals(selectedBall)) {
-                                    returnSquareInitState(clickPosition, false);
+//                                    returnSquareInitState(clickPosition, false);
 
                                     isBallSelected = false;
                                     selectedBall = null;
+                                    squares[(int) clickPosition.x][(int) clickPosition.y].setBallInCenter();
                                 } else if (squares[(int) clickPosition.x][(int) clickPosition.y].isHasBall()) {
                                     Gdx.app.log(TAG, "clicked  to ball i,j " + clickPosition.x + " " + clickPosition.y);
                                 } else if (pathIsFind) {
@@ -401,8 +402,10 @@ public class GameField {
                                     // переносим в другую ячейку
                                     transportPosition = clickPosition;
 
+                                    squares[(int) clickPosition.x][(int) clickPosition.y].setHasBall(true);
                                     squares[(int) clickPosition.x][(int) clickPosition.y].setBallColor(color);
                                     if (squares[(int) clickPosition.x][(int) clickPosition.y].isNextTurnBall()) {
+                                        squares[(int) clickPosition.x][(int) clickPosition.y].setNextTurnBall(false);
                                         addNextTurnBalls();
                                     }
                                     isBallSelected = false;
@@ -556,6 +559,9 @@ public class GameField {
             for (int j = 0; j < fieldDimension; j++) {
                 if (squares[i][j].isNextTurnBall()) {
                     squares[i][j].setHasBall(true);
+                    if (squares[i][j].getBallColor() == -3) {
+                        throw (new IllegalArgumentException("wrong color, i=" + i + " j=" + j));
+                    }
                     squares[i][j].setNextTurnBall(false);
                 }
             }
