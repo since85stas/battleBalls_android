@@ -76,7 +76,7 @@ public class GameField {
     private Vector2[] nextTurnBallCells;
 
     // массив с ячейками
-    private SquareItem[][] squares;
+    public SquareItem[][] squares;
     private int[][] ballColors;
     public Vector2 initPos;
 
@@ -522,7 +522,7 @@ public class GameField {
         return clickPosition;
     }
 
-    private void returnSquareInitState(Vector2 click, boolean delBall) {
+    public void returnSquareInitState(Vector2 click, boolean delBall) {
         squares[(int) click.x][(int) click.y].setActive(false);
         squares[(int) click.x][(int) click.y].setBallInCenter();
         if (delBall) {
@@ -576,10 +576,9 @@ public class GameField {
 
     private void getNextTurnBalls() {
         for (int i = 0; i < numberOfAiBalls; i++) {
-            Vector2[] freeSquares = checkSquares();
+            Vector2[] freeSquares = checkSquares(false);
             if (freeSquares.length < 3) {
-                isInputProccActive = false;
-                gameScreen.gameOverDialog();
+                noFreeSpace();
             }
             int random = MathUtils.random(0, freeSquares.length - 1);
 
@@ -590,8 +589,13 @@ public class GameField {
         }
     }
 
+    public void noFreeSpace() {
+        isInputProccActive = false;
+        gameScreen.gameOverDialog(true,true);
+    }
+
     private void addNextTurnBalls() {
-        Vector2[] freeSquares = checkSquares();
+        Vector2[] freeSquares = checkSquares(false);
 
 //        if (freeSquares.length < 3) {
 //            gameScreen.gameOverDialog();
@@ -615,13 +619,13 @@ public class GameField {
     /*  проверяем из всех ячеек где нет шариков получаем список таких ячеек в виде String[]
 
      */
-    public Vector2[] checkSquares() {
+    public Vector2[] checkSquares(boolean hasBas) {
         ArrayList<Vector2> freeSquares = new ArrayList<Vector2>();
 
         // проверяем все ячейки
         for (int i = 0; i < fieldDimension; i++) {
             for (int j = 0; j < fieldDimension; j++)
-                if (squares[i][j].isHasBall() == false) {
+                if (squares[i][j].isHasBall() == hasBas) {
                     freeSquares.add(new Vector2(i, j));
                 }
         }

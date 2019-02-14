@@ -33,17 +33,23 @@ public class Constants {
     public final static int DOWN = 3;
 
     // константы для сохр настроек
-    public static final String PREF_ACHIEV = "preference_achieve";
-    public static final String PREF_GAME   = "preference_game"     ;
+    public static final String PREF_ACHIEV    = "preference_achieve";
+    public static final String PREF_GAME      = "preference_game"     ;
+    public static final String PREF_SURVIVE   = "survive_game"     ;
     public static final String PREF_TIME_PLAYED = "time_played"  ;
     public static final String PREF_TIME_PLAYED_FULL = "time_full"  ;
-    public static final String PREF_ACHIEV_MASSIVE = "achievements";
-    public static final String PREF_GAME_IS_PLAY   = "game_is_play";
-    public static final String PREF_GAME_MASSIVE   = "game_massive";
-    public static final String PREF_SCORE   = "game_score";
-    public static final String PREF_SCORE_FULL   = "game_score";
-    public static final String PREF_TURNS   = "game_turns";
-    public static final String PREF_HIGH_SCORE   = "high_score";
+    public static final String PREF_ACHIEV_MASSIVE   = "achievements";
+    public static final String PREF_GAME_IS_PLAY     = "game_is_play";
+    public static final String PREF_GAME_MASSIVE     = "game_massive";
+    public static final String PREF_SCORE            = "game_score";
+    public static final String PREF_SCORE_FULL       = "game_score";
+    public static final String PREF_TURNS            = "game_turns";
+    public static final String PREF_HIGH_SCORE       = "high_score";
+    public static final String PREF_SURV_EASY  = "easy_game"       ;
+    public static final String PREF_SURV_NORM  = "normal_game"     ;
+    public static final String PREF_SURV_HARD  = "hard_game"       ;
+    public static final String PREF_SURV_NIGHT  = "night_game"     ;
+    public static final String PREF_SURV_ENDL  = "ENDL_game"       ;
 
     // константы для размеров гаме HUD
     public static final float HUD_OFFSET = 0.05f;
@@ -72,4 +78,13 @@ public class Constants {
     public static float MENU_BALLS_VEL_MIN = 100.f;
     public static float MENU_BALLS_VEL_MAX = 170.f;
     public static float MENU_BALLS_VEL_RANGE = 80.f;
+
+    // констатны сложности уровней
+    public static final int  NUM_DIFFICULTIES = 5;
+    public static final String DIFFICULT_EASY  = "-3";
+    public static final String DIFFICULT_NORMAL  = "-4";
+    public static final String DIFFICULT_HARD  = "-5";
+    public static final String DIFFICULT_NIGHTMARE  = "-6";
+    public static final String DIFFICULT_ENDLESS  = "-7";
+
 }

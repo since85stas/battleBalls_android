@@ -18,10 +18,13 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.DelayedRemovalArray;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import stas.lines2019.game.LinesGame;
 import stas.lines2019.game.MenuBall;
+import stas.lines2019.game.Widgets.DifficultDialog;
+import stas.lines2019.game.Widgets.ExitDialog;
 import stas.lines2019.game.util.Assets;
 import stas.lines2019.game.util.Constants;
 import stas.lines2019.game.util.ConstantsAchiveEng;
@@ -34,13 +37,14 @@ public class MainMenuScreen extends InputAdapter implements Screen{
 
     private static final String TAG = MainMenuScreen.class.getName().toString();
 
-    private static final int numButtons = 5;
+    private static final int numButtons = 6;
 
     private DelayedRemovalArray<MenuBall> menuBalls;
 
     private final String[] buttonNames = {
             "continue",
-            "new game",
+            "classic mode",
+            "survival mode",
             "puzzle mode",
             "achievements",
             "exit"
@@ -148,9 +152,6 @@ public class MainMenuScreen extends InputAdapter implements Screen{
         GlyphLayout lay = new GlyphLayout();
         lay.setText(mySkin.getFont("menu-font"),"LINES 2019");
         int len = (int)lay.width;
-//        titleLable.getGlyphLayout().setText(mySkin.getFont("menu-font"),"mew");
-//        titleLable
-//        int len = (int)titleLable.getGlyphLayout();
         titleLable.setPosition((widtht - len)/2,height - 2*Constants.TITLE_UPPER_OFFSET*height);
         stage.addActor(titleLable);
 
@@ -159,7 +160,6 @@ public class MainMenuScreen extends InputAdapter implements Screen{
         float buttonX = (widtht - widtht*Constants.BUTTONS_WIDTH)/2;
         float buttonY = height - height*Constants.BUTTONS_UPPER_OFFSET;
 
-//        TextButton.TextButtonStyle style = mySkin.get
         String achiveText  =buttonNames[3] +  " " +
         Integer.toString(mGame.achivementsList.getCompleteAchievsNumber()) + "/" +
                 Integer.toString(ConstantsAchiveEng.NUM_ACHIVEMENTS);
@@ -168,7 +168,7 @@ public class MainMenuScreen extends InputAdapter implements Screen{
             buttonY -= height*Constants.BUTTONS_HEIGHT + height*Constants.BUTTONS_BETWEEN_SPACE;
 
             buttons[i] = new TextButton(buttonNames[i],mySkin,"default");
-            if (i == 2) {
+            if (i == 3) {
                 buttons[i].setDisabled(true);
             }
 
@@ -205,10 +205,14 @@ public class MainMenuScreen extends InputAdapter implements Screen{
                             mGame.findSaveGame = false;
                             mGame.setGameScreen();
                             break;
-                        case 3:
-                            mGame.setAchieveScreen();
+                        case 2:
+                            mGame.findSaveGame = false;
+                            selectDifficDialog();
                             break;
                         case 4:
+                            mGame.setAchieveScreen();
+                            break;
+                        case 5:
                             Gdx.app.exit();
                             break;
                     }
@@ -218,11 +222,24 @@ public class MainMenuScreen extends InputAdapter implements Screen{
             });
             stage.addActor(buttons[i]);
         }
-        buttons[3].setText(achiveText);
+        buttons[4].setText(achiveText);
         Table table = new Table();
         table.row();
         table.add(new Label("soon", mySkin,"small"));
-        buttons[2].add(table);
+        buttons[3].add(table);
+    }
+
+
+    private void selectDifficDialog() {
+        DifficultDialog dialog = new DifficultDialog("Select difficult",
+                Assets.instance.skinAssets.skin,mGame);
+        dialog.setTransform(true);
+        dialog.getBackground();
+
+
+
+        Gdx.input.setInputProcessor(stage);
+        dialog.show(stage);
     }
 //    }
 

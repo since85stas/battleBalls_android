@@ -31,21 +31,22 @@ public class LinesGame extends Game {
     public AchivementsList achivementsList;
     public boolean findSaveGame;
 
+    public boolean survLevelIsComp[];
+
     @Override
     public void create () {
         batch = new SpriteBatch();
-//        viewport   = new FitViewport(1280,720);
 
         // создаем текстуры
         AssetManager am = new AssetManager();
         Assets.instance.init(am);
 
 
+        survLevelIsComp = new boolean[Constants.NUM_DIFFICULTIES];
+
         // создаем достижения
         achivementsList = new AchivementsList(this);
         achivementsList.generateAchivemnets();
-
-//        dropAcievmComplete();
 
         Gdx.input.setCatchBackKey(true);
 
@@ -60,8 +61,12 @@ public class LinesGame extends Game {
     }
 
     public void setGameScreen() {
-//        gameScreen = new GameScreen(this,batch);
-        gameScreen = new GameSurvScreen(this,batch);
+        gameScreen = new GameScreen(this,batch);
+        setScreen(gameScreen);
+    }
+
+    public void setGameSurvivScreen(int diffType) {
+        gameScreen = new GameSurvScreen(this,batch,diffType);
         setScreen(gameScreen);
     }
 
@@ -113,6 +118,17 @@ public class LinesGame extends Game {
                     achivementsList.getAchivements()[i].setComplete(1);
                 }
             }
+        }
+
+        Preferences survPref = Gdx.app.getPreferences(Constants.PREF_SURVIVE);
+        try {
+            survLevelIsComp[0] = survPref.getBoolean(Constants.DIFFICULT_EASY,false);
+            survLevelIsComp[1] = survPref.getBoolean(Constants.DIFFICULT_NORMAL,false);
+            survLevelIsComp[2] = survPref.getBoolean(Constants.DIFFICULT_HARD,false);
+            survLevelIsComp[3] = survPref.getBoolean(Constants.DIFFICULT_NIGHTMARE,false);
+            survLevelIsComp[0] = survPref.getBoolean(Constants.DIFFICULT_ENDLESS,false);
+        } catch (Exception e) {
+            Gdx.app.log("lineGame","catch e");
         }
     }
 

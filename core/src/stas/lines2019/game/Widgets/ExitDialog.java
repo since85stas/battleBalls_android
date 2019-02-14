@@ -16,7 +16,7 @@ public class ExitDialog extends Dialog {
     LinesGame game;
 
     public int WIDTH =(int)( Gdx.graphics.getWidth()*0.95);
-    public int HEIGHT =(int)( Gdx.graphics.getWidth()*0.4);
+    public int HEIGHT =(int)( Gdx.graphics.getHeight()*0.4);
 
     public ExitDialog(String title, WindowStyle windowStyle) {
         super(title, windowStyle);

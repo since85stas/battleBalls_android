@@ -209,7 +209,7 @@ public class GameScreen implements Screen {
         dialog.show(stage);
     }
 
-    public void gameOverDialog() {
+    public void gameOverDialog(boolean classicMode, boolean isWin ) {
         ExitDialog gameOverDialog = new ExitDialog("", Assets.instance.skinAssets.skin,lineGame);
         gameOverDialog.setTransform(true);
         gameOverDialog.getBackground();
@@ -224,22 +224,38 @@ public class GameScreen implements Screen {
         gameOverDialog.getContentTable().row();
 
         Table table = new Table();
-        Label resultLable = new Label("Game Score " + gameField.getGameScore(),
-                Assets.instance.skinAssets.skin,
-                "dialog");
-        resultLable.setAlignment(Align.center);
-        table.add(resultLable);
-        table.row();
-        Label highLable = new Label("High scores " + gameField.getHighScores(),
-                Assets.instance.skinAssets.skin,
-                "dialog");
-        highLable.setAlignment(Align.center);
-        table.add(highLable);
+        if (classicMode) {
+            Label resultLable = new Label("Game Score " + gameField.getGameScore(),
+                    Assets.instance.skinAssets.skin,
+                    "dialog");
+            resultLable.setAlignment(Align.center);
+            table.add(resultLable);
+            table.row();
+            Label highLable = new Label("High scores " + gameField.getHighScores(),
+                    Assets.instance.skinAssets.skin,
+                    "dialog");
+            highLable.setAlignment(Align.center);
+            table.add(highLable);
+
+        } else {
+
+            String result = new String();
+            if (isWin) {
+                result = "You win";
+            } else  {
+                result = "You loose";
+            }
+            Label resultLable = new Label(result ,
+                    Assets.instance.skinAssets.skin,
+                    "dialog");
+            resultLable.setAlignment(Align.center);
+            table.add(resultLable);
+            table.row();
+        }
         gameOverDialog.getContentTable().add(table);
         gameOverDialog.button("Ok",
                 true,
-                Assets.instance.skinAssets.skin.get("small", TextButton.TextButtonStyle.class)
-        );
+                Assets.instance.skinAssets.skin.get("small", TextButton.TextButtonStyle.class));
 
         Gdx.input.setInputProcessor(stage);
 
