@@ -33,6 +33,7 @@ public class GameFieldSurv extends GameField {
 
     @Override
     public void noFreeSpace() {
+
         mGameSurvScreen.endFreeSpace();
         clearGameField();
     }

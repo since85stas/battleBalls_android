@@ -23,6 +23,7 @@ import com.badlogic.gdx.utils.DelayedRemovalArray;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import stas.lines2019.game.LinesGame;
 import stas.lines2019.game.MenuBall;
+import stas.lines2019.game.Widgets.BuyDialog;
 import stas.lines2019.game.Widgets.DifficultDialog;
 import stas.lines2019.game.Widgets.ExitDialog;
 import stas.lines2019.game.util.Assets;
@@ -37,7 +38,7 @@ public class MainMenuScreen extends InputAdapter implements Screen{
 
     private static final String TAG = MainMenuScreen.class.getName().toString();
 
-    private static final int numButtons = 6;
+    private static final int numButtons = 7;
 
     private DelayedRemovalArray<MenuBall> menuBalls;
 
@@ -47,6 +48,7 @@ public class MainMenuScreen extends InputAdapter implements Screen{
             "survival mode",
             "puzzle mode",
             "achievements",
+            "support us",
             "exit"
     };
 
@@ -160,7 +162,7 @@ public class MainMenuScreen extends InputAdapter implements Screen{
         float buttonX = (widtht - widtht*Constants.BUTTONS_WIDTH)/2;
         float buttonY = height - height*Constants.BUTTONS_UPPER_OFFSET;
 
-        String achiveText  =buttonNames[3] +  " " +
+        String achiveText  =buttonNames[4] +  " " +
         Integer.toString(mGame.achivementsList.getCompleteAchievsNumber()) + "/" +
                 Integer.toString(ConstantsAchiveEng.NUM_ACHIVEMENTS);
 
@@ -213,6 +215,9 @@ public class MainMenuScreen extends InputAdapter implements Screen{
                             mGame.setAchieveScreen();
                             break;
                         case 5:
+                            mGame.purchaseManager.purchase(Constants.FRIEND_VERSION);
+                            break;
+                        case 6:
                             Gdx.app.exit();
                             break;
                     }
@@ -226,18 +231,55 @@ public class MainMenuScreen extends InputAdapter implements Screen{
         Table table = new Table();
         table.row();
         table.add(new Label("soon", mySkin,"small"));
+
         buttons[3].add(table);
+
+        Table table2 = new Table();
+        table2.row();
+        table2.add(new Label("new", mySkin,"small"));
+        buttons[2].add(table2);
     }
 
 
     private void selectDifficDialog() {
-        DifficultDialog dialog = new DifficultDialog("Select difficult",
-                Assets.instance.skinAssets.skin,mGame);
+        DifficultDialog dialog = new DifficultDialog("Select difficulty",
+                Assets.instance.skinAssets.skin,mGame,this);
         dialog.setTransform(true);
         dialog.getBackground();
 
         Gdx.input.setInputProcessor(stage);
         dialog.show(stage);
+    }
+
+    public void showBuyDialog() {
+
+        BuyDialog dialog = new BuyDialog ("", Assets.instance.skinAssets.skin,mGame);
+        dialog.setTransform(true);
+        dialog.getBackground();
+
+        Label gameLable = new Label("Buy a full game mode to unlock this and all other difficulties in" +
+                "survival mode. Also you give an intresting puzle game mode, that " +
+                "will appear soon",
+                Assets.instance.skinAssets.skin,
+                "dialog");
+        gameLable.setWrap(true);
+        gameLable.setAlignment(Align.left);
+//        table.add(gameLable);
+        dialog.getContentTable().add(gameLable).padTop(40);
+        dialog.getContentTable().row();
+
+        dialog.button("Buy",
+                true,
+                Assets.instance.skinAssets.skin.get("small", TextButton.TextButtonStyle.class)
+        );
+        dialog.button("No",
+                false,
+                Assets.instance.skinAssets.skin.get("small", TextButton.TextButtonStyle.class)
+        ); //sends "false" as the result
+
+        Gdx.input.setInputProcessor(stage);
+        dialog.show(stage);
+
     }
 //    }
 

@@ -580,12 +580,14 @@ public class GameField {
             if (freeSquares.length < 3) {
                 noFreeSpace();
             }
-            int random = MathUtils.random(0, freeSquares.length - 1);
+            if (freeSquares.length != 0 ) {
+                int random = MathUtils.random(0, freeSquares.length - 1);
 
-            squares[(int) freeSquares[random].x][(int) freeSquares[random].y]
-                    .setBallColor(MathUtils.random(0, numberOfColors - 1));
-            squares[(int) freeSquares[random].x][(int) freeSquares[random].y]
-                    .setNextTurnBall(true);
+                squares[(int) freeSquares[random].x][(int) freeSquares[random].y]
+                        .setBallColor(MathUtils.random(0, numberOfColors - 1));
+                squares[(int) freeSquares[random].x][(int) freeSquares[random].y]
+                        .setNextTurnBall(true);
+            }
         }
     }
 

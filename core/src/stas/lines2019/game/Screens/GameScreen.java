@@ -241,7 +241,7 @@ public class GameScreen implements Screen {
 
             String result = new String();
             if (isWin) {
-                result = "You win";
+                result = "You win. New difficulty unlocked.";
             } else  {
                 result = "You loose";
             }

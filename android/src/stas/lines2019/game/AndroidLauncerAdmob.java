@@ -8,6 +8,7 @@ import android.widget.RelativeLayout;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
+import com.badlogic.gdx.pay.android.googleplay.AndroidGooglePlayPurchaseManager;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
@@ -19,9 +20,14 @@ import com.google.android.gms.ads.MobileAds;
 
 public class AndroidLauncerAdmob extends AndroidApplication {
 
+    LinesGame game;
+
     @Override
     protected void onCreate (Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+
         AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
 
 //        initialize(new LinesGame(), config);
@@ -35,8 +41,9 @@ public class AndroidLauncerAdmob extends AndroidApplication {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
 
+        game = new LinesGame();
         // Create the libgdx View
-        View gameView = initializeForView(new LinesGame(), config);
+        View gameView = initializeForView(game, config);
         MobileAds.initialize(this, "ca-app-pub-5445531684247341~3466480214");
         // Create and setup the AdMob view
         AdView adView = new AdView(this);
@@ -61,5 +68,6 @@ public class AndroidLauncerAdmob extends AndroidApplication {
         // Hook it all up
         setContentView(layout);
 
+        game.purchaseManager = new AndroidGooglePlayPurchaseManager(this,0);
     }
 }

@@ -56,9 +56,9 @@ public class Constants {
     public static final float HUD_ITEM_VERT_SIZE = 0.1f;
     public static final float HUD_ITEM_HOR_SIZE = 0.3f;
 
-    public static final float BUTTONS_HEIGHT = 0.1f;
+    public static final float BUTTONS_HEIGHT = 0.07f;
     public static final float BUTTONS_WIDTH = 0.9f;
-    public static final float TITLE_UPPER_OFFSET = 0.1f;
+    public static final float TITLE_UPPER_OFFSET = 0.07f;
     public static final float BUTTONS_UPPER_OFFSET = 0.2f;
     public static final float BUTTONS_BETWEEN_SPACE = 0.03f;
 
@@ -92,5 +92,17 @@ public class Constants {
     public static final String PREF_DIFFICULT_HARD  = "-5";
     public static final String PREF_DIFFICULT_NIGHTMARE  = "-6";
     public static final String PREF_DIFFICULT_ENDLESS  = "-7";
+
+    //
+    public static final String SURV_GAME_IS_BOUGHT = "surv_buy";
+    public static final String GAME_OPENS = "menu opens";
+
+    public static final String APP_KEY = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAyp3Sr3lWNIQc61" +
+            "P40nAEKbjHpiF17CIM+m7gbqLih10sJiiC6Wg0ndR3chOS8dBZjxgkthZgSq54CaE6Wa0sPpKxAlsoIMuh5hxD" +
+            "bhjzTI+VceeudZEZC+kheol9fVcJG+KgzAFxsLdQJf8mNV4HJ9hiO9Vo5VAEB1tZmI/J03uGpSdrdDzciPQcu" +
+            "pYHM+AoNSytdmE1YC0Bl1KL2VapY+Ir6ziegQFVodj19LBx7ga8Lk2akECeYsnWLGslzQ67WkcWDpE0lBRRqe" +
+            "Z0qo20Qe46Mo714o7aaviQnvQt+8d3gdNt4QOOIZqnFoP2VHJBBX1Fzzg90Ll8eW6CoH+ZNQIDAQAB";
+
+    public static final String FRIEND_VERSION = "friend_edition";
 
 }

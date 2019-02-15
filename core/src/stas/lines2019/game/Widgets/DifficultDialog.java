@@ -1,17 +1,21 @@
 package stas.lines2019.game.Widgets;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
+import com.badlogic.gdx.utils.Align;
 
 import java.util.ArrayList;
 
 import stas.lines2019.game.LinesGame;
+import stas.lines2019.game.Screens.MainMenuScreen;
 import stas.lines2019.game.util.Assets;
 import stas.lines2019.game.util.Constants;
 
@@ -22,32 +26,36 @@ import stas.lines2019.game.util.Constants;
 public class DifficultDialog extends Dialog {
 
     LinesGame game;
+    MainMenuScreen screen;
 
-    public int WIDTH =(int)( Gdx.graphics.getWidth()*0.95);
-    public int HEIGHT =(int)( Gdx.graphics.getHeight()*0.5);
+    public int WIDTH = (int) (Gdx.graphics.getWidth() * 0.95);
+    public int HEIGHT = (int) (Gdx.graphics.getHeight() * 0.5);
 
-    public DifficultDialog(String title, WindowStyle windowStyle) {
-        super(title, windowStyle);
-    }
+    final DisabledTextButton normalButton;
+    final DisabledTextButton hardButton;
+    final DisabledTextButton nightmareButton;
+    final DisabledTextButton endlessButton;
 
-    public DifficultDialog(String title, Skin skin, final LinesGame game) {
+
+    public DifficultDialog(String title, Skin skin, final LinesGame game, MainMenuScreen screen) {
         super(title, skin);
+        this.screen = screen;
         String styleName = "small";
         TextButton.TextButtonStyle style =
                 Assets.instance.skinAssets.skin.get(styleName, TextButton.TextButtonStyle.class);
         float size = style.font.getCapHeight();
         this.game = game;
-        VerticalGroup group = new VerticalGroup().pad(size).space(size/2);
+        VerticalGroup group = new VerticalGroup().pad(size).space(size / 2);
 
-        TextButton easyButton = new TextButton("easy",
+        DisabledTextButton easyButton = new DisabledTextButton("easy",
                 Assets.instance.skinAssets.skin,
                 styleName);
 
-        final ArrayList<TextButton> diffButtonsList = new ArrayList<TextButton>();
+        final ArrayList<DisabledTextButton> diffButtonsList = new ArrayList<DisabledTextButton>();
         easyButton.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                Gdx.app.log("dial","easy mode");
+                Gdx.app.log("dial", "easy mode");
                 game.setGameSurvivScreen(Constants.DIFFICULT_EASY);
                 hide();
                 return super.touchDown(event, x, y, pointer, button);
@@ -56,69 +64,46 @@ public class DifficultDialog extends Dialog {
         group.addActor(easyButton);
         diffButtonsList.add(easyButton);
 
-        final TextButton normalButton = new TextButton("normal",
+        normalButton = new DisabledTextButton("normal",
                 Assets.instance.skinAssets.skin,
                 styleName);
-        normalButton.addListener(new InputListener() {
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                Gdx.app.log("dial","normal mode");
-                game.setGameSurvivScreen(Constants.DIFFICULT_NORMAL);
-                hide();
-                return super.touchDown(event, x, y, pointer, button);
-            }
-        });
+        boolean bol = normalButton.isDisabled();
+        Gdx.app.log("dial", "normal mode");
+        ;
         group.addActor(normalButton);
         diffButtonsList.add(normalButton);
 
-        TextButton hardButton = new TextButton("hard",
+        hardButton = new DisabledTextButton("hard",
                 Assets.instance.skinAssets.skin,
                 styleName);
-        hardButton.addListener(new InputListener() {
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                Gdx.app.log("dial","hard mode");
-                game.setGameSurvivScreen(Constants.DIFFICULT_HARD);
-                hide();
-                return super.touchDown(event, x, y, pointer, button);
-            }
-        });
+
         group.addActor(hardButton);
         diffButtonsList.add(hardButton);
 
-        TextButton nightmareButton = new TextButton("nightmare",
+        nightmareButton = new DisabledTextButton("nightmare",
                 Assets.instance.skinAssets.skin,
                 styleName);
-        nightmareButton.addListener(new InputListener() {
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                Gdx.app.log("dial","nightmare mode");
-                game.setGameSurvivScreen(Constants.DIFFICULT_NIGHTMARE);
-                hide();
-                return super.touchDown(event, x, y, pointer, button);
-            }
-        });
+
         group.addActor(nightmareButton);
         diffButtonsList.add(nightmareButton);
 
-        TextButton endlessButton = new TextButton("endless",
+        endlessButton = new DisabledTextButton("endless",
                 Assets.instance.skinAssets.skin,
                 styleName);
-        endlessButton.addListener(new InputListener() {
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                Gdx.app.log("dial","endless mode");
-                return super.touchDown(event, x, y, pointer, button);
-            }
-        });
+
         group.addActor(endlessButton);
         diffButtonsList.add(endlessButton);
 
+        boolean[] buttonsIsDis = new boolean[diffButtonsList.size()];
         for (int i = 1; i < diffButtonsList.size(); i++) {
 
-            if(!game.survLevelIsComp[i-1]) {
+            boolean bool = game.survLevelIsComp[i - 1];
+            if (!game.survLevelIsComp[i - 1]) {
+                Gdx.app.log("dial", "set");
                 diffButtonsList.get(i).setDisabled(true);
-
+                buttonsIsDis[i] = true;
+            } else {
+                addListner(getDiffType(i));
             }
         }
 
@@ -129,7 +114,7 @@ public class DifficultDialog extends Dialog {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 hide();
-                Gdx.app.log("dial","endless mode");
+                Gdx.app.log("dial", "endless mode");
                 return super.touchDown(event, x, y, pointer, button);
             }
         });
@@ -137,6 +122,84 @@ public class DifficultDialog extends Dialog {
 
         getButtonTable().defaults().center().top();
         getButtonTable().add(group);
+    }
+
+    void addListner(int diffType) {
+        switch (diffType) {
+            case Constants.DIFFICULT_NORMAL:
+                normalButton.addListener(new InputListener() {
+                    @Override
+                    public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                        Gdx.app.log("dial", "normal mode");
+                        boolean bol1 = normalButton.isDisabled();
+                        if (game.survGameIsBought) {
+                            game.setGameSurvivScreen(Constants.DIFFICULT_NORMAL);
+                            hide();
+                        } else {
+                            screen.showBuyDialog();
+                        }
+                        return super.touchDown(event, x, y, pointer, button);
+                    }
+                });
+                break;
+            case Constants.DIFFICULT_HARD:
+                hardButton.addListener(new InputListener() {
+                    @Override
+                    public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                        Gdx.app.log("dial", "hard mode");
+                        if (game.survGameIsBought) {
+                            game.setGameSurvivScreen(Constants.DIFFICULT_HARD);
+                            hide();
+                        }else {
+                            screen.showBuyDialog();
+                        }
+                        return super.touchDown(event, x, y, pointer, button);
+                    }
+                });
+                break;
+            case Constants.DIFFICULT_NIGHTMARE:
+                nightmareButton.addListener(new InputListener() {
+                    @Override
+                    public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                        Gdx.app.log("dial", "nightmare mode");
+                        if (game.survGameIsBought) {
+                            game.setGameSurvivScreen(Constants.DIFFICULT_NIGHTMARE);
+                            hide();
+                        }else {
+                            screen.showBuyDialog();
+                        }
+                        return super.touchDown(event, x, y, pointer, button);
+                    }
+                });
+                break;
+            case Constants.DIFFICULT_ENDLESS:
+                endlessButton.addListener(new InputListener() {
+                    @Override
+                    public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                        if (game.survGameIsBought) {
+                            game.setGameSurvivScreen(Constants.DIFFICULT_ENDLESS);
+                            hide();
+                        }else {
+                            screen.showBuyDialog();
+                        }
+                        Gdx.app.log("dial", "endless mode");
+                        return super.touchDown(event, x, y, pointer, button);
+                    }
+                });
+                break;
+        }
+    }
+
+
+
+    int getDiffType(int i) {
+        int[] diifArray = new int[Constants.NUM_DIFFICULTIES];
+        diifArray[0] = Constants.DIFFICULT_EASY;
+        diifArray[1] = Constants.DIFFICULT_NORMAL;
+        diifArray[2] = Constants.DIFFICULT_HARD;
+        diifArray[3] = Constants.DIFFICULT_NIGHTMARE;
+        diifArray[4] = Constants.DIFFICULT_ENDLESS;
+        return diifArray[i];
     }
 
     @Override
@@ -154,7 +217,7 @@ public class DifficultDialog extends Dialog {
         Gdx.app.log("dia", object.toString());
         if (object.equals(true)) {
 //            game.setMainMenuScreen();
-        } else if (object.equals(false)){
+        } else if (object.equals(false)) {
 //            game.getGameScreen().gameField.setInputProccActive(true);
         }
     }

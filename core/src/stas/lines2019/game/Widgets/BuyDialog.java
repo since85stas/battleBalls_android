@@ -7,24 +7,20 @@ import com.badlogic.gdx.scenes.scene2d.ui.Window;
 
 import stas.lines2019.game.LinesGame;
 
-/**
- * Created by seeyo on 08.02.2019.
- */
-
-public class ExitDialog extends Dialog {
-
+public class BuyDialog extends Dialog {
     LinesGame game;
 
     public int WIDTH =(int)( Gdx.graphics.getWidth()*0.95);
-    public int HEIGHT =(int)( Gdx.graphics.getHeight()*0.4);
+    public int HEIGHT =(int)( Gdx.graphics.getHeight()*0.5);
 
-    public ExitDialog(String title, WindowStyle windowStyle) {
+    public BuyDialog(String title, Window.WindowStyle windowStyle) {
         super(title, windowStyle);
     }
 
-    public ExitDialog(String title, Skin skin, LinesGame game) {
+    public BuyDialog(String title, Skin skin, LinesGame game) {
         super(title, skin);
         this.game = game;
+        getContentTable().defaults().width(WIDTH - 0.05f*WIDTH);
     }
 
     @Override
@@ -39,15 +35,14 @@ public class ExitDialog extends Dialog {
 
     @Override
     protected void result(Object object) {
-        Gdx.app.log("Exit dialog", object.toString());
+        Gdx.app.log("dia", object.toString());
         if (object.equals(true)) {
-//            hide();
-            game.setMainMenuScreen();
-
+            Gdx.app.log("buy","true");
         } else if (object.equals(false)){
-            game.getGameScreen().gameField.setInputProccActive(true);
+            Gdx.app.log("buy","fal"  );
+            hide();
         }
-  }
+    }
 
     @Override
     public void hide() {

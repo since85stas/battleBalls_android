@@ -6,6 +6,11 @@ import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.pay.Information;
+import com.badlogic.gdx.pay.Offer;
+import com.badlogic.gdx.pay.OfferType;
+import com.badlogic.gdx.pay.PurchaseManager;
+import com.badlogic.gdx.pay.PurchaseManagerConfig;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.StringBuilder;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -21,20 +26,33 @@ import stas.lines2019.game.results.AchivementsList;
 import stas.lines2019.game.util.Assets;
 import stas.lines2019.game.util.Constants;
 import stas.lines2019.game.util.ConstantsAchiveEng;
+import stas.lines2019.game.pay.MyPurchaseObserver;
 
 import java.util.Hashtable;
 
 public class LinesGame extends Game {
+    LinesGame app;
     private SpriteBatch batch; //область отрисовки
     private GameScreen gameScreen;
     private Viewport viewport ;
     public AchivementsList achivementsList;
     public boolean findSaveGame;
 
+    public boolean survGameIsBought;
+
+    public int numberOfMainMenuOpens;
+
     public boolean survLevelIsComp[];
+    private boolean gameIsRated = false;
+    private static final int OPENS_NUMB = 30;
+
+    public PurchaseManager purchaseManager;
+
+    public static final String TAG = LinesGame.class.toString();
 
     @Override
     public void create () {
+        this.app = this;
         batch = new SpriteBatch();
 
         // создаем текстуры
@@ -50,14 +68,43 @@ public class LinesGame extends Game {
 
         Gdx.input.setCatchBackKey(true);
 
+        PurchaseManagerConfig pmc = new PurchaseManagerConfig();
+        pmc.addOffer(new Offer().setType(OfferType.ENTITLEMENT).setIdentifier(Constants.FRIEND_VERSION));
+
+        purchaseManager.install(new MyPurchaseObserver() , pmc, true);
+
+        updateFromManager();
+
         setMainMenuScreen();
+    }
+
+    public void updateFromManager() {
+        Information skuInfo = app.purchaseManager.getInformation(Constants.FRIEND_VERSION );
+
+        if (skuInfo == null || skuInfo.equals(Information.UNAVAILABLE)) {
+//            setDisabled(true);
+            Gdx.app.log(TAG,"not avaible");
+
+        } else {
+            Gdx.app.log(TAG," avaible");
+        }
     }
 
     public void setMainMenuScreen() {
 
         loadAchieve();
 
+        numberOfMainMenuOpens++;
+
+        if (numberOfMainMenuOpens%OPENS_NUMB == 0) {
+            openRateWindow();
+        }
+
         setScreen(new MainMenuScreen(this));
+    }
+
+    private void openRateWindow() {
+
     }
 
     public void setGameScreen() {
@@ -104,6 +151,8 @@ public class LinesGame extends Game {
     public void loadAchieve() {
         Preferences gamePref = Gdx.app.getPreferences(Constants.PREF_GAME);
         findSaveGame = gamePref.getBoolean(Constants.PREF_GAME_IS_PLAY,false);
+        survGameIsBought = gamePref.getBoolean(Constants.SURV_GAME_IS_BOUGHT,false);
+        numberOfMainMenuOpens = gamePref.getInteger(Constants.GAME_OPENS,0);
         Preferences prefs = Gdx.app.getPreferences(Constants.PREF_ACHIEV);
 
         Json json = new Json();
@@ -130,6 +179,12 @@ public class LinesGame extends Game {
         } catch (Exception e) {
             Gdx.app.log("lineGame","catch e");
         }
+        survLevelIsComp[0] = true;
+    }
+
+    public void setSurvGameIsBought()  {
+        Preferences gamePref = Gdx.app.getPreferences(Constants.PREF_GAME);
+        gamePref.putBoolean(Constants.PREF_GAME_IS_PLAY,true);
     }
 
     public void saveSurvPref(int diffType) {
