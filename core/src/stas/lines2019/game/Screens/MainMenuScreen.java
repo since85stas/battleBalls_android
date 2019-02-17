@@ -44,7 +44,7 @@ public class MainMenuScreen extends InputAdapter implements Screen{
 
     private final String[] buttonNames = {
             "continue",
-            "classic mode",
+            "classical mode",
             "survival mode",
             "puzzle mode",
             "achievements",
@@ -169,7 +169,7 @@ public class MainMenuScreen extends InputAdapter implements Screen{
         for (int i = 0; i < buttons.length; i++) {
             buttonY -= height*Constants.BUTTONS_HEIGHT + height*Constants.BUTTONS_BETWEEN_SPACE;
 
-            buttons[i] = new TextButton(buttonNames[i],mySkin,"default");
+            buttons[i] = new TextButton(buttonNames[i],mySkin,"menu");
             if (i == 3) {
                 buttons[i].setDisabled(true);
             }
@@ -201,7 +201,9 @@ public class MainMenuScreen extends InputAdapter implements Screen{
                     Gdx.app.log("PreScreen","Pressed");
                     switch (finalI){
                         case 0:
-                            mGame.setGameScreen();
+                            if (mGame.findSaveGame) {
+                                mGame.setGameScreen();
+                            }
                             break;
                         case 1:
                             mGame.findSaveGame = false;
@@ -236,7 +238,7 @@ public class MainMenuScreen extends InputAdapter implements Screen{
 
         Table table2 = new Table();
         table2.row();
-        table2.add(new Label("new", mySkin,"small"));
+        table2.add(new Label("new", mySkin,"xp"));
         buttons[2].add(table2);
     }
 

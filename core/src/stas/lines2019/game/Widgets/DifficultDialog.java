@@ -44,8 +44,9 @@ public class DifficultDialog extends Dialog {
         TextButton.TextButtonStyle style =
                 Assets.instance.skinAssets.skin.get(styleName, TextButton.TextButtonStyle.class);
         float size = style.font.getCapHeight();
+        HEIGHT = (int)(6*size*(Constants.NUM_DIFFICULTIES+1));
         this.game = game;
-        VerticalGroup group = new VerticalGroup().pad(size).space(size / 2);
+        VerticalGroup group = new VerticalGroup().pad(size).top().space(size );
 
         DisabledTextButton easyButton = new DisabledTextButton("easy",
                 Assets.instance.skinAssets.skin,
@@ -131,7 +132,6 @@ public class DifficultDialog extends Dialog {
                     @Override
                     public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                         Gdx.app.log("dial", "normal mode");
-                        boolean bol1 = normalButton.isDisabled();
                         if (game.survGameIsBought) {
                             game.setGameSurvivScreen(Constants.DIFFICULT_NORMAL);
                             hide();

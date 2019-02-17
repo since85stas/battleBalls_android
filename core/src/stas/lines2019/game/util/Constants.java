@@ -65,6 +65,7 @@ public class Constants {
     public static final float HUD_FONT_SMALL = 0.02f;
     public static final float HUD_FONT_IN_DIALOG = 0.03f;
     public static final float HUD_FONT_IN_GAME = 0.04f;
+    public static final float HUD_FONT_MAIN_MENU = 0.04f;
     public static final float HUD_FONT_TITLE = 0.04f;
     public static final float HUD_FONT_HUGE = 0.08f;
 

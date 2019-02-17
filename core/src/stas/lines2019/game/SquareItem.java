@@ -90,7 +90,7 @@ public class SquareItem {
 
         if ( ballPosition.y - position.y <= 0 && !stopCollision ) {
             if(!isSoundStart) {
-//                Assets.instance.soundsBase.tookSound.play();
+                Assets.instance.soundsBase.tookSound.play(0.2f);
 
                 isSoundStart = true;
             }

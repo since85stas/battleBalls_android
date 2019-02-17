@@ -2,6 +2,7 @@ package stas.lines2019.game.Screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
 import stas.lines2019.game.GameFieldSurv;
 import stas.lines2019.game.LinesGame;
@@ -13,9 +14,10 @@ import stas.lines2019.game.util.Constants;
 
 public class GameSurvScreen extends GameScreen {
 
-    public static final String RULES_DIALOG_STR = "You need to survive some time." +
-            " Each line add time to your time bank." +" When the board is getting full you are not  "+
-            "loosing but get some time penalty. Clock is ticking. Good luck. "
+    public static final String RULES_DIALOG_STR = "You need to survive 5 min." +
+            " Each line add bonus time to your time bank." +" When the board is getting full you are not "+
+            "loosing, but getting some time penalty. This mode may be difficult." +
+            "It's better to play classical mode first. Clock is ticking. Good luck."
             ;
 
     private int surviveTime  = 5*60;
@@ -24,6 +26,10 @@ public class GameSurvScreen extends GameScreen {
     private int treshholdPenalty = 20;
     public int clearGameFieldNumber = 25;
     private int gameDifficult;
+    private float turnTimeLimit;
+    private float turnTime;
+
+    boolean dialogIsOpen;
 
     public GameSurvScreen(LinesGame lineGame, SpriteBatch batch) {
 
@@ -35,27 +41,30 @@ public class GameSurvScreen extends GameScreen {
         switch(difficultType) {
             case Constants.DIFFICULT_EASY:
                 surviveTime  = 5*60;
-                initTimeBank = 1*40;
+                initTimeBank = 1*50;
                 ballTimeAdd  = 2;
                 treshholdPenalty = 20;
-                clearGameFieldNumber = 29;
+                clearGameFieldNumber = 35;
                 gameDifficult = Constants.DIFFICULT_EASY;
+                turnTimeLimit  = 10;
                 break;
             case Constants.DIFFICULT_NORMAL:
                 surviveTime  = 8*60;
-                initTimeBank = 1*40;
+                initTimeBank = 1*60;
                 ballTimeAdd  = 2;
                 treshholdPenalty = 22;
                 clearGameFieldNumber = 25;
                 gameDifficult = Constants.DIFFICULT_NORMAL;
+                turnTimeLimit  = 10;
                 break;
             case Constants.DIFFICULT_HARD:
                 surviveTime  = 7*60;
-                initTimeBank = 1*35;
+                initTimeBank = 1*45;
                 ballTimeAdd  = 1.3f;
                 treshholdPenalty = 20;
                 clearGameFieldNumber = 22;
                 gameDifficult = Constants.DIFFICULT_HARD;
+                turnTimeLimit  = 10;
                 break;
             case Constants.DIFFICULT_NIGHTMARE:
                 surviveTime  = 5*60;
@@ -64,19 +73,26 @@ public class GameSurvScreen extends GameScreen {
                 treshholdPenalty = 20;
                 clearGameFieldNumber = 21;
                 gameDifficult = Constants.DIFFICULT_NIGHTMARE;
+                turnTimeLimit  = 10;
                 break;
             case Constants.DIFFICULT_ENDLESS:
 
                 break;
         }
 
+        dialogIsOpen = false;
+
     }
 
     @Override
     public void render(float delta) {
         super.render(delta);
-        if(initTimeBank - gameField.getGameTime() < 0) {
+//        turnTimeLimit += d
+        if(initTimeBank - gameField.getGameTime() < 0 && !dialogIsOpen) {
+            isRenderGamefield = false;
+            dialogIsOpen = true;
             gameOverDialog(false,false);
+
         }
 
         if (surviveTime < 0) {
@@ -86,6 +102,10 @@ public class GameSurvScreen extends GameScreen {
             }
             gameOverDialog(false,isWin);
 
+        }
+
+        if (gameField.turnTime > turnTimeLimit) {
+            gameField.aiTurn();
         }
 
     }
@@ -98,6 +118,11 @@ public class GameSurvScreen extends GameScreen {
     @Override
     public void setScoreLable(int score) {
         super.setScoreLable( (int) (surviveTime - gameField.getGameTime()));
+    }
+
+    @Override
+    public Label setLeftTitleLable() {
+        return new Label("survive", mySkin, "small");
     }
 
     @Override

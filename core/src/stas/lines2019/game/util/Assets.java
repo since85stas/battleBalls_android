@@ -70,6 +70,7 @@ public class Assets implements Disposable, AssetErrorListener {
         assetManager.load("brown_rock.png"   ,Texture.class);
         assetManager.load("pop3.ogg", Sound.class);
         assetManager.load("pingpongbat.ogg",Sound.class);
+        assetManager.load("explosion.wav",Sound.class);
 //        assetManager.load("skin/craftacular-ui.json",Skin.class);
 
 
@@ -102,6 +103,8 @@ public class Assets implements Disposable, AssetErrorListener {
         Texture brownTileTexture = assetManager.get("brown_rock.png");
         Sound bubbleSound = assetManager.get("pop3.ogg");
         Sound tookSound   = assetManager.get("pingpongbat.ogg");
+//        Sound tookSound = null;
+        Sound explosionSound = assetManager.get("explosion.wav");
         Skin mySkin = assetManager.get("skin/craftacular-ui.json");
 //        enemyAssets = new EnemyAssets(walkTexture);
         starAssets       = new StarAssets(starTexture);
@@ -115,7 +118,7 @@ public class Assets implements Disposable, AssetErrorListener {
         tileAssets       = new TileAssets(greenTileTexture,brownTileTexture);
         skinAssets       = new SkinAssets(mySkin);
         lockAssets       = new LockAssets(lockTexture);
-        soundsBase       = new SoundsBase(bubbleSound,tookSound);
+        soundsBase       = new SoundsBase(bubbleSound,tookSound,explosionSound);
 //        crosshairAssets = new CrosshairAssets(crossTexture);
 
 
@@ -150,6 +153,9 @@ public class Assets implements Disposable, AssetErrorListener {
 
         param.size = (int)(Gdx.graphics.getHeight() *Constants.HUD_FONT_SMALL);
         fontsByName.put( "small-font", generator.generateFont( param ));
+
+        param.size = (int)(Gdx.graphics.getHeight() *Constants.HUD_FONT_MAIN_MENU);
+        fontsByName.put( "main-font", generator.generateFont( param ));
 
         param.size = (int)(Gdx.graphics.getHeight() *Constants.HUD_FONT_IN_GAME);
         fontsByName.put( "game-font", generator.generateFont( param ));
@@ -344,10 +350,13 @@ public class Assets implements Disposable, AssetErrorListener {
 
         public Sound bubbleSound;
         public Sound tookSound;
+        public Sound explSound;
 
-        public SoundsBase (Sound bubbleSound, Sound tookSound) {
+        public SoundsBase (Sound bubbleSound, Sound tookSound,Sound explSound) {
+
             this.bubbleSound = bubbleSound;
             this.tookSound   = tookSound;
+            this.explSound   = explSound;
             Gdx.app.log(TAG,"animation load");
         }
 

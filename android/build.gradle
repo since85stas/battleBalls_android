@@ -21,8 +21,8 @@ android {
         applicationId "stas.lines2019.game"
         minSdkVersion 14
         targetSdkVersion 26
-        versionCode 3
-        versionName "1.2"
+        versionCode 6
+        versionName "1.4"
     }
     buildTypes {
         release {

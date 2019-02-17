@@ -55,6 +55,8 @@ public class GameScreen implements Screen {
     private int width;
     private int height;
 
+    public boolean isRenderGamefield;
+
     DelayedRemovalArray<MenuBall> menuBalls;
 
     public GameScreen(LinesGame lineGame, SpriteBatch batch) {
@@ -90,7 +92,7 @@ public class GameScreen implements Screen {
         scoreLableGroup.setPosition(2 * Constants.HUD_OFFSET * width,
                 height - lableItemHeight);
         scoreLableGroup.setSize(Constants.HUD_ITEM_HOR_SIZE * width, lableItemHeight);
-        titleLable = new Label("score", mySkin, "small");
+        titleLable = setLeftTitleLable();
         scoreLableGroup.addActor(titleLable);
         scoreLableGroup.addActor(scoreLable);
 
@@ -98,11 +100,17 @@ public class GameScreen implements Screen {
         stage.addActor(timeLableGroup);
 
         setGameField();
+        isRenderGamefield = true;
     }
 
     public void setGameField() {
         gameField = new GameField(this);
     }
+
+    public Label setLeftTitleLable() {
+        return new Label("score", mySkin, "small");
+    }
+
 
     @Override
     public void render(float delta) {
@@ -123,8 +131,10 @@ public class GameScreen implements Screen {
 
         batch.begin();
 
-        gameField.update(delta);
-        gameField.render(batch, delta);
+        if (isRenderGamefield) {
+            gameField.update(delta);
+            gameField.render(batch, delta);
+        }
         // Draw the number of player deaths in the top left
 
         if (frameTime % 0.5 == 0) {

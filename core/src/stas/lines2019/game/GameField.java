@@ -92,6 +92,8 @@ public class GameField {
     private float achiveDrawTime;
     private int ballMoveNumber = 1;
     private int lineLong;
+    private long startTurnTime;
+    public  long  turnTime;
 
     Button rulesButton;
     Rectangle rulesHitBox;
@@ -217,16 +219,16 @@ public class GameField {
             spawnParticleEffect((int) x, (int) y);
             returnSquareInitState(balls[i], true);
         }
+        Assets.instance.soundsBase.explSound.play(0.2f);
     }
 
     public void render(SpriteBatch batch, float dt) {
+
         Gdx.gl.glClearColor(0.3f, 0.47f, 0.65f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         update(dt);
 
         rulesButton.draw(batch, 1);
-
-        long time1 = TimeUtils.millis();
 
         background.render(batch);
 
@@ -310,6 +312,8 @@ public class GameField {
             );
         }
         long elapsedTime = TimeUtils.timeSinceMillis(startTime);
+
+        turnTime = TimeUtils.timeSinceMillis(startTurnTime)/1000;
         gameTime = elapsedTime / 1000;
     }
 
@@ -534,6 +538,7 @@ public class GameField {
     /* компьютер выбирает шарики и кладет их в рандомные ячейки
      */
     public void aiTurn() {
+        startTurnTime = TimeUtils.millis();
         if (numberOfTurns == 0) {
             getNextTurnBalls();
         }

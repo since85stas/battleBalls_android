@@ -11,6 +11,8 @@ import com.badlogic.gdx.pay.Offer;
 import com.badlogic.gdx.pay.OfferType;
 import com.badlogic.gdx.pay.PurchaseManager;
 import com.badlogic.gdx.pay.PurchaseManagerConfig;
+import com.badlogic.gdx.pay.PurchaseObserver;
+import com.badlogic.gdx.pay.Transaction;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.StringBuilder;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -26,7 +28,6 @@ import stas.lines2019.game.results.AchivementsList;
 import stas.lines2019.game.util.Assets;
 import stas.lines2019.game.util.Constants;
 import stas.lines2019.game.util.ConstantsAchiveEng;
-import stas.lines2019.game.pay.MyPurchaseObserver;
 
 import java.util.Hashtable;
 
@@ -175,16 +176,17 @@ public class LinesGame extends Game {
             survLevelIsComp[1] = survPref.getBoolean(Constants.PREF_DIFFICULT_NORMAL,false);
             survLevelIsComp[2] = survPref.getBoolean(Constants.PREF_DIFFICULT_HARD,false);
             survLevelIsComp[3] = survPref.getBoolean(Constants.PREF_DIFFICULT_NIGHTMARE,false);
-            survLevelIsComp[0] = survPref.getBoolean(Constants.PREF_DIFFICULT_ENDLESS,false);
+            survLevelIsComp[4] = survPref.getBoolean(Constants.PREF_DIFFICULT_ENDLESS,false);
         } catch (Exception e) {
             Gdx.app.log("lineGame","catch e");
         }
-        survLevelIsComp[0] = true;
+//        survLevelIsComp[0] = true;
     }
 
     public void setSurvGameIsBought()  {
         Preferences gamePref = Gdx.app.getPreferences(Constants.PREF_GAME);
         gamePref.putBoolean(Constants.PREF_GAME_IS_PLAY,true);
+        survGameIsBought = true;
     }
 
     public void saveSurvPref(int diffType) {
@@ -237,5 +239,85 @@ public class LinesGame extends Game {
 
     public GameScreen getGameScreen() {
         return gameScreen;
+    }
+
+    private class MyPurchaseObserver implements PurchaseObserver {
+
+
+        @Override
+        public void handleInstall() {
+            Gdx.app.log("IAP", "Installed");
+
+            Gdx.app.postRunnable(new Runnable() {
+                @Override
+                public void run() {
+//                updateGuiWhenPurchaseManInstalled(null);
+                }
+            });
+        }
+
+        @Override
+        public void handleInstallError(final Throwable e) {
+            Gdx.app.error("IAP", "Error when trying to install PurchaseManager", e);
+            Gdx.app.postRunnable(new Runnable() {
+                @Override
+                public void run() {
+//                updateGuiWhenPurchaseManInstalled(e.getMessage());
+                }
+            });
+        }
+
+        @Override
+        public void handleRestore(final Transaction[] transactions) {
+            if (transactions != null && transactions.length > 0)
+                for (Transaction t : transactions) {
+                    handlePurchase(t, true);
+                }
+            else if (false)
+                showErrorOnMainThread("Nothing to restore");
+        }
+
+        @Override
+        public void handleRestoreError(Throwable e) {
+            if (false)
+                showErrorOnMainThread("Error restoring purchases: " + e.getMessage());
+        }
+
+        @Override
+        public void handlePurchase(final Transaction transaction) {
+            handlePurchase(transaction, false);
+        }
+
+        protected void handlePurchase(final Transaction transaction, final boolean fromRestore) {
+            Gdx.app.postRunnable(new Runnable() {
+                @Override
+                public void run() {
+                    if (transaction.isPurchased()) {
+                        if (transaction.getIdentifier().equals(Constants.FRIEND_VERSION)) {
+                            setSurvGameIsBought();
+                        }
+                    }
+                }
+            });
+        }
+
+        @Override
+        public void handlePurchaseError(Throwable e) {
+            showErrorOnMainThread("Error on buying:\n" + e.getMessage());
+        }
+
+        @Override
+        public void handlePurchaseCanceled() {
+
+        }
+
+        private void showErrorOnMainThread(final String message) {
+            Gdx.app.postRunnable(new Runnable() {
+                @Override
+                public void run() {
+                    // show a dialog here...
+                }
+            });
+        }
     }
 }

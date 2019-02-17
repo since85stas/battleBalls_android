@@ -88,7 +88,7 @@ com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
 		font: dialog-font
 	}
 	xp: {
-		font: bold
+		font: small-font
 		fontColor: green
 	}
 }
@@ -156,6 +156,13 @@ com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
 		over: button-hover
 		disabled: button-disabled
 	}
+	menu: {
+		font: main-font
+		up: button
+		over: button-hover
+		disabled: button-disabled
+	}
+
 	huge: {
 		font: huge-font
 		up: button
