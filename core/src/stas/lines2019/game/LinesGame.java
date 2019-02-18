@@ -5,7 +5,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.pay.Information;
 import com.badlogic.gdx.pay.Offer;
 import com.badlogic.gdx.pay.OfferType;
@@ -23,6 +25,7 @@ import de.tomgrill.gdxdialogs.core.GDXDialogsSystem;
 import stas.lines2019.game.Screens.AchieveScreen;
 import stas.lines2019.game.Screens.GameScreen;
 import stas.lines2019.game.Screens.GameSurvScreen;
+import stas.lines2019.game.Screens.LoadingScreen;
 import stas.lines2019.game.Screens.MainMenuScreen;
 import stas.lines2019.game.results.AchivementsList;
 import stas.lines2019.game.util.Assets;
@@ -51,15 +54,40 @@ public class LinesGame extends Game {
 
     public static final String TAG = LinesGame.class.toString();
 
+
     @Override
     public void create () {
         this.app = this;
         batch = new SpriteBatch();
 
-        // создаем текстуры
-        AssetManager am = new AssetManager();
-        Assets.instance.init(am);
+        setScreen(new LoadingScreen(this));
 
+//        // создаем текстуры
+//        AssetManager am = new AssetManager();
+//
+//        Assets.instance.init(am);
+//
+//        survLevelIsComp = new boolean[Constants.NUM_DIFFICULTIES];
+//
+//        // создаем достижения
+//        achivementsList = new AchivementsList(this);
+//        achivementsList.generateAchivemnets();
+//
+//        Gdx.input.setCatchBackKey(true);
+//
+//        PurchaseManagerConfig pmc = new PurchaseManagerConfig();
+//        pmc.addOffer(new Offer().setType(OfferType.ENTITLEMENT).setIdentifier(Constants.FRIEND_VERSION));
+//
+//        purchaseManager.install(new MyPurchaseObserver() , pmc, true);
+//
+//        updateFromManager();
+    }
+
+    public void prepareMainRes() {
+        //        // создаем текстуры
+        AssetManager am = new AssetManager();
+
+        Assets.instance.init(am);
 
         survLevelIsComp = new boolean[Constants.NUM_DIFFICULTIES];
 
@@ -75,8 +103,6 @@ public class LinesGame extends Game {
         purchaseManager.install(new MyPurchaseObserver() , pmc, true);
 
         updateFromManager();
-
-        setMainMenuScreen();
     }
 
     public void updateFromManager() {
@@ -92,6 +118,8 @@ public class LinesGame extends Game {
     }
 
     public void setMainMenuScreen() {
+
+        Assets.instance.getMainRes();
 
         loadAchieve();
 

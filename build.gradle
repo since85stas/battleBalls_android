@@ -19,7 +19,7 @@ allprojects {
     apply plugin: "eclipse"
     apply plugin: "idea"
 
-    version = '6'
+    version = '8'
     ext {
         appName = "lines.2019"
         gdxVersion = '1.9.8'

@@ -43,7 +43,7 @@ public class GameSurvScreen extends GameScreen {
                 surviveTime  = 6*60;
                 initTimeBank = 1*45;
                 ballTimeAdd  = 2.3f;
-                treshholdPenalty = 30;
+                treshholdPenalty = 25;
                 clearGameFieldNumber = 35;
                 gameDifficult = Constants.DIFFICULT_EASY;
                 turnTimeLimit  = 10;
@@ -53,9 +53,9 @@ public class GameSurvScreen extends GameScreen {
                 initTimeBank = 1*55;
                 ballTimeAdd  = 2;
                 treshholdPenalty = 20;
-                clearGameFieldNumber = 25;
+                clearGameFieldNumber = 32;
                 gameDifficult = Constants.DIFFICULT_NORMAL;
-                turnTimeLimit  = 10;
+                turnTimeLimit  = 12;
                 break;
             case Constants.DIFFICULT_HARD:
                 surviveTime  = 7*60;
