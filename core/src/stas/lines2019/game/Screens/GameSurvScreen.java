@@ -14,9 +14,9 @@ import stas.lines2019.game.util.Constants;
 
 public class GameSurvScreen extends GameScreen {
 
-    public static final String RULES_DIALOG_STR = "You need to survive 5 min." +
+    public static final String RULES_DIALOG_STR = "You need to survive 5 min. You have only 10 seconds on turn." +
             " Each line add bonus time to your time bank." +" When the board is getting full you are not "+
-            "loosing, but getting some time penalty. This mode may be difficult." +
+            "loosing, but getting some time penalty.  This mode may be difficult." +
             "It's better to play classical mode first. Clock is ticking. Good luck."
             ;
 
@@ -40,19 +40,19 @@ public class GameSurvScreen extends GameScreen {
         super(lineGame, batch);
         switch(difficultType) {
             case Constants.DIFFICULT_EASY:
-                surviveTime  = 5*60;
-                initTimeBank = 1*50;
-                ballTimeAdd  = 2;
-                treshholdPenalty = 20;
+                surviveTime  = 6*60;
+                initTimeBank = 1*45;
+                ballTimeAdd  = 2.3f;
+                treshholdPenalty = 30;
                 clearGameFieldNumber = 35;
                 gameDifficult = Constants.DIFFICULT_EASY;
                 turnTimeLimit  = 10;
                 break;
             case Constants.DIFFICULT_NORMAL:
-                surviveTime  = 8*60;
-                initTimeBank = 1*60;
+                surviveTime  = 7*60;
+                initTimeBank = 1*55;
                 ballTimeAdd  = 2;
-                treshholdPenalty = 22;
+                treshholdPenalty = 20;
                 clearGameFieldNumber = 25;
                 gameDifficult = Constants.DIFFICULT_NORMAL;
                 turnTimeLimit  = 10;
@@ -89,14 +89,14 @@ public class GameSurvScreen extends GameScreen {
         super.render(delta);
 //        turnTimeLimit += d
         if(initTimeBank - gameField.getGameTime() < 0 && !dialogIsOpen) {
-            isRenderGamefield = false;
             dialogIsOpen = true;
             gameOverDialog(false,false);
 
         }
 
-        if (surviveTime < 0) {
+        if ( (surviveTime- gameField.getGameTime()) < 0 && !dialogIsOpen)  {
             boolean isWin = true;
+            dialogIsOpen = true;
             if(isWin) {
                 lineGame.saveSurvPref(gameDifficult);
             }

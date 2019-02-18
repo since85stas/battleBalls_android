@@ -186,6 +186,7 @@ public class LinesGame extends Game {
     public void setSurvGameIsBought()  {
         Preferences gamePref = Gdx.app.getPreferences(Constants.PREF_GAME);
         gamePref.putBoolean(Constants.PREF_GAME_IS_PLAY,true);
+        gamePref.flush();
         survGameIsBought = true;
     }
 
@@ -209,13 +210,9 @@ public class LinesGame extends Game {
                 break;
 
         }
+        survPref.flush();
 
         loadAchieve();
-//        survLevelIsComp[0] = survPref.putBoolean(Constants.PREF_DIFFICULT_EASY)
-//        survLevelIsComp[1] = survPref.getBoolean(Constants.PREF_DIFFICULT_NORMAL,false);
-//        survLevelIsComp[2] = survPref.getBoolean(Constants.PREF_DIFFICULT_HARD,false);
-//        survLevelIsComp[3] = survPref.getBoolean(Constants.PREF_DIFFICULT_NIGHTMARE,false);
-//        survLevelIsComp[0] = survPref.getBoolean(Constants.PREF_DIFFICULT_ENDLESS,false);
     }
 
     public void dropAcievmComplete() {

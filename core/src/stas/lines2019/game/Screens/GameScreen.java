@@ -162,7 +162,7 @@ public class GameScreen implements Screen {
 
     public String timeFormat(int time) {
         String timeString = "";
-        if (time < 60) {
+        if ( time > 0 && time < 60) {
             timeString = Integer.toString(time);
         } else if (time > 60 && time < 3600) {
             int min = (int) (time / 60);
@@ -172,6 +172,8 @@ public class GameScreen implements Screen {
             } else {
                 timeString = "0" + Integer.toString(min) + ":0" + Integer.toString(sec);
             }
+        } else if (time < 0) {
+            timeString = "0";
         }
         return timeString;
     }
@@ -183,7 +185,7 @@ public class GameScreen implements Screen {
 
     public String scoreFormat(int score) {
         String scoreString = "";
-        if (score < 10) {
+        if (  0 < score && score < 10) {
             scoreString = "000" + Integer.toString(score);
         } else if (score >= 10 && score < 100) {
             scoreString = "00" + Integer.toString(score);
@@ -193,6 +195,8 @@ public class GameScreen implements Screen {
             scoreString = "" + Integer.toString(score);
         } else if (score >= 10000 && score < 100000) {
             scoreString = "10k" + Integer.toString(score - 10000);
+        }  else if (score < 0 ) {
+            scoreString = "0";
         }
         return scoreString;
     }
@@ -251,7 +255,7 @@ public class GameScreen implements Screen {
 
             String result = new String();
             if (isWin) {
-                result = "You win. New difficulty unlocked.";
+                result = "You win. \nNew difficulty unlocked.";
             } else  {
                 result = "You loose";
             }

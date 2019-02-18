@@ -29,7 +29,7 @@ public class DifficultDialog extends Dialog {
     MainMenuScreen screen;
 
     public int WIDTH = (int) (Gdx.graphics.getWidth() * 0.95);
-    public int HEIGHT = (int) (Gdx.graphics.getHeight() * 0.5);
+    public int HEIGHT = (int) (Gdx.graphics.getHeight() * 0.6);
 
     final DisabledTextButton normalButton;
     final DisabledTextButton hardButton;
@@ -53,6 +53,7 @@ public class DifficultDialog extends Dialog {
                 styleName);
 
         final ArrayList<DisabledTextButton> diffButtonsList = new ArrayList<DisabledTextButton>();
+
         easyButton.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -68,6 +69,16 @@ public class DifficultDialog extends Dialog {
         normalButton = new DisabledTextButton("normal",
                 Assets.instance.skinAssets.skin,
                 styleName);
+//        normalButton.addListener(new InputListener() {
+//            @Override
+//            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+//                Gdx.app.log("dial", "easy mode");
+//                game.setGameSurvivScreen(Constants.DIFFICULT_NORMAL);
+//                hide();
+//                return super.touchDown(event, x, y, pointer, button);
+//            }
+//        });
+
         boolean bol = normalButton.isDisabled();
         Gdx.app.log("dial", "normal mode");
         ;
@@ -132,7 +143,7 @@ public class DifficultDialog extends Dialog {
                     @Override
                     public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                         Gdx.app.log("dial", "normal mode");
-                        if (game.survGameIsBought) {
+                        if (true) {
                             game.setGameSurvivScreen(Constants.DIFFICULT_NORMAL);
                             hide();
                         } else {

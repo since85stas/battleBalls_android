@@ -15,7 +15,7 @@ public class RulesDialog extends Dialog {
     LinesGame game;
 
     public int WIDTH =(int)( Gdx.graphics.getWidth()*0.95);
-    public int HEIGHT =(int)( Gdx.graphics.getHeight()*0.5);
+    public int HEIGHT =(int)( Gdx.graphics.getHeight()*0.6);
 
     public RulesDialog(String title, WindowStyle windowStyle) {
         super(title, windowStyle);

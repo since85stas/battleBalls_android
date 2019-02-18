@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 
 import stas.lines2019.game.LinesGame;
+import stas.lines2019.game.util.Constants;
 
 public class BuyDialog extends Dialog {
     LinesGame game;
@@ -37,6 +38,7 @@ public class BuyDialog extends Dialog {
     protected void result(Object object) {
         Gdx.app.log("dia", object.toString());
         if (object.equals(true)) {
+            game.purchaseManager.purchase(Constants.FRIEND_VERSION);
             Gdx.app.log("buy","true");
         } else if (object.equals(false)){
             Gdx.app.log("buy","fal"  );
