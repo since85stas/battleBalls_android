@@ -2,6 +2,7 @@ package stas.lines2019.game.results;
 
 import com.badlogic.gdx.Gdx;
 import stas.lines2019.game.LinesGame;
+import stas.lines2019.game.util.Constants;
 import stas.lines2019.game.util.ConstantsAchiveEng;
 
 public class AchivementsList {
@@ -33,6 +34,7 @@ public class AchivementsList {
         for (int i = 0; i < achivements.length ; i++) {
             try {
                 achivements[i] = new Achivement(
+                        game,
                         ConstantsAchiveEng.achievmentsName[i],
                         ConstantsAchiveEng.achievementsDescr[i],
                         ConstantsAchiveEng.achivementsCost[i],
@@ -100,6 +102,17 @@ public class AchivementsList {
         }
 
         return achivementComplete;
+    }
+
+    public void setAchieveSurv(int survDiff) {
+        for (int i = 0; i < achivements.length ; i++) {
+            if (achivements[i].getType() == ConstantsAchiveEng.TYPE_SURVIVE && achivements[i].isComplete() != 1) {
+                if (achivements[i].getCrit() == survDiff && achivements[i].isComplete() != 1) {
+                    achivements[i].setComplete(1);
+
+                }
+            }
+        }
     }
 
     public int[] getAchievCompArray() {

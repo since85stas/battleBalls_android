@@ -12,6 +12,7 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -71,7 +72,7 @@ public class Assets implements Disposable, AssetErrorListener {
         assetManager.load("green_rock.png"   ,Texture.class);
         assetManager.load("brown_rock.png"   ,Texture.class);
         assetManager.load("pop3.ogg", Sound.class);
-        assetManager.load("pingpongbat.ogg",Sound.class);
+        assetManager.load("ping.wav",Sound.class);
         assetManager.load("explosion.wav",Sound.class);
 //        assetManager.load("skin/craftacular-ui.json",Skin.class);
 
@@ -90,40 +91,6 @@ public class Assets implements Disposable, AssetErrorListener {
         assetManager.load( "skin/craftacular-ui.atlas", TextureAtlas.class );
         assetManager.load( "skin/craftacular-ui.json", Skin.class );
 
-//        assetManager.finishLoading();
-
-//        Pixmap starTexture    = assetManager.get  ("mini_star.png");
-//        Texture lockTexture    = assetManager.get("mini_lock.png");
-//        Texture blueBallTexture = assetManager.get  ("Balls/sphere_blue.png");
-//        Texture greenBallTexture = assetManager.get ("Balls/sphere_green.png");
-//        Texture purleBallTexture = assetManager.get ("Balls/sphere_purple.png");
-//        Texture yellowBallTexture = assetManager.get("Balls/sphere_yellow.png");
-//        Texture redBallTexture = assetManager.get ("Balls/sphere_red.png");
-//        Texture pinkBallTexture = assetManager.get ("Balls/sphere_pink.png");
-//        Texture lBlueBallTexture = assetManager.get("Balls/sphere_L_blue.png");
-//        Texture greenTileTexture = assetManager.get("green_rock.png");
-//        Texture brownTileTexture = assetManager.get("brown_rock.png");
-//        Sound bubbleSound = assetManager.get("pop3.ogg");
-//        Sound tookSound   = assetManager.get("pingpongbat.ogg");
-////        Sound tookSound = null;
-//        Sound explosionSound = assetManager.get("explosion.wav");
-//        Skin mySkin = assetManager.get("skin/craftacular-ui.json");
-////        enemyAssets = new EnemyAssets(walkTexture);
-//        starAssets       = new StarAssets(starTexture);
-//        blueBallAssets   = new BlueBallAssets(blueBallTexture);
-//        greenBallAssets  = new GreenBallAssets(greenBallTexture);
-//        purpleBallAssets = new PurpleBallAssets(purleBallTexture);
-//        yellowBallAssets = new YellowBallAssets(yellowBallTexture);
-//        pinkBallAssets   = new PinkBallAssets(pinkBallTexture);
-//        redBallAssets    = new RedBallAssets(redBallTexture);
-//        lBlueBallAssets  = new LBlueBallAssets(lBlueBallTexture);
-//        tileAssets       = new TileAssets(greenTileTexture,brownTileTexture);
-//        skinAssets       = new SkinAssets(mySkin);
-//        lockAssets       = new LockAssets(lockTexture);
-//        soundsBase       = new SoundsBase(bubbleSound,tookSound,explosionSound);
-//        crosshairAssets = new CrosshairAssets(crossTexture);
-
-
     }
 
     public void getMainRes() {
@@ -139,7 +106,7 @@ public class Assets implements Disposable, AssetErrorListener {
         Texture greenTileTexture = assetManager.get("green_rock.png");
         Texture brownTileTexture = assetManager.get("brown_rock.png");
         Sound bubbleSound = assetManager.get("pop3.ogg");
-        Sound tookSound   = assetManager.get("pingpongbat.ogg");
+        Sound tookSound   = assetManager.get("ping.wav");
 //        Sound tookSound = null;
         Sound explosionSound = assetManager.get("explosion.wav");
         Skin mySkin = assetManager.get("skin/craftacular-ui.json");
@@ -162,6 +129,9 @@ public class Assets implements Disposable, AssetErrorListener {
     public void initLoadingImages( AssetManager manager){
 //        manager.load(loadingImages, TextureAtlas.class);
         manager.load("mini_star.png",Texture.class);
+
+
+//        manager.load(animation);
         manager.finishLoading();
     }
 
@@ -247,20 +217,6 @@ public class Assets implements Disposable, AssetErrorListener {
         }
     }
 
-    public class BrokenAssets {
-
-        //        public final Animation<TextureRegion> walkAnimation;
-        public final Texture brokenTexture;
-        TextureRegion[] walkFrames; // #5
-        SpriteBatch spriteBatch; // #6
-        TextureRegion currentFrame; //
-
-        public BrokenAssets (Texture texture) {
-            brokenTexture = texture;
-
-            Gdx.app.log(TAG,"animation load");
-        }
-    }
 
     public class StarAssets {
 

@@ -94,6 +94,8 @@ public class Constants {
     public static final String PREF_DIFFICULT_NIGHTMARE  = "-6";
     public static final String PREF_DIFFICULT_ENDLESS  = "-7";
 
+    public static final String STARS_NUMBER = "stars_number";
+
     //
     public static final String SURV_GAME_IS_BOUGHT = "surv_buy";
     public static final String GAME_OPENS = "menu opens";

@@ -45,6 +45,7 @@ public class LinesGame extends Game {
     public boolean survGameIsBought;
 
     public int numberOfMainMenuOpens;
+    public int numberOfStars;
 
     public boolean survLevelIsComp[];
     private boolean gameIsRated = false;
@@ -173,8 +174,12 @@ public class LinesGame extends Game {
         Json json = new Json();
         hashTable.put(Constants.PREF_ACHIEV_MASSIVE, json.toJson(achivementsList.getAchievCompArray()) ); //here you are serializing the array
         prefs.put(hashTable);
-
         prefs.flush();
+
+        Preferences gamePref = Gdx.app.getPreferences(Constants.PREF_GAME);
+        gamePref.putInteger(Constants.STARS_NUMBER,numberOfStars);
+        gamePref.flush();
+
     }
 
     public void loadAchieve() {
@@ -182,6 +187,7 @@ public class LinesGame extends Game {
         findSaveGame = gamePref.getBoolean(Constants.PREF_GAME_IS_PLAY,false);
         survGameIsBought = gamePref.getBoolean(Constants.SURV_GAME_IS_BOUGHT,false);
         numberOfMainMenuOpens = gamePref.getInteger(Constants.GAME_OPENS,0);
+        numberOfStars         = gamePref.getInteger(Constants.STARS_NUMBER,0);
         Preferences prefs = Gdx.app.getPreferences(Constants.PREF_ACHIEV);
 
         Json json = new Json();
@@ -191,9 +197,9 @@ public class LinesGame extends Game {
         String serializedInts = prefs.getString(Constants.PREF_ACHIEV_MASSIVE);
         int[] deserializedInts = json.fromJson(int[].class, serializedInts);
         if ( deserializedInts != null) {
-            for (int i = 0; i < achivementsList.getAchievCompArray().length; i++) {
+            for (int i = 0; i < deserializedInts.length; i++) {
                 if (deserializedInts[i] == 1) {
-                    achivementsList.getAchivements()[i].setComplete(1);
+                    achivementsList.getAchivements()[i].initCompleteAchievs(1);
                 }
             }
         }
@@ -213,7 +219,7 @@ public class LinesGame extends Game {
 
     public void setSurvGameIsBought()  {
         Preferences gamePref = Gdx.app.getPreferences(Constants.PREF_GAME);
-        gamePref.putBoolean(Constants.PREF_GAME_IS_PLAY,true);
+        gamePref.putBoolean(Constants.SURV_GAME_IS_BOUGHT,true);
         gamePref.flush();
         survGameIsBought = true;
     }

@@ -40,7 +40,7 @@ public class GameSurvScreen extends GameScreen {
         super(lineGame, batch);
         switch(difficultType) {
             case Constants.DIFFICULT_EASY:
-                surviveTime  = 6*60;
+                surviveTime  = 7*60;
                 initTimeBank = 1*45;
                 ballTimeAdd  = 2.3f;
                 treshholdPenalty = 25;
@@ -49,28 +49,28 @@ public class GameSurvScreen extends GameScreen {
                 turnTimeLimit  = 10;
                 break;
             case Constants.DIFFICULT_NORMAL:
-                surviveTime  = 7*60;
-                initTimeBank = 1*55;
+                surviveTime  = 8*60;
+                initTimeBank = 1*50;
                 ballTimeAdd  = 2;
-                treshholdPenalty = 20;
+                treshholdPenalty = 23;
                 clearGameFieldNumber = 32;
                 gameDifficult = Constants.DIFFICULT_NORMAL;
                 turnTimeLimit  = 12;
                 break;
             case Constants.DIFFICULT_HARD:
-                surviveTime  = 7*60;
+                surviveTime  = 10*60;
                 initTimeBank = 1*45;
-                ballTimeAdd  = 1.3f;
-                treshholdPenalty = 20;
+                ballTimeAdd  = 2f;
+                treshholdPenalty = 30;
                 clearGameFieldNumber = 22;
                 gameDifficult = Constants.DIFFICULT_HARD;
                 turnTimeLimit  = 10;
                 break;
             case Constants.DIFFICULT_NIGHTMARE:
-                surviveTime  = 5*60;
-                initTimeBank = 1*25;
-                ballTimeAdd  = 1;
-                treshholdPenalty = 20;
+                surviveTime  = 15*60;
+                initTimeBank = 1*45;
+                ballTimeAdd  = 2;
+                treshholdPenalty = 30;
                 clearGameFieldNumber = 21;
                 gameDifficult = Constants.DIFFICULT_NIGHTMARE;
                 turnTimeLimit  = 10;
@@ -100,6 +100,9 @@ public class GameSurvScreen extends GameScreen {
             if(isWin) {
                 lineGame.saveSurvPref(gameDifficult);
             }
+//            gameField.checkAchieve();
+            lineGame.achivementsList.setAchieveSurv(gameDifficult);
+            gameField.setInputProccActive(false);
             gameOverDialog(false,isWin);
 
         }

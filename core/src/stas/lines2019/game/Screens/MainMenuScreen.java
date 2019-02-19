@@ -229,7 +229,14 @@ public class MainMenuScreen extends InputAdapter implements Screen{
             });
             stage.addActor(buttons[i]);
         }
-        buttons[4].setText(achiveText);
+//        buttons[4].setText(achiveText);
+
+        // change achievement text
+        buttons[4].add(new Image(Assets.instance.starAssets.achieveTexture));
+        buttons[4].add(Integer.toString(mGame.numberOfStars),
+                "dialog");
+
+
         Table table = new Table();
         table.row();
         table.add(new Label("soon", mySkin,"small"));

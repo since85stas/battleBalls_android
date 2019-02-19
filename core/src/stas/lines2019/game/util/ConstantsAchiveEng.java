@@ -1,8 +1,10 @@
 package stas.lines2019.game.util;
 
+
+
 public class ConstantsAchiveEng {
 
-    public static final int NUM_ACHIVEMENTS = 33;
+    public static final int NUM_ACHIVEMENTS = 41;
 
     public static final int TYPE_SCORE        = -7;
     public static final int TYPE_TIME_SINGLE  = -8;
@@ -10,6 +12,7 @@ public class ConstantsAchiveEng {
     public static final int TYPE_LINES_SIZE   = -10;
     public static final int TYPE_SCORE_OVERALL  = -11;
     public static final int TYPE_TURNS  = -12;
+    public static final int TYPE_SURVIVE = -13;
 
     public static final String[] achievmentsName = {
             "achivement 1",
@@ -44,7 +47,15 @@ public class ConstantsAchiveEng {
             "achivement 30",
             "achivement 31",
             "achivement 32",
-            "achivement 33"
+            "achivement 33",
+            "achivement 34",
+            "achivement 35",
+            "achivement 36",
+            "achivement 37",
+            "achivement 38",
+            "achivement 39",
+            "achivement 40",
+            "achivement 41",
     };
 
     public static final String[] achievementsDescr = {
@@ -80,7 +91,16 @@ public class ConstantsAchiveEng {
             "get 6 ball line",
             "get 7 ball line",
             "get 8 ball line",
-            "get 9 ball line"
+            "get 9 ball line",
+
+            "survive on easy",
+            "survive on normal",
+            "survive on hard",
+            "survive on nightmare",
+            "survive 10 min on endless",
+            "survive 20 min on endless",
+            "survive 30 min on endless",
+            "survive 60 min on endless"
     };
 
     public static final int[] achivementsCriteria = {
@@ -116,7 +136,16 @@ public class ConstantsAchiveEng {
             6,
             7,
             8,
-            9
+            9,
+
+            Constants.DIFFICULT_EASY,
+            Constants.DIFFICULT_NORMAL,
+            Constants.DIFFICULT_HARD,
+            Constants.DIFFICULT_NIGHTMARE,
+            Constants.DIFFICULT_ENDLESS,
+            Constants.DIFFICULT_ENDLESS,
+            Constants.DIFFICULT_ENDLESS,
+            Constants.DIFFICULT_ENDLESS,
     };
 
     public static final int[] achivementsType = {
@@ -153,42 +182,60 @@ public class ConstantsAchiveEng {
             TYPE_LINES_SIZE,
             TYPE_LINES_SIZE,
             TYPE_LINES_SIZE,
+
+            TYPE_SURVIVE,
+            TYPE_SURVIVE,
+            TYPE_SURVIVE,
+            TYPE_SURVIVE,
+            TYPE_SURVIVE,
+            TYPE_SURVIVE,
+            TYPE_SURVIVE,
+            TYPE_SURVIVE
     };
 
     public static final int[] achivementsCost = {
-            20,
-            50,
-            100,
-            200,
-            500,
-            1500,
-            5000,
-            1000,
-            2000,
-            5000,
-            10000,
-            20000,
-            50000,
-            100000,
-            5*60,
-            10*60,
-            20*60,
-            40*60,
-            60*60,
-            1*60*60,
-            2*60*60,
-            5*60*60,
-            10*60*60,
-            24*60*60,
-            20,
-            40,
-            100,
-            200,
-            500,
-            6,
-            7,
-            8,
-            9
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
     };
 
     public ConstantsAchiveEng() {

@@ -6,14 +6,16 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
+
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.utils.TimeUtils;
 
 import stas.lines2019.game.LinesGame;
 import stas.lines2019.game.util.Assets;
+import stas.lines2019.game.util.GifDecoder;
 
 public class LoadingScreen implements Screen {
 	private LinesGame parent;
@@ -38,8 +40,12 @@ public class LoadingScreen implements Screen {
 	private AtlasRegion dash;
 
 	AssetManager loadManager;
+	Animation<TextureRegion> animation;
 
-	
+	float elapsed;
+	private float loadinfTime = 3;
+	private long startTime;
+	private long endTime;
 	
 	public LoadingScreen(LinesGame box2dTutorial){
 		parent = box2dTutorial;
@@ -58,6 +64,8 @@ public class LoadingScreen implements Screen {
 		// get images used to display loading progress
 
 		test = loadManager.get("mini_star.png");
+//		animation = GifDecoder.loadGIFAnimation(Animation.PlayMode.LOOP,
+//				Gdx.files.internal("main.gif").read());
 //		atlas = loadManager.get("loading.pack");
 //		title = atlas.findRegion("staying-alight-logo");
 //		dash = atlas.findRegion("loading-dash");
@@ -80,6 +88,8 @@ public class LoadingScreen implements Screen {
 
 	@Override
 	public void render(float delta) {
+		elapsed += Gdx.graphics.getDeltaTime();
+		startTime = TimeUtils.millis();
 		Gdx.gl.glClearColor(0,0,0,1);
 		Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 	    Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -89,6 +99,9 @@ public class LoadingScreen implements Screen {
 //        TextureRegion currentFrame = flameAnimation.getKeyFrame(stateTime, true);
         
 		sb.begin();
+//		sb.draw(animation.getKeyFrame(elapsed),
+//				Gdx.graphics.getWidth()/2,
+//				Gdx.graphics.getHeight()/2);
 //		drawLoadingBar(currentLoadingStage * 2, currentFrame);
 		sb.draw(test,
 				Gdx.graphics.getWidth()/2 - 120/2,

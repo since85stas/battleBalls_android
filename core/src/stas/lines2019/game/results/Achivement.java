@@ -1,7 +1,10 @@
 package stas.lines2019.game.results;
 
+import stas.lines2019.game.LinesGame;
+
 public class Achivement {
 
+    private LinesGame game;
     private String  name;
     private String  description;
     private int     type;
@@ -9,7 +12,8 @@ public class Achivement {
     private int isComplete ;
     private int     crit;
 
-    public Achivement(String name, String description, int cost, int type, int crit) {
+    public Achivement(LinesGame game,String name, String description, int cost, int type, int crit) {
+        this.game = game;
         this.name = name;
         this.description = description;
         this.cost = cost;
@@ -43,6 +47,12 @@ public class Achivement {
         this.description = description;
     }
     public void setComplete(int complete) {
+        isComplete = complete;
+        game.numberOfStars++;
+        game.saveAchieve();
+    }
+
+    public void initCompleteAchievs(int complete) {
         isComplete = complete;
     }
 
