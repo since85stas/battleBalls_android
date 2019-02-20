@@ -90,7 +90,11 @@ public class LoadingScreen implements Screen {
         
 		sb.begin();
 //		drawLoadingBar(currentLoadingStage * 2, currentFrame);
-		sb.draw(test, 135, 250, 100,100);
+		sb.draw(test,
+				Gdx.graphics.getWidth()/2 - 120/2,
+				Gdx.graphics.getHeight()/2,
+				120,
+				120);
 		sb.end();
 
 		if (loadManager.update() && !loadIscomp) {
@@ -103,37 +107,6 @@ public class LoadingScreen implements Screen {
 			parent.setMainMenuScreen();
 		}
 
-//		if (parent.assMan.manager.update()) { // Load some, will return true if done loading
-//			currentLoadingStage+= 1;
-//            switch(currentLoadingStage){
-//            case FONT:
-//            	System.out.println("Loading fonts....");
-//            	parent.assMan.queueAddFonts();
-//            	break;
-//            case PARTY:
-//            	System.out.println("Loading Particle Effects....");
-//            	parent.assMan.queueAddParticleEffects();
-//            	break;
-//            case SOUND:
-//            	System.out.println("Loading Sounds....");
-//            	parent.assMan.queueAddSounds();
-//            	break;
-//            case MUSIC:
-//            	System.out.println("Loading fonts....");
-//            	parent.assMan.queueAddMusic();
-//            	break;
-//            case 5:
-//            	System.out.println("Finished");
-//            	break;
-//            }
-//	    	if (currentLoadingStage >5){
-//	    		countDown -= delta;
-//	    		currentLoadingStage = 5;
-//	    		if(countDown < 0){
-//	    			parent.changeScreen(Box2DTutorial.MENU);
-//	    		}
-//            }
-//        }
 	}
 
 	@Override
