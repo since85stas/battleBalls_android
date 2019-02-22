@@ -318,18 +318,20 @@ public class GameScreen implements Screen {
 
     @Override
     public void hide() {
+        lineGame.isScreenRendering = false;
 //        batch.dispose();
 //        gameField.dispose();
     }
 
     @Override
     public void pause() {
-
+        lineGame.isScreenRendering = false;
     }
 
     @Override
     public void resume() {
-
+        gameField.initStartTime();
+        lineGame.isScreenRendering = true;
     }
 
     @Override

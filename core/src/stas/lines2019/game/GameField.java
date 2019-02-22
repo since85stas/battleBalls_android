@@ -163,6 +163,10 @@ public class GameField {
 //        addFakeBalls(9,0,0,6,1);
     }
 
+    public void initStartTime() {
+        startTime = TimeUtils.millis();
+    }
+
     private void savePrefer() {
 
         gamePref = Gdx.app.getPreferences(Constants.PREF_GAME);

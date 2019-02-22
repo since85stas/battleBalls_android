@@ -43,6 +43,7 @@ public class LinesGame extends Game {
     public boolean findSaveGame;
 
     public boolean survGameIsBought;
+    public boolean isScreenRendering;
 
     public int numberOfMainMenuOpens;
     public int numberOfStars;
@@ -60,7 +61,7 @@ public class LinesGame extends Game {
     public void create () {
         this.app = this;
         batch = new SpriteBatch();
-
+        isScreenRendering = true;
         setScreen(new LoadingScreen(this));
 
 //        // создаем текстуры
@@ -158,7 +159,9 @@ public class LinesGame extends Game {
         //update(dt);
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        getScreen().render(dt);
+        if (isScreenRendering) {
+            getScreen().render(dt);
+        }
     }
 
     @Override
