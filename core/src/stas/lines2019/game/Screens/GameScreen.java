@@ -32,10 +32,6 @@ public class GameScreen implements Screen {
 
     //
     private static final String TAG = GameScreen.class.getName();
-    public static final String RULES_DIALOG_STR = "Move the balls from cell to cell to group" +
-            " them into the lines of the same color." +" To avoid filling up the board you "+
-            "should gather the balls into horizontal, vertical or diagonal lines of 5 or more "+
-            "balls. ";
     //
     public LinesGame lineGame;
     public GameField gameField;
@@ -80,7 +76,7 @@ public class GameScreen implements Screen {
         timeLableGroup.setPosition(width-2*Constants.HUD_OFFSET*width-Constants.HUD_ITEM_HOR_SIZE*width,
                 height - lableItemHeight);
         timeLableGroup.setSize(Constants.HUD_ITEM_HOR_SIZE * width, lableItemHeight);
-        Label titleLable = new Label("time", mySkin, "small");
+        Label titleLable = new Label(Assets.instance.bundle.get("timeLable"), mySkin, "small");
 //        timeLable = new Label(Integer.toString(digit), mySkin, "game");
         float size1 = titleLable.getHeight();
         float size2 = timeLable.getHeight();
@@ -108,7 +104,7 @@ public class GameScreen implements Screen {
     }
 
     public Label setLeftTitleLable() {
-        return new Label("score", mySkin, "small");
+        return new Label(Assets.instance.bundle.get("scoreLable"), mySkin, "small");
     }
 
 
@@ -207,14 +203,14 @@ public class GameScreen implements Screen {
         dialog.setTransform(true);
         dialog.getBackground();
 
-        dialog.text("exit to main menu",
+        dialog.text(Assets.instance.bundle.get("exitDi"),
                 Assets.instance.skinAssets.skin.get("dialog", Label.LabelStyle.class))
                 .align(Align.center);
-        dialog.button("Yes",
+        dialog.button(Assets.instance.bundle.get("exitYes"),
                           true,
                 Assets.instance.skinAssets.skin.get("small", TextButton.TextButtonStyle.class)
         );
-        dialog.button("No",
+        dialog.button(Assets.instance.bundle.get("exitNo"),
                 false,
                 Assets.instance.skinAssets.skin.get("small", TextButton.TextButtonStyle.class)
         ); //sends "false" as the result
@@ -229,7 +225,7 @@ public class GameScreen implements Screen {
         gameOverDialog.getBackground();
 
 //        Table table = new Table();
-        Label gameLable = new Label("Game Over",
+        Label gameLable = new Label(Assets.instance.bundle.get("gameOver"),
                 Assets.instance.skinAssets.skin,
                 "dialog");
         gameLable.setAlignment(Align.center);
@@ -239,13 +235,13 @@ public class GameScreen implements Screen {
 
         Table table = new Table();
         if (classicMode) {
-            Label resultLable = new Label("Game Score " + gameField.getGameScore(),
+            Label resultLable = new Label(Assets.instance.bundle.get("yourScore") + gameField.getGameScore(),
                     Assets.instance.skinAssets.skin,
                     "dialog");
             resultLable.setAlignment(Align.center);
             table.add(resultLable);
             table.row();
-            Label highLable = new Label("High scores " + gameField.getHighScores(),
+            Label highLable = new Label(Assets.instance.bundle.get("highScore") + gameField.getHighScores(),
                     Assets.instance.skinAssets.skin,
                     "dialog");
             highLable.setAlignment(Align.center);
@@ -255,9 +251,10 @@ public class GameScreen implements Screen {
 
             String result = new String();
             if (isWin) {
-                result = "You win. \nNew difficulty unlocked.";
+                result = Assets.instance.bundle.get("youWin");
+                result += "\n" + Assets.instance.bundle.get("newDiff");
             } else  {
-                result = "You loose";
+                result = Assets.instance.bundle.get("youLoose");
             }
             Label resultLable = new Label(result ,
                     Assets.instance.skinAssets.skin,
@@ -267,7 +264,7 @@ public class GameScreen implements Screen {
             table.row();
         }
         gameOverDialog.getContentTable().add(table);
-        gameOverDialog.button("Ok",
+        gameOverDialog.button(Assets.instance.bundle.get("Ok"),
                 true,
                 Assets.instance.skinAssets.skin.get("small", TextButton.TextButtonStyle.class));
 
@@ -302,7 +299,7 @@ public class GameScreen implements Screen {
     }
 
     public String setRulesLable() {
-        return RULES_DIALOG_STR;
+        return Assets.instance.bundle.get("rulesText");
     }
 
         public void update(float dt) {
@@ -318,7 +315,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void hide() {
-        lineGame.isScreenRendering = false;
+//        lineGame.isScreenRendering = false;
 //        batch.dispose();
 //        gameField.dispose();
     }

@@ -14,6 +14,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.TimeUtils;
 
 import stas.lines2019.game.LinesGame;
+import stas.lines2019.game.results.AchivementsList;
 import stas.lines2019.game.util.Assets;
 import stas.lines2019.game.util.GifDecoder;
 
@@ -117,6 +118,9 @@ public class LoadingScreen implements Screen {
 
 		if (Assets.instance.assetManager.update() && loadIscomp) {
 //			Assets.instance.getMainRes();
+			Assets.instance.getMainRes();
+			// создаем достижения
+
 			parent.setMainMenuScreen();
 		}
 

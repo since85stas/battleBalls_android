@@ -22,10 +22,12 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.maps.Map;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Disposable;
+import com.badlogic.gdx.utils.I18NBundle;
 
 
 import javax.xml.soap.Text;
 import java.util.HashMap;
+import java.util.Locale;
 
 /**
  * Created by seeyo on 03.12.2018.
@@ -56,6 +58,8 @@ public class Assets implements Disposable, AssetErrorListener {
     public SkinAssets skinAssets;
     public LockAssets lockAssets;
     public SoundsBase soundsBase;
+    public I18NBundle  bundle;
+    public BackAssets  backAssets;
 
     public void init(AssetManager assetManager) {
         this.assetManager = assetManager;
@@ -71,15 +75,19 @@ public class Assets implements Disposable, AssetErrorListener {
         assetManager.load("Balls/sphere_L_blue.png",Texture.class);
         assetManager.load("green_rock.png"   ,Texture.class);
         assetManager.load("brown_rock.png"   ,Texture.class);
+        assetManager.load("back1.png",Texture.class);
         assetManager.load("pop3.ogg", Sound.class);
         assetManager.load("ping.wav",Sound.class);
         assetManager.load("explosion.wav",Sound.class);
+        assetManager.load("i18n/LinesBundle", I18NBundle.class);
+
+//        assetManager.load("i18n/LinesBundle", I18NBundle.class);
 //        assetManager.load("skin/craftacular-ui.json",Skin.class);
 
 
         // loading skin with parameters
         java.util.Map<String,BitmapFont> fontsByName = initFonts();
-        Gdx.app.log(TAG,"before AssertManager>>>>>>>>>>>>" );
+
         SkinLoader ldr =  new GeneratedFontSkinLoader( new InternalFileHandleResolver() {
             @Override
             public FileHandle resolve(String fileName) {
@@ -105,6 +113,7 @@ public class Assets implements Disposable, AssetErrorListener {
         Texture lBlueBallTexture = assetManager.get("Balls/sphere_L_blue.png");
         Texture greenTileTexture = assetManager.get("green_rock.png");
         Texture brownTileTexture = assetManager.get("brown_rock.png");
+        Texture backT            = assetManager.get("back1.png");
         Sound bubbleSound = assetManager.get("pop3.ogg");
         Sound tookSound   = assetManager.get("ping.wav");
 //        Sound tookSound = null;
@@ -123,6 +132,10 @@ public class Assets implements Disposable, AssetErrorListener {
         skinAssets       = new SkinAssets(mySkin);
         lockAssets       = new LockAssets(lockTexture);
         soundsBase       = new SoundsBase(bubbleSound,tookSound,explosionSound);
+        backAssets       = new BackAssets(backT);
+
+        bundle = assetManager.get("i18n/LinesBundle",I18NBundle.class);
+        Gdx.app.log(TAG,"finfish load AssertManager>>>>>>>>>>>>" );
     }
 
     // a small set of images used by the loading screen
@@ -317,6 +330,17 @@ public class Assets implements Disposable, AssetErrorListener {
             this.texture = texture;
             Gdx.app.log(TAG,"animation load");
         }
+    }
+
+    public class BackAssets {
+
+        public Texture texture;
+
+        public BackAssets(Texture texture) {
+            this.texture = texture;
+            Gdx.app.log(TAG,"animation load");
+        }
+
     }
 
     public class LBlueBallAssets {

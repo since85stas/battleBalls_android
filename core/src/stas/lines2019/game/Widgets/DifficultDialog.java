@@ -48,7 +48,7 @@ public class DifficultDialog extends Dialog {
         this.game = game;
         VerticalGroup group = new VerticalGroup().pad(size).top().space(size );
 
-        DisabledTextButton easyButton = new DisabledTextButton("easy",
+        DisabledTextButton easyButton = new DisabledTextButton(Assets.instance.bundle.get("easyB"),
                 Assets.instance.skinAssets.skin,
                 styleName);
 
@@ -66,7 +66,7 @@ public class DifficultDialog extends Dialog {
         group.addActor(easyButton);
         diffButtonsList.add(easyButton);
 
-        normalButton = new DisabledTextButton("normal",
+        normalButton = new DisabledTextButton(Assets.instance.bundle.get("normalB"),
                 Assets.instance.skinAssets.skin,
                 styleName);
 //        normalButton.addListener(new InputListener() {
@@ -85,21 +85,21 @@ public class DifficultDialog extends Dialog {
         group.addActor(normalButton);
         diffButtonsList.add(normalButton);
 
-        hardButton = new DisabledTextButton("hard",
+        hardButton = new DisabledTextButton(Assets.instance.bundle.get("hardB"),
                 Assets.instance.skinAssets.skin,
                 styleName);
 
         group.addActor(hardButton);
         diffButtonsList.add(hardButton);
 
-        nightmareButton = new DisabledTextButton("nightmare",
+        nightmareButton = new DisabledTextButton(Assets.instance.bundle.get("nightB"),
                 Assets.instance.skinAssets.skin,
                 styleName);
 
         group.addActor(nightmareButton);
         diffButtonsList.add(nightmareButton);
 
-        endlessButton = new DisabledTextButton("endless",
+        endlessButton = new DisabledTextButton(Assets.instance.bundle.get("endlessB"),
                 Assets.instance.skinAssets.skin,
                 styleName);
 
@@ -119,7 +119,7 @@ public class DifficultDialog extends Dialog {
             }
         }
 
-        TextButton cancelButton = new TextButton("cancel",
+        TextButton cancelButton = new TextButton(Assets.instance.bundle.get("cancelsB"),
                 Assets.instance.skinAssets.skin,
                 styleName);
         cancelButton.addListener(new InputListener() {

@@ -43,13 +43,13 @@ public class MainMenuScreen extends InputAdapter implements Screen{
     private DelayedRemovalArray<MenuBall> menuBalls;
 
     private final String[] buttonNames = {
-            "continue",
-            "classical mode",
-            "survival mode",
-            "puzzle mode",
-            "achievements",
-            "support us",
-            "exit"
+            Assets.instance.bundle.get("BtnContinue"),
+            Assets.instance.bundle.get("BtnClass"),
+            Assets.instance.bundle.get("BtnSurv"),
+            Assets.instance.bundle.get("BtnPuzz"),
+            Assets.instance.bundle.get("BtnAchiev"),
+            Assets.instance.bundle.get("BtnSupp"),
+            Assets.instance.bundle.get("BtnExt")
     };
 
     SpriteBatch batch;
@@ -88,12 +88,20 @@ public class MainMenuScreen extends InputAdapter implements Screen{
         Gdx.gl.glClearColor(0.3f, 0.47f, 0.65f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         float fps = 1 / delta;
+
+
 //        Gdx.app.log("preLevel","fps =" + fps);
 
-        stage.act();
-        stage.draw();
+
 
         batch.begin();
+
+        batch.draw(Assets.instance.backAssets.texture,
+                0,
+                0,
+                widtht,
+                height
+        );
         for (int i = 0; i < menuBalls.size; i++) {
             menuBalls.get(i).render(batch,delta);
             menuBalls.get(i).update(delta);
@@ -118,6 +126,9 @@ public class MainMenuScreen extends InputAdapter implements Screen{
             }
         }
         batch.end();
+
+        stage.act();
+        stage.draw();
     }
 
 
@@ -149,10 +160,10 @@ public class MainMenuScreen extends InputAdapter implements Screen{
 
     private void generateButtons() {
 
-        Label titleLable = new Label("LINES 2019",mySkin,"menu");
+        Label titleLable = new Label(Assets.instance.bundle.get("MenuTitle"),mySkin,"menu");
         titleLable.layout();
         GlyphLayout lay = new GlyphLayout();
-        lay.setText(mySkin.getFont("menu-font"),"LINES 2019");
+        lay.setText(mySkin.getFont("menu-font"),Assets.instance.bundle.get("MenuTitle"));
         int len = (int)lay.width;
         titleLable.setPosition((widtht - len)/2,height - 2*Constants.TITLE_UPPER_OFFSET*height);
         stage.addActor(titleLable);
@@ -239,19 +250,19 @@ public class MainMenuScreen extends InputAdapter implements Screen{
 
         Table table = new Table();
         table.row();
-        table.add(new Label("soon", mySkin,"small"));
+        table.add(new Label(Assets.instance.bundle.get("Soon"), mySkin,"small"));
 
         buttons[3].add(table);
 
         Table table2 = new Table();
         table2.row();
-        table2.add(new Label("new", mySkin,"xp"));
+        table2.add(new Label(Assets.instance.bundle.get("new"), mySkin,"xp"));
         buttons[2].add(table2);
     }
 
 
     private void selectDifficDialog() {
-        DifficultDialog dialog = new DifficultDialog("Select difficulty",
+        DifficultDialog dialog = new DifficultDialog(Assets.instance.bundle.get("diffSurvSelect"),
                 Assets.instance.skinAssets.skin,mGame,this);
         dialog.setTransform(true);
         dialog.getBackground();
@@ -266,9 +277,7 @@ public class MainMenuScreen extends InputAdapter implements Screen{
         dialog.setTransform(true);
         dialog.getBackground();
 
-        Label gameLable = new Label("Buy a full game mode to unlock this and all other difficulties in" +
-                "survival mode. Also you give an intresting puzle game mode, that " +
-                "will appear soon",
+        Label gameLable = new Label(Assets.instance.bundle.get("buyDialog"),
                 Assets.instance.skinAssets.skin,
                 "dialog");
         gameLable.setWrap(true);
@@ -277,11 +286,11 @@ public class MainMenuScreen extends InputAdapter implements Screen{
         dialog.getContentTable().add(gameLable).padTop(40);
         dialog.getContentTable().row();
 
-        dialog.button("Buy",
+        dialog.button(Assets.instance.bundle.get("buy"),
                 true,
                 Assets.instance.skinAssets.skin.get("small", TextButton.TextButtonStyle.class)
         );
-        dialog.button("No",
+        dialog.button(Assets.instance.bundle.get("no"),
                 false,
                 Assets.instance.skinAssets.skin.get("small", TextButton.TextButtonStyle.class)
         ); //sends "false" as the result

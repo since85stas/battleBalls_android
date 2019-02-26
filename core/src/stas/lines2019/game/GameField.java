@@ -232,9 +232,9 @@ public class GameField {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         update(dt);
 
-        rulesButton.draw(batch, 1);
-
         background.render(batch);
+
+        rulesButton.draw(batch, 1);
 
         for (int i = 0; i < fieldDimension; i++) {
             for (int j = 0; j < fieldDimension; j++) {
@@ -453,7 +453,7 @@ public class GameField {
     }
 
     private void addRulesButton() {
-        rulesButton = new TextButton("Rules", Assets.instance.skinAssets.skin);
+        rulesButton = new TextButton(Assets.instance.bundle.get("rulesB"), Assets.instance.skinAssets.skin);
         rulesButton.setPosition(0,
                 initPos.y - Constants.HUD_FONT_TITLE * Gdx.graphics.getHeight() * 1.5f);
         rulesButton.addListener(new InputListener() {

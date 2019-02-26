@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
 import stas.lines2019.game.GameFieldSurv;
 import stas.lines2019.game.LinesGame;
+import stas.lines2019.game.util.Assets;
 import stas.lines2019.game.util.Constants;
 
 /**
@@ -13,12 +14,6 @@ import stas.lines2019.game.util.Constants;
  */
 
 public class GameSurvScreen extends GameScreen {
-
-    public static final String RULES_DIALOG_STR = "You need to survive 5 min. You have only 10 seconds on turn." +
-            " Each line add bonus time to your time bank." +" When the board is getting full you are not "+
-            "loosing, but getting some time penalty.  This mode may be difficult." +
-            "It's better to play classical mode first. Clock is ticking. Good luck."
-            ;
 
     private int surviveTime  = 5*60;
     private int initTimeBank = 1*40;
@@ -125,7 +120,7 @@ public class GameSurvScreen extends GameScreen {
 
     @Override
     public Label setLeftTitleLable() {
-        return new Label("survive", mySkin, "small");
+        return new Label(Assets.instance.bundle.get("surviveLable"), mySkin, "small");
     }
 
     @Override
@@ -150,6 +145,6 @@ public class GameSurvScreen extends GameScreen {
 
     @Override
     public String setRulesLable() {
-        return RULES_DIALOG_STR;
+        return Assets.instance.bundle.get("rulesSurvText");
     }
 }

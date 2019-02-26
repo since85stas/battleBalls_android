@@ -93,9 +93,7 @@ public class LinesGame extends Game {
 
         survLevelIsComp = new boolean[Constants.NUM_DIFFICULTIES];
 
-        // создаем достижения
-        achivementsList = new AchivementsList(this);
-        achivementsList.generateAchivemnets();
+
 
         Gdx.input.setCatchBackKey(true);
 
@@ -121,7 +119,10 @@ public class LinesGame extends Game {
 
     public void setMainMenuScreen() {
 
-        Assets.instance.getMainRes();
+        achivementsList = new AchivementsList(this);
+        achivementsList.generateAchivemnets();
+        isScreenRendering = true;
+
 
         loadAchieve();
 
