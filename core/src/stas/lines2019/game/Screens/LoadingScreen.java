@@ -32,6 +32,9 @@ public class LoadingScreen implements Screen {
 	public final int PARTY = 2;		// loading particle effects
 	public final int SOUND = 3;		// loading sounds
 	public final int MUSIC = 4;		// loading music
+
+	private final float ICON_WIDTH  = 0.4f*Gdx.graphics.getWidth();
+	private final float ICON_HEIGHT = ICON_WIDTH*0.7518f;
 	
 	private int currentLoadingStage = 0;
 	
@@ -51,7 +54,7 @@ public class LoadingScreen implements Screen {
 	public LoadingScreen(LinesGame box2dTutorial){
 		parent = box2dTutorial;
 		sb = new SpriteBatch();
-		sb.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE);
+//		sb.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE);
 	}
 	
 	@Override
@@ -65,11 +68,6 @@ public class LoadingScreen implements Screen {
 		// get images used to display loading progress
 
 		test = loadManager.get("mini_star.png");
-//		animation = GifDecoder.loadGIFAnimation(Animation.PlayMode.LOOP,
-//				Gdx.files.internal("main.gif").read());
-//		atlas = loadManager.get("loading.pack");
-//		title = atlas.findRegion("staying-alight-logo");
-//		dash = atlas.findRegion("loading-dash");
 //
 //		flameAnimation = new Animation(0.07f, atlas.findRegions("flames/flames"), PlayMode.LOOP);
 		
@@ -91,35 +89,32 @@ public class LoadingScreen implements Screen {
 	public void render(float delta) {
 		elapsed += Gdx.graphics.getDeltaTime();
 		startTime = TimeUtils.millis();
-		Gdx.gl.glClearColor(231,223,221,1);
-		Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+		Gdx.gl.glClearColor(0.902f,0.871f,0.863f,1);
+//		Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 	    Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 	    
 	    stateTime += delta; // Accumulate elapsed animation time
         // Get current frame of animation for the current stateTime
-//        TextureRegion currentFrame = flameAnimation.getKeyFrame(stateTime, true);
+		//        TextureRegion currentFrame = flameAnimation.getKeyFrame(stateTime, true);
         
 		sb.begin();
-//		sb.draw(animation.getKeyFrame(elapsed),
-//				Gdx.graphics.getWidth()/2,
-//				Gdx.graphics.getHeight()/2);
-//		drawLoadingBar(currentLoadingStage * 2, currentFrame);
-		sb.draw(test,
-				Gdx.graphics.getWidth()/2 - 120/2,
-				Gdx.graphics.getHeight()/2,
-				120,
-				120);
+		TextureRegion frame = Assets.instance.loadAssets.loadAnimation.getKeyFrame(stateTime,true);
+		float iconYPos =Gdx.graphics.getHeight()/2 + 0.1f*Gdx.graphics.getHeight();
+		sb.draw(frame,
+				(Gdx.graphics.getWidth() - ICON_WIDTH)/2,
+				iconYPos,
+				ICON_WIDTH,
+				ICON_HEIGHT
+				);
 		sb.end();
 
-		if (loadManager.update() && !loadIscomp) {
+		if (loadManager.update() && !loadIscomp ) {
 			parent.prepareMainRes();
 			loadIscomp =true;
 		}
 
-		if (Assets.instance.assetManager.update() && loadIscomp) {
-//			Assets.instance.getMainRes();
+		if (Assets.instance.assetManager.update() && loadIscomp && elapsed > 5) {
 			Assets.instance.getMainRes();
-			// создаем достижения
 
 			parent.setMainMenuScreen();
 		}

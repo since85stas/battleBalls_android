@@ -30,6 +30,7 @@ public class SquareItem {
     // ball parameters
     private boolean hasBall  = false;
     private boolean isActive = false;
+    public boolean ballIsTough  = false;
     private float ballactiveTime ;
     private float ballVelocity =
             Constants.BALL_VELOCITY* Gdx.graphics.getWidth()/10;
@@ -55,6 +56,10 @@ public class SquareItem {
         ballPosition = new Vector2(position.x + ballPositionDel,position.y + ballPositionDel);
     }
 
+    public void ballIsTight( boolean bol) {
+        ballIsTough = bol;
+    }
+
     public void   render (SpriteBatch batch) {
         //batch.draw(textureSquare,position.x,position.y);
 //        batch.draw(textureSquare, position.x, position.y, width, height);
@@ -65,6 +70,10 @@ public class SquareItem {
                     ,ballPosition.y
                     ,width*Constants.BALL_SIZE_RATIO
                     ,height*Constants.BALL_SIZE_RATIO + ballDeformation);
+
+            if (ballIsTough) {
+                drawToughNumber(batch);
+            }
         }
 
 //        batch.draw(textureSquare, position.x, position.y, width, height);
@@ -76,6 +85,10 @@ public class SquareItem {
                     ,width*Constants.BALL_PREVIEW_RATIO
                     ,height*Constants.BALL_PREVIEW_RATIO );
         }
+    }
+
+    public void drawToughNumber(SpriteBatch batch) {
+
     }
 
     public void update(float dt) {

@@ -68,6 +68,7 @@ public class Constants {
     public static final float HUD_FONT_MAIN_MENU = 0.04f;
     public static final float HUD_FONT_TITLE = 0.04f;
     public static final float HUD_FONT_HUGE = 0.09f;
+    public static final float HUD_FONT_INBALLS = 1/9/3f;
 
     public static final float ACHIEVE_WIDTH = 0.9f;
     public static final float ACHIEVE_HEIGHT = 0.08f;

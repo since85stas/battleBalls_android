@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.assets.AssetErrorListener;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.assets.loaders.AssetLoader;
 import com.badlogic.gdx.assets.loaders.SkinLoader;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.audio.Sound;
@@ -17,17 +16,15 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeType;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import com.badlogic.gdx.maps.Map;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.I18NBundle;
 
 
-import javax.xml.soap.Text;
 import java.util.HashMap;
-import java.util.Locale;
+
+import javax.xml.soap.Text;
 
 /**
  * Created by seeyo on 03.12.2018.
@@ -58,6 +55,7 @@ public class Assets implements Disposable, AssetErrorListener {
     public SkinAssets skinAssets;
     public LockAssets lockAssets;
     public SoundsBase soundsBase;
+    public LoadAssets loadAssets;
     public I18NBundle  bundle;
     public BackAssets  backAssets;
 
@@ -142,10 +140,45 @@ public class Assets implements Disposable, AssetErrorListener {
     public void initLoadingImages( AssetManager manager){
 //        manager.load(loadingImages, TextureAtlas.class);
         manager.load("mini_star.png",Texture.class);
-
+        manager.load("loading_gif/loading.png",Texture.class);
 
 //        manager.load(animation);
         manager.finishLoading();
+
+        Texture text = manager.get("loading_gif/loading.png");
+        loadAssets = new LoadAssets(text);
+    }
+
+    public class LoadAssets {
+        private static final int FRAME_COLS = 7; // #1
+        private static final int FRAME_ROWS = 6; // #2
+        private static final int FRAME_ROWS_USED = 6;
+        public static final float  WALK_LOOP_DURATION = 0.05f;
+
+        public final Animation<TextureRegion> loadAnimation;
+        public final Texture fullLoad;
+        TextureRegion[] walkFrames; // #5
+        SpriteBatch spriteBatch; // #6
+        TextureRegion currentFrame; //
+
+        float stateTime;
+
+        public LoadAssets (Texture texture) {
+
+            fullLoad = texture;
+            TextureRegion[][] tmp = TextureRegion.split(texture, texture.getWidth()/FRAME_COLS,
+                    texture.getHeight()/FRAME_ROWS); // #10
+            walkFrames = new TextureRegion[FRAME_COLS * FRAME_ROWS_USED];
+            int index = 0;
+            for (int i = 0; i < FRAME_ROWS_USED; i++) {
+                for (int j = 0; j < FRAME_COLS; j++) {
+                    walkFrames[index++] = tmp[i][j];
+                }
+            }
+            loadAnimation = new Animation<TextureRegion>(WALK_LOOP_DURATION,walkFrames);
+            Gdx.app.log(TAG,"animation load");
+
+        }
     }
 
 
@@ -187,6 +220,9 @@ public class Assets implements Disposable, AssetErrorListener {
 
         param.size = (int)(Gdx.graphics.getHeight() *Constants.HUD_FONT_IN_DIALOG);
         fontsByName.put( "dialog-font", generator.generateFont( param ));
+
+        param.size = (int)(Gdx.graphics.getHeight() *Constants.HUD_FONT_INBALLS);
+        fontsByName.put( "inball-font", generator.generateFont( param ));
 
         generator.dispose();
         return fontsByName;
