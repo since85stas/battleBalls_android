@@ -22,7 +22,9 @@ import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.I18NBundle;
 
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.xml.soap.Text;
 
@@ -58,6 +60,7 @@ public class Assets implements Disposable, AssetErrorListener {
     public LoadAssets loadAssets;
     public I18NBundle  bundle;
     public BackAssets  backAssets;
+    public NumberAssets numberAssets;
 
     public void init(AssetManager assetManager) {
         this.assetManager = assetManager;
@@ -78,9 +81,10 @@ public class Assets implements Disposable, AssetErrorListener {
         assetManager.load("ping.wav",Sound.class);
         assetManager.load("explosion.wav",Sound.class);
         assetManager.load("i18n/LinesBundle", I18NBundle.class);
-
-//        assetManager.load("i18n/LinesBundle", I18NBundle.class);
-//        assetManager.load("skin/craftacular-ui.json",Skin.class);
+        assetManager.load("128/numbers-0.png",Texture.class);
+        assetManager.load("128/numbers-1.png",Texture.class);
+        assetManager.load("128/numbers-2.png",Texture.class);
+        assetManager.load("128/numbers-3.png",Texture.class);
 
 
         // loading skin with parameters
@@ -131,6 +135,12 @@ public class Assets implements Disposable, AssetErrorListener {
         lockAssets       = new LockAssets(lockTexture);
         soundsBase       = new SoundsBase(bubbleSound,tookSound,explosionSound);
         backAssets       = new BackAssets(backT);
+
+        numberAssets     = new NumberAssets();
+        numberAssets.addTexture(assetManager.get("128/numbers-0.png",Texture.class));
+        numberAssets.addTexture(assetManager.get("128/numbers-1.png",Texture.class));
+        numberAssets.addTexture(assetManager.get("128/numbers-2.png",Texture.class));
+        numberAssets.addTexture(assetManager.get("128/numbers-3.png",Texture.class));
 
         bundle = assetManager.get("i18n/LinesBundle",I18NBundle.class);
         Gdx.app.log(TAG,"finfish load AssertManager>>>>>>>>>>>>" );
@@ -221,8 +231,8 @@ public class Assets implements Disposable, AssetErrorListener {
         param.size = (int)(Gdx.graphics.getHeight() *Constants.HUD_FONT_IN_DIALOG);
         fontsByName.put( "dialog-font", generator.generateFont( param ));
 
-        param.size = (int)(Gdx.graphics.getHeight() *Constants.HUD_FONT_INBALLS);
-        fontsByName.put( "inball-font", generator.generateFont( param ));
+//        param.size = (int)(Gdx.graphics.getHeight() *Constants.HUD_FONT_INBALLS);
+//        fontsByName.put( "inball-font", generator.generateFont( param ));
 
         generator.dispose();
         return fontsByName;
@@ -386,6 +396,37 @@ public class Assets implements Disposable, AssetErrorListener {
         public LBlueBallAssets(Texture texture) {
             this.texture = texture;
             Gdx.app.log(TAG,"animation load");
+        }
+    }
+
+    public class NumberAssets {
+
+        public Texture texture;
+
+        public List<Texture> numbersTextures;
+
+        public NumberAssets() {
+            numbersTextures = new ArrayList<Texture>();
+            Gdx.app.log(TAG,"animation load");
+        }
+
+        public void addTexture(Texture texture) {
+            numbersTextures.add(texture);
+        }
+
+        public Texture getNumTexture(int num) {
+            switch (num) {
+                case 1:
+                    return (numbersTextures.get(1));
+                    break;
+                case 2:
+                    return (numbersTextures.get(2));
+                    break;
+                case 3:
+                    return (numbersTextures.get(3));
+                    break;
+            }
+            return null;
         }
     }
 

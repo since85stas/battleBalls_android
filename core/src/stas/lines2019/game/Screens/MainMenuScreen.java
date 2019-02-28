@@ -89,10 +89,7 @@ public class MainMenuScreen extends InputAdapter implements Screen{
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         float fps = 1 / delta;
 
-
 //        Gdx.app.log("preLevel","fps =" + fps);
-
-
 
         batch.begin();
 
@@ -218,7 +215,8 @@ public class MainMenuScreen extends InputAdapter implements Screen{
                             break;
                         case 1:
                             mGame.findSaveGame = false;
-                            mGame.setGameScreen();
+//                            mGame.setGameScreen();
+                            mGame.setGameScreenExpans();
                             break;
                         case 2:
                             mGame.findSaveGame = false;

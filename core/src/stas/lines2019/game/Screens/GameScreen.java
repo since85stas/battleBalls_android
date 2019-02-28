@@ -7,8 +7,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -18,15 +16,13 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.DelayedRemovalArray;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
-import stas.lines2019.game.GameField;
+import stas.lines2019.game.gameFields.GameField;
 import stas.lines2019.game.LinesGame;
 import stas.lines2019.game.MenuBall;
 import stas.lines2019.game.Widgets.ExitDialog;
 import stas.lines2019.game.Widgets.RulesDialog;
 import stas.lines2019.game.util.Assets;
 import stas.lines2019.game.util.Constants;
-
-import java.util.Date;
 
 public class GameScreen implements Screen {
 

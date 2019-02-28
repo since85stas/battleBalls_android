@@ -1,4 +1,4 @@
-package stas.lines2019.game;
+package stas.lines2019.game.gameFields;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
@@ -11,8 +11,6 @@ import stas.lines2019.game.Screens.GameSurvScreen;
  */
 
 public class GameFieldSurv extends GameField {
-
-    private int CLEAR_BALLS_NUMBER = 25;
 
     public GameSurvScreen mGameSurvScreen;
 

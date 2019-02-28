@@ -1,10 +1,9 @@
 package stas.lines2019.game.Screens;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
-import stas.lines2019.game.GameFieldSurv;
+import stas.lines2019.game.gameFields.GameFieldSurv;
 import stas.lines2019.game.LinesGame;
 import stas.lines2019.game.util.Assets;
 import stas.lines2019.game.util.Constants;

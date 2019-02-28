@@ -1,4 +1,4 @@
-package stas.lines2019.game;
+package stas.lines2019.game.gameFields;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -17,16 +17,14 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.TimeUtils;
 
-import de.tomgrill.gdxdialogs.core.GDXDialogs;
-import de.tomgrill.gdxdialogs.core.GDXDialogsSystem;
-import de.tomgrill.gdxdialogs.core.dialogs.GDXButtonDialog;
+import stas.lines2019.game.Background;
 import stas.lines2019.game.Screens.GameScreen;
+import stas.lines2019.game.SquareItem;
 import stas.lines2019.game.funcs.CheckBallLines;
 import stas.lines2019.game.funcs.FindBallPath;
 import stas.lines2019.game.util.Assets;
@@ -54,10 +52,10 @@ public class GameField {
     private Vector2[] ballPathCellsCoord;
 
     // item dimensions
-    private int itemWidth;
+    public int itemWidth;
 
     // game parameters
-    private int fieldDimension = 9;
+    public int fieldDimension = 9;
     private int numberOfAiBalls = 3;
     public int numberOfColors = 7;
     private int numberOfTurns;
@@ -126,15 +124,16 @@ public class GameField {
                 screnHeight,
                 fieldDimension);
 
-        squares = new SquareItem[fieldDimension][fieldDimension];
-        for (int i = 0; i < fieldDimension; i++) {
-            for (int j = 0; j < fieldDimension; j++) {
-                int x = (int) initPos.x + j * itemWidth;
-                int y = (int) initPos.y + i * itemWidth;
-                Vector2 position = new Vector2(x, y);
-                squares[j][i] = new SquareItem(gameScreen, itemWidth, itemWidth, position);
-            }
-        }
+//        squares = new SquareItem[fieldDimension][fieldDimension];
+//        for (int i = 0; i < fieldDimension; i++) {
+//            for (int j = 0; j < fieldDimension; j++) {
+//                int x = (int) initPos.x + j * itemWidth;
+//                int y = (int) initPos.y + i * itemWidth;
+//                Vector2 position = new Vector2(x, y);
+//                squares[j][i] = new SquareItem(gameScreen, itemWidth, itemWidth, position);
+//            }
+//        }
+        createSquares();
 
         loadPrefer();
         if (gameScreen.lineGame.findSaveGame) {
@@ -165,6 +164,18 @@ public class GameField {
 
     public void initStartTime() {
         startTime = TimeUtils.millis();
+    }
+
+    public void createSquares () {
+        squares = new SquareItem[fieldDimension][fieldDimension];
+        for (int i = 0; i < fieldDimension; i++) {
+            for (int j = 0; j < fieldDimension; j++) {
+                int x = (int) initPos.x + j * itemWidth;
+                int y = (int) initPos.y + i * itemWidth;
+                Vector2 position = new Vector2(x, y);
+                squares[j][i] = new SquareItem(gameScreen, itemWidth, itemWidth, position);
+            }
+        }
     }
 
     private void savePrefer() {

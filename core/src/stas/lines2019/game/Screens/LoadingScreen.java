@@ -113,7 +113,7 @@ public class LoadingScreen implements Screen {
 			loadIscomp =true;
 		}
 
-		if (Assets.instance.assetManager.update() && loadIscomp && elapsed > 5) {
+		if (Assets.instance.assetManager.update() && loadIscomp && elapsed > 7) {
 			Assets.instance.getMainRes();
 
 			parent.setMainMenuScreen();

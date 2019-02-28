@@ -12,20 +12,21 @@ import stas.lines2019.game.util.Assets;
  * Created by seeyo on 28.02.2019.
  */
 
-public class TightBall extends SquareItem {
+public class SquareItemExpans extends SquareItem {
 
     private int toughtness;
     private BitmapFont font;
 
-    public TightBall(GameScreen gameScreen, int width, int height, Vector2 position) {
+    public SquareItemExpans(GameScreen gameScreen, int width, int height, Vector2 position) {
         super(gameScreen, width, height, position);
         ballIsTight(true);
-        font = Assets.instance.skinAssets.skin.get("inball-font",BitmapFont.class);
+//        font = Assets.instance.skinAssets.skin.get("inball-font",BitmapFont.class);
+        toughtness = 2;
     }
 
     @Override
     public void drawToughNumber(SpriteBatch batch) {
-        font.draw(batch,Integer.toString(toughtness),getCenterPosition().x,getCenterPosition().y);
+//        font.draw(batch,Integer.toString(toughtness),getCenterPosition().x,getCenterPosition().y);
 
     }
 }
