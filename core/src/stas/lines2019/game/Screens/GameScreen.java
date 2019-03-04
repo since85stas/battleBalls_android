@@ -318,6 +318,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void pause() {
+        gameField.savePrefTime();
         lineGame.isScreenRendering = false;
     }
 

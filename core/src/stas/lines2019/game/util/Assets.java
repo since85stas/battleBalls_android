@@ -66,7 +66,7 @@ public class Assets implements Disposable, AssetErrorListener {
         this.assetManager = assetManager;
         assetManager.setErrorListener(this);
         assetManager.load("mini_star.png", Pixmap.class);
-        assetManager.load("mini_lock.png", Texture.class);
+        assetManager.load("mini_lock.png", Pixmap.class);
         assetManager.load("Balls/sphere_blue.png", Texture.class);
         assetManager.load("Balls/sphere_green.png",Texture.class);
         assetManager.load("Balls/sphere_purple.png",Texture.class);
@@ -105,7 +105,7 @@ public class Assets implements Disposable, AssetErrorListener {
 
     public void getMainRes() {
         Pixmap starTexture    = assetManager.get  ("mini_star.png");
-        Texture lockTexture    = assetManager.get("mini_lock.png");
+        Pixmap lockTexture    = assetManager.get("mini_lock.png");
         Texture blueBallTexture = assetManager.get  ("Balls/sphere_blue.png");
         Texture greenBallTexture = assetManager.get ("Balls/sphere_green.png");
         Texture purleBallTexture = assetManager.get ("Balls/sphere_purple.png");
@@ -307,8 +307,22 @@ public class Assets implements Disposable, AssetErrorListener {
     public class LockAssets {
 
         public Texture texture;
+        public Texture achieveTexture;
 
-        public LockAssets(Texture texture) {
+        public LockAssets(Pixmap pixmap) {
+            Pixmap pixmap_achieve = new Pixmap((int)(Constants.ACHIEVE_HEIGHT*Gdx.graphics.getWidth()),
+                    (int)(Constants.ACHIEVE_HEIGHT*Gdx.graphics.getHeight()),
+                    pixmap.getFormat());
+            pixmap_achieve.drawPixmap(pixmap,
+                    0, 0, pixmap.getWidth(), pixmap.getHeight(),
+                    0, 0, pixmap_achieve.getWidth(), pixmap_achieve.getHeight()
+            );
+            Texture texture = new Texture(pixmap_achieve);
+            pixmap_achieve.dispose();
+
+            achieveTexture = texture;
+            texture = new Texture(pixmap);
+
             this.texture = texture;
             Gdx.app.log(TAG,"animation load");
         }

@@ -84,6 +84,7 @@ public class GameField {
     private float ballMoveX;
     private float ballMoveY;
 
+    float timePalydUntilHide;
     public float gameTime;
     public float gameTimeFullOld;
     private float ballMoveTime;
@@ -163,7 +164,10 @@ public class GameField {
     }
 
     public void initStartTime() {
+
         startTime = TimeUtils.millis();
+        gamePref = Gdx.app.getPreferences(Constants.PREF_GAME);
+        timePalydUntilHide = gamePref.getFloat(Constants.PREF_TIME_PLAYED,0);
     }
 
     public void createSquares () {
@@ -202,6 +206,12 @@ public class GameField {
         }
         hashTable.put(Constants.PREF_GAME_MASSIVE, json.toJson(ballColors)); //here you are serializing the array
         gamePref.put(hashTable);
+        gamePref.flush();
+    }
+
+    public void savePrefTime() {
+        gamePref = Gdx.app.getPreferences(Constants.PREF_GAME);
+        gamePref.putBoolean(Constants.PREF_GAME_IS_PLAY, true);
         gamePref.flush();
     }
 
@@ -329,7 +339,7 @@ public class GameField {
         long elapsedTime = TimeUtils.timeSinceMillis(startTime);
 
         turnTime = TimeUtils.timeSinceMillis(startTurnTime)/1000;
-        gameTime = elapsedTime / 1000;
+        gameTime = elapsedTime / 1000 + timePalydUntilHide;
     }
 
     public void lineIsSet() {

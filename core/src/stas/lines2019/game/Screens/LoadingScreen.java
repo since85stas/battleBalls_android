@@ -88,7 +88,6 @@ public class LoadingScreen implements Screen {
 	@Override
 	public void render(float delta) {
 
-		startTime = TimeUtils.millis();
 		Gdx.gl.glClearColor(0.902f,0.871f,0.863f,1);
 //		Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 	    Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -102,12 +101,14 @@ public class LoadingScreen implements Screen {
 		if (loadManager.update() && !loadIscomp ) {
 			parent.prepareMainRes();
 			loadIscomp =true;
+			startTime = TimeUtils.millis();
 		}
 
 		sb.begin();
 
 		if (loadIscomp) {
-			elapsed += delta;
+//			endTime = TimeUtils.timeSinceMillis(startTime)/1000;
+			elapsed = TimeUtils.timeSinceMillis(startTime)/1000;
 			TextureRegion frame = Assets.instance.loadAssets.loadAnimation.getKeyFrame(stateTime,true);
 			float iconYPos =Gdx.graphics.getHeight()/2 + 0.1f*Gdx.graphics.getHeight();
 			sb.draw(frame,

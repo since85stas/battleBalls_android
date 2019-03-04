@@ -92,9 +92,9 @@ public class AchieveScreen implements Screen {
         if (isComplete == 1) {
             image = new Image(Assets.instance.starAssets.achieveTexture);
         }  else if (isComplete == 0) {
-            image = new Image(Assets.instance.lockAssets.texture);
+            image = new Image(Assets.instance.lockAssets.achieveTexture);
         } else {
-            image = new Image(Assets.instance.lockAssets.texture);
+            image = new Image(Assets.instance.lockAssets.achieveTexture);
         }
         image.setSize(Constants.ACHIEVE_HEIGHT*height/2,Constants.ACHIEVE_HEIGHT*height/2);
 
@@ -125,6 +125,14 @@ public class AchieveScreen implements Screen {
     public void render(float delta) {
         Gdx.gl.glClearColor(0.3f, 0.47f, 0.65f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        batch.begin();
+        batch.draw(Assets.instance.backAssets.texture,
+                0,
+                0,
+                Gdx.graphics.getWidth(),
+                Gdx.graphics.getHeight()
+        );
+        batch.end();
         stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();
         if(Gdx.input.isKeyPressed(Input.Keys.BACK)){

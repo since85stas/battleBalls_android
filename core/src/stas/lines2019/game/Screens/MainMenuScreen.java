@@ -241,7 +241,7 @@ public class MainMenuScreen extends InputAdapter implements Screen{
 //        buttons[4].setText(achiveText);
 
         // change achievement text
-        buttons[4].add(new Image(Assets.instance.starAssets.achieveTexture));
+        buttons[4].add(new Image(Assets.instance.starAssets.texture));
         buttons[4].add(Integer.toString(mGame.numberOfStars),
                 "dialog");
 

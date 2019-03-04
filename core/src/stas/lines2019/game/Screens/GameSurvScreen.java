@@ -40,37 +40,43 @@ public class GameSurvScreen extends GameScreen {
                 treshholdPenalty = 25;
                 clearGameFieldNumber = 35;
                 gameDifficult = Constants.DIFFICULT_EASY;
-                turnTimeLimit  = 10;
+                turnTimeLimit  = 12;
                 break;
             case Constants.DIFFICULT_NORMAL:
                 surviveTime  = 8*60;
                 initTimeBank = 1*50;
-                ballTimeAdd  = 2;
+                ballTimeAdd  = 2.2f;
                 treshholdPenalty = 23;
                 clearGameFieldNumber = 32;
                 gameDifficult = Constants.DIFFICULT_NORMAL;
-                turnTimeLimit  = 12;
+                turnTimeLimit  = 14;
                 break;
             case Constants.DIFFICULT_HARD:
                 surviveTime  = 10*60;
-                initTimeBank = 1*45;
-                ballTimeAdd  = 2f;
+                initTimeBank = 1*60;
+                ballTimeAdd  = 2.2f;
                 treshholdPenalty = 30;
-                clearGameFieldNumber = 22;
+                clearGameFieldNumber = 29;
                 gameDifficult = Constants.DIFFICULT_HARD;
-                turnTimeLimit  = 10;
+                turnTimeLimit  = 12;
                 break;
             case Constants.DIFFICULT_NIGHTMARE:
                 surviveTime  = 15*60;
-                initTimeBank = 1*45;
-                ballTimeAdd  = 2;
+                initTimeBank = 1*70;
+                ballTimeAdd  = 2.5f;
                 treshholdPenalty = 30;
-                clearGameFieldNumber = 21;
+                clearGameFieldNumber = 25;
                 gameDifficult = Constants.DIFFICULT_NIGHTMARE;
-                turnTimeLimit  = 10;
+                turnTimeLimit  = 12;
                 break;
             case Constants.DIFFICULT_ENDLESS:
-
+                surviveTime  = 180*60;
+                initTimeBank = 3*60;
+                ballTimeAdd  = 3.f;
+                treshholdPenalty = 30;
+                clearGameFieldNumber = 25;
+                gameDifficult = Constants.DIFFICULT_NIGHTMARE;
+                turnTimeLimit  = 17;
                 break;
         }
 
