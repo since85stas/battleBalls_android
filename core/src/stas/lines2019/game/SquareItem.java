@@ -24,8 +24,8 @@ public class SquareItem {
     private Vector2 ballPosition;
 
     // item dimensions
-    private int width ;
-    private int height;
+    public int width ;
+    public int height;
 
     // ball parameters
     private boolean hasBall  = false;

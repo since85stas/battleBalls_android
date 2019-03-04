@@ -87,7 +87,7 @@ public class LoadingScreen implements Screen {
 
 	@Override
 	public void render(float delta) {
-		elapsed += Gdx.graphics.getDeltaTime();
+
 		startTime = TimeUtils.millis();
 		Gdx.gl.glClearColor(0.902f,0.871f,0.863f,1);
 //		Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
@@ -97,27 +97,36 @@ public class LoadingScreen implements Screen {
         // Get current frame of animation for the current stateTime
 		//        TextureRegion currentFrame = flameAnimation.getKeyFrame(stateTime, true);
         
-		sb.begin();
-		TextureRegion frame = Assets.instance.loadAssets.loadAnimation.getKeyFrame(stateTime,true);
-		float iconYPos =Gdx.graphics.getHeight()/2 + 0.1f*Gdx.graphics.getHeight();
-		sb.draw(frame,
-				(Gdx.graphics.getWidth() - ICON_WIDTH)/2,
-				iconYPos,
-				ICON_WIDTH,
-				ICON_HEIGHT
-				);
-		sb.end();
+
 
 		if (loadManager.update() && !loadIscomp ) {
 			parent.prepareMainRes();
 			loadIscomp =true;
 		}
 
-		if (Assets.instance.assetManager.update() && loadIscomp && elapsed > 7) {
+		sb.begin();
+
+		if (loadIscomp) {
+			elapsed += delta;
+			TextureRegion frame = Assets.instance.loadAssets.loadAnimation.getKeyFrame(stateTime,true);
+			float iconYPos =Gdx.graphics.getHeight()/2 + 0.1f*Gdx.graphics.getHeight();
+			sb.draw(frame,
+					(Gdx.graphics.getWidth() - ICON_WIDTH)/2,
+					iconYPos,
+					ICON_WIDTH,
+					ICON_HEIGHT
+			);
+		}
+
+		sb.end();
+
+		if (Assets.instance.assetManager.update() && loadIscomp && elapsed > 4) {
 			Assets.instance.getMainRes();
 
 			parent.setMainMenuScreen();
 		}
+
+
 
 	}
 

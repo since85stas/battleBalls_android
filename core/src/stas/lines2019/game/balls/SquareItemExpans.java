@@ -15,7 +15,6 @@ import stas.lines2019.game.util.Assets;
 public class SquareItemExpans extends SquareItem {
 
     private int toughtness;
-    private BitmapFont font;
 
     public SquareItemExpans(GameScreen gameScreen, int width, int height, Vector2 position) {
         super(gameScreen, width, height, position);
@@ -26,7 +25,11 @@ public class SquareItemExpans extends SquareItem {
 
     @Override
     public void drawToughNumber(SpriteBatch batch) {
-//        font.draw(batch,Integer.toString(toughtness),getCenterPosition().x,getCenterPosition().y);
+        batch.draw(Assets.instance.numberAssets.getNumTexture(toughtness),
+                getCenterPosition().x,
+                getCenterPosition().y,
+                width,
+                height);
 
     }
 }

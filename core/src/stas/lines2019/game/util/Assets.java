@@ -415,20 +415,19 @@ public class Assets implements Disposable, AssetErrorListener {
         }
 
         public Texture getNumTexture(int num) {
-            switch (num) {
-                case 1:
-                    return (numbersTextures.get(1));
-                    break;
-                case 2:
-                    return (numbersTextures.get(2));
-                    break;
-                case 3:
-                    return (numbersTextures.get(3));
-                    break;
-            }
+                switch (num) {
+                    case 1:
+                        return (numbersTextures.get(1));
+
+                    case 2:
+                        return (numbersTextures.get(2));
+
+                    case 3:
+                        return (numbersTextures.get(3));
+                }
             return null;
         }
-    }
+     }
 
     public class SkinAssets {
 
@@ -438,9 +437,6 @@ public class Assets implements Disposable, AssetErrorListener {
 //            BitmapFont font = generateHudFont();
             this.skin = skin;
 
-//            skin.add("newFont", font, BitmapFont.class);
-
-//            skin.
         }
 
     }

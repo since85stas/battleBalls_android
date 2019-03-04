@@ -215,8 +215,8 @@ public class MainMenuScreen extends InputAdapter implements Screen{
                             break;
                         case 1:
                             mGame.findSaveGame = false;
-//                            mGame.setGameScreen();
-                            mGame.setGameScreenExpans();
+                            mGame.setGameScreen();
+//                            mGame.setGameScreenExpans();
                             break;
                         case 2:
                             mGame.findSaveGame = false;
