@@ -18,6 +18,7 @@ public class Constants {
     public static float DEFORMATION_VELOCITY = 0.9f;
     public static float DEFORMATION_RATIO = 0.2f;
     public static float UPPER_OFFSET = 0.1f;
+    public static float NUMBER_RATIO = 0.4f;
 
     // константы для движения шарика
     public static float MOVE_VEL = 0.01f;

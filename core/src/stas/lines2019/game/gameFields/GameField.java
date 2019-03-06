@@ -24,7 +24,8 @@ import com.badlogic.gdx.utils.TimeUtils;
 
 import stas.lines2019.game.Background;
 import stas.lines2019.game.Screens.GameScreen;
-import stas.lines2019.game.SquareItem;
+import stas.lines2019.game.balls.BallsInfo;
+import stas.lines2019.game.balls.SquareItem;
 import stas.lines2019.game.funcs.CheckBallLines;
 import stas.lines2019.game.funcs.FindBallPath;
 import stas.lines2019.game.util.Assets;
@@ -69,7 +70,7 @@ public class GameField {
     private boolean achieveUnlock = false;
     private boolean drawNewAchievment = false;
     private boolean isInputProccActive = false;
-    private Vector2 selectedBall;
+    public Vector2 selectedBall;
     private Vector2 transportPosition;
     private Vector2[] nextTurnBallCells;
 
@@ -415,7 +416,8 @@ public class GameField {
                                 } else if (pathIsFind) {
 
                                     // получаем информацию из выбранного шара и убераем его
-                                    int color = squares[(int) selectedBall.x][(int) selectedBall.y].getBallColor();
+//                                    int color = squares[(int) selectedBall.x][(int) selectedBall.y].getBallColor();
+                                    BallsInfo info = getBallInfo();
 
                                     path = finder.getPath();
 
@@ -438,7 +440,8 @@ public class GameField {
                                     transportPosition = clickPosition;
 
                                     squares[(int) clickPosition.x][(int) clickPosition.y].setHasBall(true);
-                                    squares[(int) clickPosition.x][(int) clickPosition.y].setBallColor(color);
+//                                    squares[(int) clickPosition.x][(int) clickPosition.y].setBallColor(info.color);
+                                    setTransportBallProph(clickPosition,info);
                                     if (squares[(int) clickPosition.x][(int) clickPosition.y].isNextTurnBall()) {
                                         squares[(int) clickPosition.x][(int) clickPosition.y].setNextTurnBall(false);
                                         addNextTurnBalls();
@@ -471,6 +474,16 @@ public class GameField {
                 }
             });
         }
+    }
+
+    public BallsInfo getBallInfo() {
+        BallsInfo info = new BallsInfo();
+        info.color = squares[(int) selectedBall.x][(int) selectedBall.y].getBallColor();
+        return info;
+    }
+
+    public void setTransportBallProph(Vector2 clickPosition, BallsInfo info) {
+        squares[(int) clickPosition.x][(int) clickPosition.y].setBallColor(info.color);
     }
 
     private void addRulesButton() {

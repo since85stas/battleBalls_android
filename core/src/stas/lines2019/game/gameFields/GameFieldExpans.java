@@ -3,7 +3,8 @@ package stas.lines2019.game.gameFields;
 import com.badlogic.gdx.math.Vector2;
 
 import stas.lines2019.game.Screens.GameScreenExpans;
-import stas.lines2019.game.SquareItem;
+import stas.lines2019.game.balls.BallsInfo;
+import stas.lines2019.game.balls.SquareItem;
 import stas.lines2019.game.balls.SquareItemExpans;
 
 /**
@@ -33,5 +34,16 @@ public class GameFieldExpans extends GameField {
                 squares[j][i] = new SquareItemExpans(gameScreen, itemWidth, itemWidth, position);
             }
         }
+//        SquareItemExpans squareItemExpans = squares[0][0];
+    }
+
+    @Override
+    public BallsInfo getBallInfo() {
+        BallsInfo info = new BallsInfo();
+//        SquareItemExpans squareItemExpans = squares[(int) selectedBall.x][(int) selectedBall.y];
+//        SquareItem squareItem = squares
+        info.color = squares[(int) selectedBall.x][(int) selectedBall.y].getBallColor();
+//        squares[(int) selectedBall.x][(int) selectedBall.y].
+        return info;
     }
 }

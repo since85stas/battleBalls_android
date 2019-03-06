@@ -1,4 +1,4 @@
-package stas.lines2019.game;
+package stas.lines2019.game.balls;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;

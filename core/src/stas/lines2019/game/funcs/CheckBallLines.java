@@ -2,7 +2,7 @@ package stas.lines2019.game.funcs;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
-import stas.lines2019.game.SquareItem;
+import stas.lines2019.game.balls.SquareItem;
 
 public class CheckBallLines {
 

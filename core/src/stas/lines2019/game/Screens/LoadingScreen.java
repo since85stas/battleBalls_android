@@ -21,22 +21,11 @@ import stas.lines2019.game.util.GifDecoder;
 public class LoadingScreen implements Screen {
 	private LinesGame parent;
 	private SpriteBatch sb;
-	private TextureAtlas atlas;
-	private AtlasRegion title;
-	private Animation flameAnimation;
 	private boolean loadIscomp;
 	Texture test;
-	
-	public final int IMAGE = 0;		// loading images
-	public final int FONT = 1;		// loading fonts
-	public final int PARTY = 2;		// loading particle effects
-	public final int SOUND = 3;		// loading sounds
-	public final int MUSIC = 4;		// loading music
 
 	private final float ICON_WIDTH  = 0.4f*Gdx.graphics.getWidth();
 	private final float ICON_HEIGHT = ICON_WIDTH*0.7518f;
-	
-	private int currentLoadingStage = 0;
 	
 	// timer for exiting loading screen
 	public float countDown = 1f;
@@ -44,7 +33,6 @@ public class LoadingScreen implements Screen {
 	private AtlasRegion dash;
 
 	AssetManager loadManager;
-	Animation<TextureRegion> animation;
 
 	float elapsed;
 	private float loadinfTime = 3;
@@ -69,8 +57,6 @@ public class LoadingScreen implements Screen {
 
 		test = loadManager.get("mini_star.png");
 //
-//		flameAnimation = new Animation(0.07f, atlas.findRegions("flames/flames"), PlayMode.LOOP);
-		
 		// initiate queueing of images but don't start loading
 
 		System.out.println("Loading images....");
@@ -93,10 +79,6 @@ public class LoadingScreen implements Screen {
 	    Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 	    
 	    stateTime += delta; // Accumulate elapsed animation time
-        // Get current frame of animation for the current stateTime
-		//        TextureRegion currentFrame = flameAnimation.getKeyFrame(stateTime, true);
-        
-
 
 		if (loadManager.update() && !loadIscomp ) {
 			parent.prepareMainRes();
@@ -121,7 +103,7 @@ public class LoadingScreen implements Screen {
 
 		sb.end();
 
-		if (Assets.instance.assetManager.update() && loadIscomp && elapsed > 4) {
+		if (Assets.instance.assetManager.update() && loadIscomp && elapsed > 2) {
 			Assets.instance.getMainRes();
 
 			parent.setMainMenuScreen();
