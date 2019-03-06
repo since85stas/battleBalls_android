@@ -6,6 +6,7 @@ package stas.lines2019.game.balls;
 
 public class BallsInfo {
     public int color;
+    public boolean ballIsTough;
     public int toughtness;
     public boolean isFreeze;
     public boolean isMultiColor;

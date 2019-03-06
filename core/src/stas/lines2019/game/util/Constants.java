@@ -98,6 +98,16 @@ public class Constants {
 
     public static final String STARS_NUMBER = "stars_number";
 
+    // ball types
+    public static final int  BALLS_TYPES_NUM = 2;
+    public static final int TYPE_NORMAL = 0;
+    public static final int TYPE_TIGHT = 1;
+    public static final int TYPE_FREEZE = 2;
+
+    public static final float NORMAL_WEIGHT = 1.f;
+    public static final float TIGHT_WEIGHT = 0.5f;
+    public static final float FREEZE_WEIGHT = 0.1f;
+
     //
     public static final String SURV_GAME_IS_BOUGHT = "surv_buy";
     public static final String GAME_OPENS = "menu opens";

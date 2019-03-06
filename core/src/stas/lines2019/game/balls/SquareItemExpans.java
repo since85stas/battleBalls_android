@@ -17,20 +17,19 @@ public class SquareItemExpans extends SquareItem {
 
     public SquareItemExpans(GameScreen gameScreen, int width, int height, Vector2 position) {
         super(gameScreen, width, height, position);
-        ballIsTight(true);
-//        font = Assets.instance.skinAssets.skin.get("inball-font",BitmapFont.class);
-        toughtness = 2;
     }
 
     @Override
     public void drawToughNumber(SpriteBatch batch) {
         float numberX = getCenterPosition().x ;
         float numberY = getCenterPosition().y ;
-        batch.draw(Assets.instance.numberAssets.getNumTexture(toughtness),
-                numberX,
-                numberY,
-                width* Constants.NUMBER_RATIO,
-                height* Constants.NUMBER_RATIO);
+        if(toughtness != 0) {
+            batch.draw(Assets.instance.numberAssets.getNumTexture(toughtness),
+                    numberX,
+                    numberY,
+                    width * Constants.NUMBER_RATIO,
+                    height * Constants.NUMBER_RATIO);
+        }
     }
 
     public void ballDestroy() {
@@ -38,6 +37,11 @@ public class SquareItemExpans extends SquareItem {
             toughtness--;
         } else {
             toughtness = 0;
+            ballIsTough = false;
+        }
+        if (toughtness == 1) {
+            toughtness =0;
+            ballIsTough =false;
         }
     }
 

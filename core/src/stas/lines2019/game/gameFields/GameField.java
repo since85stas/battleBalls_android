@@ -26,6 +26,7 @@ import stas.lines2019.game.Background;
 import stas.lines2019.game.Screens.GameScreen;
 import stas.lines2019.game.balls.BallsInfo;
 import stas.lines2019.game.balls.SquareItem;
+import stas.lines2019.game.balls.SquareItemExpans;
 import stas.lines2019.game.funcs.CheckBallLines;
 import stas.lines2019.game.funcs.FindBallPath;
 import stas.lines2019.game.util.Assets;
@@ -34,6 +35,7 @@ import stas.lines2019.game.util.Constants;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.concurrent.SynchronousQueue;
 
 public class GameField {
     private static final String TAG = GameField.class.getName();
@@ -57,7 +59,7 @@ public class GameField {
 
     // game parameters
     public int fieldDimension = 9;
-    private int numberOfAiBalls = 3;
+    public int numberOfAiBalls = 3;
     public int numberOfColors = 7;
     private int numberOfTurns;
     private int gameScore;
@@ -75,7 +77,7 @@ public class GameField {
     private Vector2[] nextTurnBallCells;
 
     // массив с ячейками
-    public SquareItem[][] squares;
+    public SquareItemExpans[][] squares;
     private int[][] ballColors;
     public Vector2 initPos;
 
@@ -172,13 +174,13 @@ public class GameField {
     }
 
     public void createSquares () {
-        squares = new SquareItem[fieldDimension][fieldDimension];
+        squares = new SquareItemExpans[fieldDimension][fieldDimension];
         for (int i = 0; i < fieldDimension; i++) {
             for (int j = 0; j < fieldDimension; j++) {
                 int x = (int) initPos.x + j * itemWidth;
                 int y = (int) initPos.y + i * itemWidth;
                 Vector2 position = new Vector2(x, y);
-                squares[j][i] = new SquareItem(gameScreen, itemWidth, itemWidth, position);
+                squares[j][i] = new SquareItemExpans(gameScreen, itemWidth, itemWidth, position);
             }
         }
     }
@@ -565,12 +567,20 @@ public class GameField {
     }
 
     public void returnSquareInitState(Vector2 click, boolean delBall) {
-        squares[(int) click.x][(int) click.y].setActive(false);
-        squares[(int) click.x][(int) click.y].setBallInCenter();
-        if (delBall) {
-            squares[(int) click.x][(int) click.y].setHasBall(false);
-            squares[(int) click.x][(int) click.y].setBallColor(-3);
+        SquareItemExpans item = squares[(int) click.x][(int) click.y];
+        if (item.ballIsTough) {
+            item.setActive(false);
+            item.setBallInCenter();
+            item.ballDestroy();
+        } else {
+            squares[(int) click.x][(int) click.y].setActive(false);
+            squares[(int) click.x][(int) click.y].setBallInCenter();
+            if (delBall) {
+                squares[(int) click.x][(int) click.y].setHasBall(false);
+                squares[(int) click.x][(int) click.y].setBallColor(-3);
+            }
         }
+
     }
 
     /* компьютер выбирает шарики и кладет их в рандомные ячейки
@@ -617,7 +627,7 @@ public class GameField {
         }
     }
 
-    private void getNextTurnBalls() {
+    public void getNextTurnBalls() {
         for (int i = 0; i < numberOfAiBalls; i++) {
             Vector2[] freeSquares = checkSquares(false);
             if (freeSquares.length < 3) {
@@ -625,14 +635,21 @@ public class GameField {
             }
             if (freeSquares.length != 0 ) {
                 int random = MathUtils.random(0, freeSquares.length - 1);
-
+                BallsInfo info = getNewBallInfo();
                 squares[(int) freeSquares[random].x][(int) freeSquares[random].y]
-                        .setBallColor(MathUtils.random(0, numberOfColors - 1));
+                        .setBallColor(info.color);
                 squares[(int) freeSquares[random].x][(int) freeSquares[random].y]
                         .setNextTurnBall(true);
             }
         }
     }
+
+    public BallsInfo getNewBallInfo() {
+        BallsInfo info = new BallsInfo();
+        info.color = MathUtils.random(0, numberOfColors - 1);
+        return info;
+    }
+
 
     public void noFreeSpace() {
         isInputProccActive = false;
