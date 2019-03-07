@@ -47,11 +47,11 @@ public class SquareItemExpans extends SquareItem {
     public void drawColorless(SpriteBatch batch) {
         float numberX = getCenterPosition().x ;
         float numberY = getCenterPosition().y ;
-        batch.draw(Assets.instance.starAssets.texture,
-                numberX,
-                numberY,
-                width * Constants.NUMBER_RATIO,
-                height * Constants.NUMBER_RATIO);
+//        batch.draw(Assets.instance.starAssets.texture,
+//                numberX,
+//                numberY,
+//                width * Constants.NUMBER_RATIO,
+//                height * Constants.NUMBER_RATIO);
     }
 
     public void ballDestroy() {

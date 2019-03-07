@@ -3,6 +3,7 @@ package stas.lines2019.game.funcs;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import stas.lines2019.game.balls.SquareItem;
+import stas.lines2019.game.util.Constants;
 
 public class CheckBallLines {
 
@@ -16,6 +17,8 @@ public class CheckBallLines {
     int SIZE_X;
     int SIZE_WIN = 5; //кол-во заполненных подряд полей для победы
     char[][] fieldg;
+    char[][] fieldgInitial;
+    char colorlessChar;
     int colors;
     int numberBallsInLine = 0;
 
@@ -38,6 +41,8 @@ public class CheckBallLines {
         SIZE_Y = squares.length;
         SIZE_X = squares.length;
         fieldg = new char[SIZE_Y][SIZE_X];
+        fieldgInitial = new char[SIZE_Y][SIZE_X];
+
 
         for (int i = 0; i < SIZE_X; i++) {
             for (int j = 0; j < SIZE_Y; j++) {
@@ -48,7 +53,13 @@ public class CheckBallLines {
                 }
             }
         }
+        for (int i = 0; i < SIZE_X; i++) {
+            for (int j = 0; j < SIZE_Y; j++) {
+                fieldgInitial[i][j] = fieldg[i][j];
+            }
+        }
 
+        colorlessChar = Character.forDigit(Constants.COLOR_COLORLEESS, 10);
     }
 
     public boolean startCheck() {
@@ -69,7 +80,11 @@ public class CheckBallLines {
         // проверка на бесцветные шарики
         for (int i = 0; i < SIZE_X; i++) {
             for (int j = 0; j < SIZE_Y; j++) {
-
+                if (fieldgInitial[i][j] == colorlessChar ) {
+                    fieldg[i][j] = dot;
+                } else {
+                    fieldg[i][j] = fieldgInitial[i][j];
+                }
             }
         }
 

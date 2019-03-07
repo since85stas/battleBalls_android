@@ -99,7 +99,7 @@ public class Constants {
     public static final String STARS_NUMBER = "stars_number";
 
     // ball types
-    public static final int  BALLS_TYPES_NUM = 3;
+    public static final int  BALLS_TYPES_NUM = 4;
     public static final int TYPE_NORMAL = 0;
     public static final int TYPE_TIGHT = 1;
     public static final int TYPE_FREEZE = 2;
