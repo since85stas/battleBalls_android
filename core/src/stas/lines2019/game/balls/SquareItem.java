@@ -30,7 +30,6 @@ public class SquareItem {
     // ball parameters
     private boolean hasBall  = false;
     private boolean isActive = false;
-    public boolean ballIsTough  = false;
     private float ballactiveTime ;
     private float ballVelocity =
             Constants.BALL_VELOCITY* Gdx.graphics.getWidth()/10;
@@ -39,6 +38,11 @@ public class SquareItem {
     private int   ballColor   = -3   ;
     private boolean nextTurnBall = false;
     private boolean isSoundStart = false ;
+
+    // ball types
+    public boolean ballIsTough  = false;
+    public boolean ballIsFreeze = false;
+    public boolean ballIsColorless = false;
 
     // collision parameters
     private float ballDeformation   ;
@@ -60,6 +64,14 @@ public class SquareItem {
         ballIsTough = bol;
     }
 
+    public void setBallIsFreeze(boolean ballIsFreeze) {
+        this.ballIsFreeze = ballIsFreeze;
+    }
+
+    public void setBallIsColorless(boolean ballIsColorless) {
+        this.ballIsColorless = ballIsColorless;
+    }
+
     public void   render (SpriteBatch batch) {
         //batch.draw(textureSquare,position.x,position.y);
 //        batch.draw(textureSquare, position.x, position.y, width, height);
@@ -73,6 +85,10 @@ public class SquareItem {
 
             if (ballIsTough) {
                 drawToughNumber(batch);
+            }  else if(ballIsFreeze) {
+                drawFreezeText(batch);
+            } else if (ballIsColorless) {
+                drawColorless(batch);
             }
         }
 
@@ -88,6 +104,14 @@ public class SquareItem {
     }
 
     public void drawToughNumber(SpriteBatch batch) {
+
+    }
+
+    public void drawFreezeText(SpriteBatch batch) {
+
+    }
+
+    public void drawColorless(SpriteBatch batch) {
 
     }
 
@@ -117,7 +141,6 @@ public class SquareItem {
             }
             ballPosition.y = position.y;
             ballDeformation -= ballDeformationVelocity*dt;
-//            System.out.println("ooops");
         } else if  ( ballPosition.y + height*Constants.BALL_SIZE_RATIO - position.y
                 > height - height*Constants.UPPER_OFFSET) {
             ballVelocity = ballVelocity*(-1);
@@ -173,6 +196,9 @@ public class SquareItem {
             case 6:
 //                textureName = "sphere_yellow.png";
                 texture = Assets.instance.lBlueBallAssets.texture;
+                break;
+            case 66:
+                texture = Assets.instance.colorlessBallAssets.texture;
                 break;
         }
         return texture;

@@ -65,6 +65,14 @@ public class CheckBallLines {
 
     //проверка победы
     private boolean checkWin(char dot) {
+
+        // проверка на бесцветные шарики
+        for (int i = 0; i < SIZE_X; i++) {
+            for (int j = 0; j < SIZE_Y; j++) {
+
+            }
+        }
+
         int numBalls = 0;
         for (int v = 0; v < SIZE_Y; v++) {
             for (int h = 0; h < SIZE_X; h++) {

@@ -408,8 +408,6 @@ public class GameField {
                                 boolean pathIsFind = finder.findPath();
                                 Gdx.app.log(TAG, "pathFind =" + pathIsFind);
                                 if (clickPosition.equals(selectedBall)) {
-//                                    returnSquareInitState(clickPosition, false);
-
                                     isBallSelected = false;
                                     selectedBall = null;
                                     squares[(int) clickPosition.x][(int) clickPosition.y].setBallInCenter();
@@ -418,9 +416,7 @@ public class GameField {
                                 } else if (pathIsFind) {
 
                                     // получаем информацию из выбранного шара и убераем его
-//                                    int color = squares[(int) selectedBall.x][(int) selectedBall.y].getBallColor();
                                     BallsInfo info = getBallInfo();
-
                                     path = finder.getPath();
 
                                     // получаем координаты центров ячеек
@@ -459,7 +455,8 @@ public class GameField {
                             if (clickPosition != null &&
                                     !clickPosition.equals(new Vector2(666,665)) &&
                                     !clickPosition.equals(new Vector2(66, 77))) {
-                                if (squares[(int) clickPosition.x][(int) clickPosition.y].isHasBall()) {
+                                if ( squares[(int) clickPosition.x][(int) clickPosition.y].isHasBall() &&
+                                        !squares[(int) clickPosition.x][(int) clickPosition.y].ballIsFreeze ) {
                                     squares[(int) clickPosition.x][(int) clickPosition.y].setActive(true);
                                     squares[(int) clickPosition.x][(int) clickPosition.y].update(dt);
                                     isBallSelected = true;
@@ -572,7 +569,20 @@ public class GameField {
             item.setActive(false);
             item.setBallInCenter();
             item.ballDestroy();
-        } else {
+        } else if(item.ballIsFreeze) {
+            item.setActive(false);
+            item.setBallIsFreeze(false);
+            item.setBallInCenter();
+            item.setBallColor(-3);
+            item.setHasBall(false);
+        } else if (item.ballIsColorless) {
+            item.setActive(false);
+            item.setBallIsColorless(false);
+            item.setBallInCenter();
+            item.setBallColor(-3);
+            item.setHasBall(false);
+        }
+        else {
             squares[(int) click.x][(int) click.y].setActive(false);
             squares[(int) click.x][(int) click.y].setBallInCenter();
             if (delBall) {
@@ -580,7 +590,6 @@ public class GameField {
                 squares[(int) click.x][(int) click.y].setBallColor(-3);
             }
         }
-
     }
 
     /* компьютер выбирает шарики и кладет их в рандомные ячейки
@@ -658,7 +667,6 @@ public class GameField {
 
     private void addNextTurnBalls() {
         Vector2[] freeSquares = checkSquares(false);
-
 //        if (freeSquares.length < 3) {
 //            gameScreen.gameOverDialog();
 //        }

@@ -9,7 +9,7 @@ public class BallsInfo {
     public boolean ballIsTough;
     public int toughtness;
     public boolean isFreeze;
-    public boolean isMultiColor;
+    public boolean isColorless;
     public boolean isExplosion;
 
     public BallsInfo() {

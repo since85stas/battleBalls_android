@@ -50,6 +50,8 @@ public class GameFieldExpans extends GameField {
         ballsWeights = new float[Constants.BALLS_TYPES_NUM];
         ballsWeights[0] = Constants.NORMAL_WEIGHT;
         ballsWeights[1] = Constants.TIGHT_WEIGHT;
+        ballsWeights[2] = Constants.FREEZE_WEIGHT;
+        ballsWeights[3] = Constants.COLORLESS_WEIGHT;
 //        SquareItemExpans squareItemExpans = squares[0][0];
     }
 
@@ -64,6 +66,8 @@ public class GameFieldExpans extends GameField {
         if(info.ballIsTough) {
             info.toughtness = squareItemExpans.toughtness;
         }
+        info.isFreeze = squareItemExpans.ballIsFreeze;
+        info.isColorless = squareItemExpans.ballIsColorless;
         return info;
     }
 
@@ -74,6 +78,10 @@ public class GameFieldExpans extends GameField {
             squares[(int) clickPosition.x][(int) clickPosition.y].ballIsTough = true;
             squares[(int) clickPosition.x][(int) clickPosition.y].setToughtness(info.toughtness);
         }
+        if(info.isColorless) {
+            squares[(int) clickPosition.x][(int) clickPosition.y].setBallIsColorless(true);
+        }
+
     }
 
     @Override
@@ -97,7 +105,18 @@ public class GameFieldExpans extends GameField {
                             .ballIsTight(true);
                     squares[(int) freeSquares[random].x][(int) freeSquares[random].y]
                             .toughtness = info.toughtness;
-                } else {
+                } else if(ballType == Constants.TYPE_FREEZE) {
+                    squares[(int) freeSquares[random].x][(int) freeSquares[random].y]
+                            .setBallColor(info.color);
+                    squares[(int) freeSquares[random].x][(int) freeSquares[random].y].
+                            setBallIsFreeze(true);
+                } else if (ballType == Constants.TYPE_COLORLESS) {
+                    squares[(int) freeSquares[random].x][(int) freeSquares[random].y]
+                            .setBallColor(Constants.COLOR_COLORLEESS );
+                    squares[(int) freeSquares[random].x][(int) freeSquares[random].y].
+                            setBallIsColorless(true);
+                }
+                else {
                     Gdx.app.log("expens","wrong ball type");
                 }
 

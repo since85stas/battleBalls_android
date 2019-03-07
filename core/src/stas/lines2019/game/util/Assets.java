@@ -52,6 +52,7 @@ public class Assets implements Disposable, AssetErrorListener {
     public PinkBallAssets pinkBallAssets;
     public RedBallAssets redBallAssets;
     public LBlueBallAssets lBlueBallAssets;
+    public ColorlessBallAssets colorlessBallAssets;
     public StarAssets starAssets;
     public TileAssets tileAssets;
     public SkinAssets skinAssets;
@@ -74,6 +75,7 @@ public class Assets implements Disposable, AssetErrorListener {
         assetManager.load("Balls/sphere_red.png",Texture.class);
         assetManager.load("Balls/sphere_pink.png",Texture.class);
         assetManager.load("Balls/sphere_L_blue.png",Texture.class);
+        assetManager.load("Balls/sphere-18.png",Texture.class);
         assetManager.load("green_rock.png"   ,Texture.class);
         assetManager.load("brown_rock.png"   ,Texture.class);
         assetManager.load("back1.png",Texture.class);
@@ -113,6 +115,7 @@ public class Assets implements Disposable, AssetErrorListener {
         Texture redBallTexture = assetManager.get ("Balls/sphere_red.png");
         Texture pinkBallTexture = assetManager.get ("Balls/sphere_pink.png");
         Texture lBlueBallTexture = assetManager.get("Balls/sphere_L_blue.png");
+        Texture colorlessText    = assetManager.get("Balls/sphere-18.png");
         Texture greenTileTexture = assetManager.get("green_rock.png");
         Texture brownTileTexture = assetManager.get("brown_rock.png");
         Texture backT            = assetManager.get("back1.png");
@@ -130,6 +133,7 @@ public class Assets implements Disposable, AssetErrorListener {
         pinkBallAssets   = new PinkBallAssets(pinkBallTexture);
         redBallAssets    = new RedBallAssets(redBallTexture);
         lBlueBallAssets  = new LBlueBallAssets(lBlueBallTexture);
+        colorlessBallAssets = new ColorlessBallAssets(colorlessText);
         tileAssets       = new TileAssets(greenTileTexture,brownTileTexture);
         skinAssets       = new SkinAssets(mySkin);
         lockAssets       = new LockAssets(lockTexture);
@@ -413,6 +417,17 @@ public class Assets implements Disposable, AssetErrorListener {
         }
     }
 
+    public class ColorlessBallAssets {
+
+        public Texture texture;
+
+        public ColorlessBallAssets(Texture texture) {
+            this.texture = texture;
+            Gdx.app.log(TAG,"animation load");
+        }
+    }
+
+
     public class NumberAssets {
 
         public Texture texture;
@@ -430,12 +445,12 @@ public class Assets implements Disposable, AssetErrorListener {
 
         public Texture getNumTexture(int num) {
                 switch (num) {
+                    case 0:
+                        return (numbersTextures.get(0));
                     case 1:
                         return (numbersTextures.get(1));
-
                     case 2:
                         return (numbersTextures.get(2));
-
                     case 3:
                         return (numbersTextures.get(3));
                 }
