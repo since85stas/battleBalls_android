@@ -133,7 +133,7 @@ public class GameFieldExpans extends GameField {
         }
         int num = 0;
         for (int j = 1; j < ballsRoll.length; j++) {
-            if (ballsRoll[j] > ballsRoll[j-1] ) {
+            if (ballsRoll[j] > ballsRoll[num] ) {
                 num = j;
             }
         }
