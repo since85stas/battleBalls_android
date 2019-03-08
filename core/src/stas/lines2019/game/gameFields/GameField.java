@@ -34,7 +34,10 @@ import stas.lines2019.game.util.Constants;
 
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Hashtable;
+import java.util.List;
 import java.util.concurrent.SynchronousQueue;
 
 public class GameField {
@@ -160,7 +163,7 @@ public class GameField {
         ParticleEffect touchEffect = new ParticleEffect();
         touchEffect.load(Gdx.files.internal("fire3.p"), Gdx.files.internal(""));
         touchEffect.setEmittersCleanUpBlendFunction(true);
-        touchEffectPool = new ParticleEffectPool(touchEffect, 5, 9);
+        touchEffectPool = new ParticleEffectPool(touchEffect, 8, 15);
         spawnParticleEffect(-300, -100);
         addRulesButton();
 //        addFakeBalls(9,0,0,6,1);
@@ -236,15 +239,63 @@ public class GameField {
             }
         }
 
+    }
 
+    private void checkBombsInLines(Vector2[] balls) {
+        ArrayList<Vector2> initArray = new ArrayList<Vector2>(balls.length);
+        boolean lineHasBomb = false;
+        List<Vector2> pos = new ArrayList<Vector2>();
+        for (int i = 0; i < balls.length ; i++) {
+            if (squares[(int) balls[i].x][(int) balls[i].y].ballIsBomb) {
+                lineHasBomb = true;
+                pos.add(new Vector2(balls[i].x,balls[i].y));
+            }
+        }
+
+        for (int i = 0; i < balls.length; i++) {
+            initArray.add(balls[i]);
+        }
+        if (lineHasBomb) {
+            for (int i = 0; i < pos.size(); i++) {
+                Vector2 newVal =  new Vector2(pos.get(i).x -1,pos.get(i).y);
+                if (pos.get(i).x != 0) initArray.add(newVal);
+
+                newVal =  new Vector2(pos.get(i).x -1,pos.get(i).y -1);
+                if (pos.get(i).x != 0 && pos.get(i).y != 0) initArray.add(newVal);
+
+                newVal =  new Vector2(pos.get(i).x ,pos.get(i).y -1);
+                if ( pos.get(i).y != 0) initArray.add(newVal);
+
+                newVal =  new Vector2(pos.get(i).x +1,pos.get(i).y -1);
+                if (pos.get(i).x != fieldDimension -1 && pos.get(i).y != 0) initArray.add(newVal);
+
+                newVal =  new Vector2(pos.get(i).x + 1,pos.get(i).y );
+                if (pos.get(i).x != fieldDimension-1 ) initArray.add(newVal);
+
+                newVal =  new Vector2(pos.get(i).x + 1,pos.get(i).y + 1);
+                if (pos.get(i).x != fieldDimension -1 && pos.get(i).y != fieldDimension -1) initArray.add(newVal);
+
+                newVal =  new Vector2(pos.get(i).x ,pos.get(i).y + 1);
+                if ( pos.get(i).y != fieldDimension-1) initArray.add(newVal);
+
+                newVal =  new Vector2(pos.get(i).x -1,pos.get(i).y +1);
+                if (pos.get(i).x != 0 && pos.get(i).y != fieldDimension -1)initArray.add(newVal);
+            }
+        }
+        Vector2[] newArray = new Vector2[initArray.size()];
+        initArray.toArray(newArray) ;
+        deleteBalls(newArray );
     }
 
     private void deleteBalls(Vector2[] balls) {
         for (int i = 0; i < balls.length; i++) {
-
             float x = squares[(int) balls[i].x][(int) balls[i].y].getCenterPosition().x;
             float y = squares[(int) balls[i].x][(int) balls[i].y].getCenterPosition().y;
             spawnParticleEffect((int) x, (int) y);
+            if (squares[(int) balls[i].x][(int) balls[i].y].isNextTurnBall()) {
+                squares[(int) balls[i].x][(int) balls[i].y].setNextTurnBall(false);
+                addNextTurnBalls();
+            }
             returnSquareInitState(balls[i], true);
         }
         Assets.instance.soundsBase.explSound.play(0.2f);
@@ -301,7 +352,8 @@ public class GameField {
                 CheckBallLines check = new CheckBallLines(squares, numberOfColors);
                 boolean hasLine = check.startCheck();
                 if (hasLine && check.getBallsInLine() != null) {
-                    deleteBalls(check.getBallsInLine());
+                    checkBombsInLines(check.getBallsInLine());
+//                    deleteBalls(check.getBallsInLine());
                     lineLong = check.getNumberBallsInLine() ;
                     lineIsSet();
                 } else {
@@ -311,7 +363,8 @@ public class GameField {
                 check = new CheckBallLines(squares, numberOfColors);
                 hasLine = check.startCheck();
                 if (hasLine && check.getBallsInLine() != null) {
-                    deleteBalls(check.getBallsInLine());
+                    checkBombsInLines(check.getBallsInLine());
+//                    deleteBalls(check.getBallsInLine());
                     lineIsSet();
                 }
             }
@@ -578,6 +631,12 @@ public class GameField {
         } else if (item.ballIsColorless) {
             item.setActive(false);
             item.setBallIsColorless(false);
+            item.setBallInCenter();
+            item.setBallColor(-3);
+            item.setHasBall(false);
+        } else if (item.ballIsBomb) {
+            item.setActive(false);
+            item.setBallIsBomb(false);
             item.setBallInCenter();
             item.setBallColor(-3);
             item.setHasBall(false);

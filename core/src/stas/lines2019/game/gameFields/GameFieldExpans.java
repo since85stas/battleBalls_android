@@ -13,6 +13,9 @@ import stas.lines2019.game.balls.BallsInfo;
 import stas.lines2019.game.balls.SquareItem;
 import stas.lines2019.game.balls.SquareItemExpans;
 import stas.lines2019.game.util.Constants;
+//import stas.lines2019.game.util.Constants;
+
+import static stas.lines2019.game.util.Constants.*;
 
 /**
  * Created by seeyo on 28.02.2019.
@@ -52,6 +55,7 @@ public class GameFieldExpans extends GameField {
         ballsWeights[1] = Constants.TIGHT_WEIGHT;
         ballsWeights[2] = Constants.FREEZE_WEIGHT;
         ballsWeights[3] = Constants.COLORLESS_WEIGHT;
+        ballsWeights[4] = BOMB_WEIGHT;
 //        SquareItemExpans squareItemExpans = squares[0][0];
     }
 
@@ -68,11 +72,15 @@ public class GameFieldExpans extends GameField {
         }
         info.isFreeze = squareItemExpans.ballIsFreeze;
         info.isColorless = squareItemExpans.ballIsColorless;
+        info.isBomb      = squareItemExpans.ballIsBomb;
         return info;
     }
 
     @Override
     public void setTransportBallProph(Vector2 clickPosition, BallsInfo info) {
+        if (info.color == -3) {
+            throw new IllegalArgumentException("Expes Wrong color ");
+        }
         squares[(int) clickPosition.x][(int) clickPosition.y].setBallColor(info.color);
         if (info.ballIsTough) {
             squares[(int) clickPosition.x][(int) clickPosition.y].ballIsTough = true;
@@ -80,6 +88,9 @@ public class GameFieldExpans extends GameField {
         }
         if(info.isColorless) {
             squares[(int) clickPosition.x][(int) clickPosition.y].setBallIsColorless(true);
+        }
+        if (info.isBomb) {
+            squares[(int) clickPosition.x][(int) clickPosition.y].setBallIsBomb(true);
         }
 
     }
@@ -95,6 +106,9 @@ public class GameFieldExpans extends GameField {
                 int random = MathUtils.random(0, freeSquares.length - 1);
                 int ballType = getNextBallType();
                 BallsInfo info = getNewBallInfo();
+                if (info.color == -3) {
+                    throw new IllegalArgumentException("Expes Get Wrong color ");
+                }
                 if (ballType == Constants.TYPE_NORMAL) {
                     squares[(int) freeSquares[random].x][(int) freeSquares[random].y]
                             .setBallColor(info.color);
@@ -115,6 +129,11 @@ public class GameFieldExpans extends GameField {
                             .setBallColor(Constants.COLOR_COLORLEESS );
                     squares[(int) freeSquares[random].x][(int) freeSquares[random].y].
                             setBallIsColorless(true);
+                } else if (ballType == TYPE_BOMB) {
+                    squares[(int) freeSquares[random].x][(int) freeSquares[random].y]
+                            .setBallColor(info.color);
+                    squares[(int) freeSquares[random].x][(int) freeSquares[random].y].
+                            setBallIsBomb(true);
                 }
                 else {
                     Gdx.app.log("expens","wrong ball type");

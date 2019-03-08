@@ -38,7 +38,7 @@ public class MainMenuScreen extends InputAdapter implements Screen{
 
     private static final String TAG = MainMenuScreen.class.getName().toString();
 
-    private static final int numButtons = 7;
+    private static final int numButtons = 8;
 
     private DelayedRemovalArray<MenuBall> menuBalls;
 
@@ -46,6 +46,7 @@ public class MainMenuScreen extends InputAdapter implements Screen{
             Assets.instance.bundle.get("BtnContinue"),
             Assets.instance.bundle.get("BtnClass"),
             Assets.instance.bundle.get("BtnSurv"),
+            Assets.instance.bundle.get("BtnExtens"),
             Assets.instance.bundle.get("BtnPuzz"),
             Assets.instance.bundle.get("BtnAchiev"),
             Assets.instance.bundle.get("BtnSupp"),
@@ -178,7 +179,7 @@ public class MainMenuScreen extends InputAdapter implements Screen{
             buttonY -= height*Constants.BUTTONS_HEIGHT + height*Constants.BUTTONS_BETWEEN_SPACE;
 
             buttons[i] = new TextButton(buttonNames[i],mySkin,"menu");
-            if (i == 3) {
+            if (i == 4) {
                 buttons[i].setDisabled(true);
             }
 
@@ -215,20 +216,24 @@ public class MainMenuScreen extends InputAdapter implements Screen{
                             break;
                         case 1:
                             mGame.findSaveGame = false;
-//                            mGame.setGameScreen();
-                            mGame.setGameScreenExpans();
+                            mGame.setGameScreen();
+//                            mGame.setGameScreenExpans();
                             break;
                         case 2:
                             mGame.findSaveGame = false;
                             selectDifficDialog();
                             break;
-                        case 4:
-                            mGame.setAchieveScreen();
+                        case 3:
+                            mGame.findSaveGame = false;
+                            mGame.setGameScreenExpans();
                             break;
                         case 5:
-                            mGame.purchaseManager.purchase(Constants.FRIEND_VERSION);
+                            mGame.setAchieveScreen();
                             break;
                         case 6:
+                            mGame.purchaseManager.purchase(Constants.FRIEND_VERSION);
+                            break;
+                        case 7:
                             Gdx.app.exit();
                             break;
                     }
@@ -241,8 +246,8 @@ public class MainMenuScreen extends InputAdapter implements Screen{
 //        buttons[4].setText(achiveText);
 
         // change achievement text
-        buttons[4].add(new Image(Assets.instance.starAssets.texture));
-        buttons[4].add(Integer.toString(mGame.numberOfStars),
+        buttons[5].add(new Image(Assets.instance.starAssets.texture));
+        buttons[5].add(Integer.toString(mGame.numberOfStars),
                 "dialog");
 
 
@@ -250,12 +255,12 @@ public class MainMenuScreen extends InputAdapter implements Screen{
         table.row();
         table.add(new Label(Assets.instance.bundle.get("Soon"), mySkin,"small"));
 
-        buttons[3].add(table);
+        buttons[4].add(table);
 
         Table table2 = new Table();
         table2.row();
         table2.add(new Label(Assets.instance.bundle.get("new"), mySkin,"xp"));
-        buttons[2].add(table2);
+        buttons[3].add(table2);
     }
 
 

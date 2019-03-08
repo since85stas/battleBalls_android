@@ -54,6 +54,17 @@ public class SquareItemExpans extends SquareItem {
 //                height * Constants.NUMBER_RATIO);
     }
 
+    @Override
+    public void drawBomb(SpriteBatch batch) {
+        float numberX = getCenterPosition().x ;
+        float numberY = getCenterPosition().y ;
+        batch.draw(Assets.instance.bombAssets.texture,
+                numberX,
+                numberY,
+                width * Constants.NUMBER_RATIO,
+                height * Constants.NUMBER_RATIO);
+    }
+
     public void ballDestroy() {
         if (ballIsTough && toughtness > 1) {
             toughtness--;

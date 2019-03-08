@@ -1,6 +1,6 @@
 package stas.lines2019.game.util;
 
-public class Constants {
+public final class Constants {
 
     public Constants () {
 
@@ -99,19 +99,21 @@ public class Constants {
     public static final String STARS_NUMBER = "stars_number";
 
     // ball types
-    public static final int  BALLS_TYPES_NUM = 4;
+    public static final int  BALLS_TYPES_NUM = 5;
     public static final int TYPE_NORMAL = 0;
     public static final int TYPE_TIGHT = 1;
     public static final int TYPE_FREEZE = 2;
     public static final int TYPE_COLORLESS = 3;
+    public static final int TYPE_BOMB = 4;
 
     // color
     public static final int COLOR_COLORLEESS = 66;
 
-    public static final float NORMAL_WEIGHT = 1.f;
+    public static final float NORMAL_WEIGHT = 0.4f;
     public static final float TIGHT_WEIGHT = 0.2f;
-    public static final float FREEZE_WEIGHT = 0.05f;
-    public static final float COLORLESS_WEIGHT = 0.05f;
+    public static final float FREEZE_WEIGHT = 0.1f;
+    public static final float COLORLESS_WEIGHT = 0.1f;
+    public static final float BOMB_WEIGHT = 0.2f;
 
     //
     public static final String SURV_GAME_IS_BOUGHT = "surv_buy";

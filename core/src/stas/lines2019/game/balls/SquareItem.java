@@ -43,6 +43,7 @@ public class SquareItem {
     public boolean ballIsTough  = false;
     public boolean ballIsFreeze = false;
     public boolean ballIsColorless = false;
+    public boolean ballIsBomb      = false;
 
     // collision parameters
     private float ballDeformation   ;
@@ -72,6 +73,10 @@ public class SquareItem {
         this.ballIsColorless = ballIsColorless;
     }
 
+    public void setBallIsBomb(boolean ballIsBomb) {
+        this.ballIsBomb = ballIsBomb;
+    }
+
     public void   render (SpriteBatch batch) {
         //batch.draw(textureSquare,position.x,position.y);
 //        batch.draw(textureSquare, position.x, position.y, width, height);
@@ -89,6 +94,8 @@ public class SquareItem {
                 drawFreezeText(batch);
             } else if (ballIsColorless) {
                 drawColorless(batch);
+            } else if (ballIsBomb) {
+                drawBomb(batch);
             }
         }
 
@@ -112,6 +119,10 @@ public class SquareItem {
     }
 
     public void drawColorless(SpriteBatch batch) {
+
+    }
+
+    public void drawBomb(SpriteBatch batch) {
 
     }
 

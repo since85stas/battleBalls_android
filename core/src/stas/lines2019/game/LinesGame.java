@@ -101,9 +101,9 @@ public class LinesGame extends Game {
         PurchaseManagerConfig pmc = new PurchaseManagerConfig();
         pmc.addOffer(new Offer().setType(OfferType.ENTITLEMENT).setIdentifier(Constants.FRIEND_VERSION));
 
-        purchaseManager.install(new MyPurchaseObserver() , pmc, true);
+//        purchaseManager.install(new MyPurchaseObserver() , pmc, true);
 
-        updateFromManager();
+//        updateFromManager();
     }
 
     public void updateFromManager() {

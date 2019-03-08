@@ -61,6 +61,7 @@ public class Assets implements Disposable, AssetErrorListener {
     public LoadAssets loadAssets;
     public I18NBundle  bundle;
     public BackAssets  backAssets;
+    public BombAssets bombAssets;
     public NumberAssets numberAssets;
 
     public void init(AssetManager assetManager) {
@@ -78,6 +79,7 @@ public class Assets implements Disposable, AssetErrorListener {
         assetManager.load("Balls/sphere-18.png",Texture.class);
         assetManager.load("green_rock.png"   ,Texture.class);
         assetManager.load("brown_rock.png"   ,Texture.class);
+        assetManager.load("mini_bomb.png"   ,Texture.class);
         assetManager.load("back1.png",Texture.class);
         assetManager.load("pop3.ogg", Sound.class);
         assetManager.load("ping.wav",Sound.class);
@@ -118,10 +120,10 @@ public class Assets implements Disposable, AssetErrorListener {
         Texture colorlessText    = assetManager.get("Balls/sphere-18.png");
         Texture greenTileTexture = assetManager.get("green_rock.png");
         Texture brownTileTexture = assetManager.get("brown_rock.png");
+        Texture bombTexture = assetManager.get("mini_bomb.png");
         Texture backT            = assetManager.get("back1.png");
         Sound bubbleSound = assetManager.get("pop3.ogg");
         Sound tookSound   = assetManager.get("ping.wav");
-//        Sound tookSound = null;
         Sound explosionSound = assetManager.get("explosion.wav");
         Skin mySkin = assetManager.get("skin/craftacular-ui.json");
 //        enemyAssets = new EnemyAssets(walkTexture);
@@ -137,6 +139,7 @@ public class Assets implements Disposable, AssetErrorListener {
         tileAssets       = new TileAssets(greenTileTexture,brownTileTexture);
         skinAssets       = new SkinAssets(mySkin);
         lockAssets       = new LockAssets(lockTexture);
+        bombAssets       = new BombAssets(bombTexture);
         soundsBase       = new SoundsBase(bubbleSound,tookSound,explosionSound);
         backAssets       = new BackAssets(backT);
 
@@ -256,25 +259,20 @@ public class Assets implements Disposable, AssetErrorListener {
     public class TileAssets {
         private static final int FRAME_COLS = 3; // #1
         private static final int FRAME_ROWS = 1; // #2
-
         public Texture texture1;
         public Texture texture2;
-
         public TileAssets (Texture texture1, Texture texture2 ) {
 
             this.texture1 = texture1;
             this.texture2 = texture2;
             Gdx.app.log(TAG,"animation load");
         }
-
         public Texture getTexture(int i) {
             switch (i) {
                 case 0:
                     return texture1;
-
                 case 1:
                     return texture2;
-
             }
             return null;
         }
@@ -282,11 +280,9 @@ public class Assets implements Disposable, AssetErrorListener {
 
 
     public class StarAssets {
-
         public Texture texture;
         public Texture achieveTexture;
         public Texture menuTexture;
-
         public StarAssets(Pixmap pixmap) {
 //            this.texture = texture;
             Pixmap pixmap_achieve = new Pixmap((int)(Constants.ACHIEVE_HEIGHT*Gdx.graphics.getWidth()),
@@ -298,7 +294,6 @@ public class Assets implements Disposable, AssetErrorListener {
             );
             Texture texture = new Texture(pixmap_achieve);
             pixmap_achieve.dispose();
-
             achieveTexture = texture;
             texture = new Texture(pixmap);
             this.texture = texture;
@@ -309,10 +304,8 @@ public class Assets implements Disposable, AssetErrorListener {
     }
 
     public class LockAssets {
-
         public Texture texture;
         public Texture achieveTexture;
-
         public LockAssets(Pixmap pixmap) {
             Pixmap pixmap_achieve = new Pixmap((int)(Constants.ACHIEVE_HEIGHT*Gdx.graphics.getWidth()),
                     (int)(Constants.ACHIEVE_HEIGHT*Gdx.graphics.getHeight()),
@@ -323,10 +316,8 @@ public class Assets implements Disposable, AssetErrorListener {
             );
             Texture texture = new Texture(pixmap_achieve);
             pixmap_achieve.dispose();
-
             achieveTexture = texture;
             texture = new Texture(pixmap);
-
             this.texture = texture;
             Gdx.app.log(TAG,"animation load");
         }
@@ -334,42 +325,31 @@ public class Assets implements Disposable, AssetErrorListener {
     }
 
     public class BlueBallAssets {
-
         public Texture texture;
-
         public BlueBallAssets(Texture texture) {
             this.texture = texture;
             Gdx.app.log(TAG,"animation load");
         }
-
     }
 
     public class GreenBallAssets {
-
         public Texture texture;
-
         public GreenBallAssets(Texture texture) {
             this.texture = texture;
             Gdx.app.log(TAG,"animation load");
         }
-
     }
 
     public class PurpleBallAssets {
-
         public Texture texture;
-
         public PurpleBallAssets(Texture texture) {
             this.texture = texture;
             Gdx.app.log(TAG,"animation load");
         }
-
     }
 
     public class YellowBallAssets {
-
         public Texture texture;
-
         public YellowBallAssets(Texture texture) {
             this.texture = texture;
             Gdx.app.log(TAG,"animation load");
@@ -377,9 +357,7 @@ public class Assets implements Disposable, AssetErrorListener {
     }
 
     public class PinkBallAssets {
-
         public Texture texture;
-
         public PinkBallAssets(Texture texture) {
             this.texture = texture;
             Gdx.app.log(TAG,"animation load");
@@ -387,9 +365,7 @@ public class Assets implements Disposable, AssetErrorListener {
     }
 
     public class RedBallAssets {
-
         public Texture texture;
-
         public RedBallAssets(Texture texture) {
             this.texture = texture;
             Gdx.app.log(TAG,"animation load");
@@ -397,20 +373,15 @@ public class Assets implements Disposable, AssetErrorListener {
     }
 
     public class BackAssets {
-
         public Texture texture;
-
         public BackAssets(Texture texture) {
             this.texture = texture;
             Gdx.app.log(TAG,"animation load");
         }
-
     }
 
     public class LBlueBallAssets {
-
         public Texture texture;
-
         public LBlueBallAssets(Texture texture) {
             this.texture = texture;
             Gdx.app.log(TAG,"animation load");
@@ -418,9 +389,7 @@ public class Assets implements Disposable, AssetErrorListener {
     }
 
     public class ColorlessBallAssets {
-
         public Texture texture;
-
         public ColorlessBallAssets(Texture texture) {
             this.texture = texture;
             Gdx.app.log(TAG,"animation load");
@@ -429,11 +398,8 @@ public class Assets implements Disposable, AssetErrorListener {
 
 
     public class NumberAssets {
-
         public Texture texture;
-
         public List<Texture> numbersTextures;
-
         public NumberAssets() {
             numbersTextures = new ArrayList<Texture>();
             Gdx.app.log(TAG,"animation load");
@@ -442,7 +408,6 @@ public class Assets implements Disposable, AssetErrorListener {
         public void addTexture(Texture texture) {
             numbersTextures.add(texture);
         }
-
         public Texture getNumTexture(int num) {
                 switch (num) {
                     case 0:
@@ -458,26 +423,28 @@ public class Assets implements Disposable, AssetErrorListener {
         }
      }
 
+    public class BombAssets {
+        public Texture texture;
+        public BombAssets(Texture texture) {
+            this.texture = texture;
+            Gdx.app.log(TAG,"animation load");
+        }
+    }
+
     public class SkinAssets {
-
         public Skin skin;
-
         public SkinAssets(Skin skin) {
 //            BitmapFont font = generateHudFont();
             this.skin = skin;
-
         }
 
     }
 
     public class SoundsBase {
-
         public Sound bubbleSound;
         public Sound tookSound;
         public Sound explSound;
-
         public SoundsBase (Sound bubbleSound, Sound tookSound,Sound explSound) {
-
             this.bubbleSound = bubbleSound;
             this.tookSound   = tookSound;
             this.explSound   = explSound;
