@@ -105,6 +105,12 @@ public class GameField {
 
     long startTime;
 
+    public int energy;
+
+    public void setEnergy(int val) {
+        energy = val;
+    }
+
     public GameField() {
 
     }
@@ -400,7 +406,13 @@ public class GameField {
 
     public void lineIsSet() {
         gameScore += lineLong * Constants.SCORED_PER_BALL +
-                (lineLong - 5) * 4;;
+                (lineLong - 5) * 4;
+        addEnergy(lineLong);
+        setEnergy(0);
+    }
+
+    public void addEnergy(int lineLong) {
+
     }
 
     private void spawnParticleEffect(int x, int y) {

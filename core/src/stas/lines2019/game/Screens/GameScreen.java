@@ -24,6 +24,9 @@ import stas.lines2019.game.Widgets.RulesDialog;
 import stas.lines2019.game.util.Assets;
 import stas.lines2019.game.util.Constants;
 
+import static stas.lines2019.game.util.Constants.HUD_ITEM_HOR_SIZE;
+import static stas.lines2019.game.util.Constants.HUD_OFFSET;
+
 public class GameScreen implements Screen {
 
     //
@@ -37,17 +40,20 @@ public class GameScreen implements Screen {
     ScreenViewport hudViewport;
     Label timeLable;
     Label scoreLable;
+    public Label energyLable;
 
     //
     private float accumulator = 0;
     private float gametime;
-    private Stage stage;
+    public Stage stage;
     private SpriteBatch batch;
     Skin mySkin;
-    private int width;
-    private int height;
+    public int width;
+    public int height;
 
     public boolean isRenderGamefield;
+
+    public boolean isExpansionPlayed;
 
     DelayedRemovalArray<MenuBall> menuBalls;
 
@@ -91,8 +97,35 @@ public class GameScreen implements Screen {
         stage.addActor(scoreLableGroup);
         stage.addActor(timeLableGroup);
 
+        setExpansionPlay();
+        if(isExpansionPlayed) {
+            drawEnergy();
+        }
         setGameField();
         isRenderGamefield = true;
+
+    }
+
+    public void setExpansionPlay() {
+        isExpansionPlayed = false;
+    }
+
+    private void drawEnergy() {
+        energyLable = new Label("0",mySkin , "game");
+
+        VerticalGroup timeLableGroup = new VerticalGroup();
+        timeLableGroup.setPosition(width/2 - width*0.1f,
+                height - lableItemHeight);
+        timeLableGroup.setSize(HUD_ITEM_HOR_SIZE * width, lableItemHeight);
+        Label titleLable = new Label("energy", mySkin, "small-energy");
+//        timeLable = new Label(Integer.toString(digit), mySkin, "game");
+        float size1 = titleLable.getHeight();
+        float size2 = energyLable.getHeight();
+        lableItemHeight = size1 + size2;
+        timeLableGroup.addActor(titleLable);
+        timeLableGroup.addActor(energyLable);
+        stage.addActor(timeLableGroup);
+        Gdx.app.log(TAG,"energ");
     }
 
     public void setGameField() {
@@ -140,6 +173,7 @@ public class GameScreen implements Screen {
         int score =(int) gameField.getGameScore();
         setScoreLable(score);
 
+        setEnergyLable(gameField.energy);
 //        addRulesButton();
         batch.end();
 
@@ -173,6 +207,10 @@ public class GameScreen implements Screen {
     public void setScoreLable(int score) {
 
         scoreLable.setText(scoreFormat(score));
+    }
+
+    public void setEnergyLable(int enwrgy) {
+        energyLable.setText(Integer.toString(enwrgy));
     }
 
     public String scoreFormat(int score) {

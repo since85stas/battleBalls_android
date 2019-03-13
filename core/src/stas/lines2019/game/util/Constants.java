@@ -115,6 +115,10 @@ public final class Constants {
     public static final float COLORLESS_WEIGHT = 0.1f;
     public static final float BOMB_WEIGHT = 0.2f;
 
+    // skills constants
+    public static final int SKILLS_NUMBERS = 5;
+    public static final float ENERGY_BY_BALL = 1;
+
     //
     public static final String SURV_GAME_IS_BOUGHT = "surv_buy";
     public static final String GAME_OPENS = "menu opens";

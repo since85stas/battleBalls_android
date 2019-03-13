@@ -27,6 +27,8 @@ public class GameFieldExpans extends GameField {
 
     private float[] ballsWeights;
 
+    public int energy;
+
 //    public GameScreenExpans mGameScreenExpans;
 
 //    private SquareItemExpans[][] squares;
@@ -157,6 +159,19 @@ public class GameFieldExpans extends GameField {
             }
         }
         return num;
+    }
+
+    @Override
+    public void addEnergy(int lineLong) {
+        energy += ENERGY_BY_BALL*lineLong;
+        if (energy > 100) {
+            energy = 100;
+        }
+    }
+
+    @Override
+    public void setEnergy(int val) {
+        super.setEnergy(energy);
     }
 
     @Override
