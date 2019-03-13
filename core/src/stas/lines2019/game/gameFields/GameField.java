@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.ParticleEffectPool;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
@@ -18,12 +19,15 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.TimeUtils;
 
 import stas.lines2019.game.Background;
 import stas.lines2019.game.Screens.GameScreen;
+import stas.lines2019.game.Widgets.SkillButton;
 import stas.lines2019.game.balls.BallsInfo;
 import stas.lines2019.game.balls.SquareItem;
 import stas.lines2019.game.balls.SquareItemExpans;
@@ -31,6 +35,8 @@ import stas.lines2019.game.funcs.CheckBallLines;
 import stas.lines2019.game.funcs.FindBallPath;
 import stas.lines2019.game.util.Assets;
 import stas.lines2019.game.util.Constants;
+
+import static stas.lines2019.game.util.Constants.*;
 
 
 import java.util.ArrayList;
@@ -107,6 +113,8 @@ public class GameField {
 
     public int energy;
 
+    private SkillButton[] skillsButtons;
+
     public void setEnergy(int val) {
         energy = val;
     }
@@ -173,6 +181,9 @@ public class GameField {
         spawnParticleEffect(-300, -100);
         addRulesButton();
 //        addFakeBalls(9,0,0,6,1);
+        if (gameScreen.isExpansionPlayed) {
+            drawSkillsButtons() ;
+        }
     }
 
     public void initStartTime() {
@@ -193,6 +204,29 @@ public class GameField {
             }
         }
     }
+
+    private void drawSkillsButtons() {
+        int width = Gdx.graphics.getWidth();
+        int height = Gdx.graphics.getHeight();
+//        skillsButtons = new TextButton[SKILLS_NUMBERS];
+        skillsButtons = new SkillButton[SKILLS_NUMBERS];
+        int initPositX = width/2;
+        int initPositY = (int)(initPos.y - (SKILL_BUTTON_SIZE*height*2));
+
+        for (int i = 0; i < skillsButtons.length; i++) {
+//            TextButton textButton = new TextButton("1", Assets.instance.skinAssets.skin);
+//            textButton.setPosition(initPositX,initPositY);
+//            initPositX += textButton.getPrefWidth();
+            SkillButton textButton = new SkillButton(Assets.instance.skinAssets.skin,"10");
+//            textButton.setSize(width*SKILL_BUTTON_SIZE,width*SKILL_BUTTON_SIZE );
+//            textButton.getStyle().imageUp = new TextureRegionDrawable( new TextureRegion(Assets.instance.skillAssets.teleportTexture) );
+            textButton.setPosition(initPositX,initPositY);
+            initPositX += textButton.getPrefWidth();
+            skillsButtons[i] = textButton;
+        }
+        Gdx.app.log(TAG,"skills");
+    }
+
 
     private void savePrefer() {
 
@@ -246,6 +280,8 @@ public class GameField {
         }
 
     }
+
+
 
     private void checkBombsInLines(Vector2[] balls) {
         ArrayList<Vector2> initArray = new ArrayList<Vector2>(balls.length);
@@ -316,6 +352,10 @@ public class GameField {
         background.render(batch);
 
         rulesButton.draw(batch, 1);
+
+        for (int i = 0; i < skillsButtons.length; i++) {
+            skillsButtons[i].draw(batch,1);
+        }
 
         for (int i = 0; i < fieldDimension; i++) {
             for (int j = 0; j < fieldDimension; j++) {
