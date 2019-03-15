@@ -3,6 +3,7 @@ package stas.lines2019.game.gameFields;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -17,6 +18,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
@@ -114,6 +116,14 @@ public class GameField {
     public int energy;
 
     private SkillButton[] skillsButtons;
+    private Rectangle[]   skillButtonsHitBoxes;
+
+    private boolean isAnySkillPressed = false;
+    private boolean isTeleportPressed = false;
+    private boolean isRemovePressed = false;
+    private boolean isColorlessPressed = false;
+    private boolean isBlockPressed = false;
+    private boolean isBombPressed = false;
 
     public void setEnergy(int val) {
         energy = val;
@@ -124,6 +134,8 @@ public class GameField {
     }
 
     public GameField(GameScreen gameScreen) {
+
+        energy = 50;
 
         startTime = TimeUtils.millis();
 
@@ -181,9 +193,14 @@ public class GameField {
         spawnParticleEffect(-300, -100);
         addRulesButton();
 //        addFakeBalls(9,0,0,6,1);
+
+
+//        fieldStage = new Stage();
+
         if (gameScreen.isExpansionPlayed) {
             drawSkillsButtons() ;
         }
+
     }
 
     public void initStartTime() {
@@ -210,18 +227,51 @@ public class GameField {
         int height = Gdx.graphics.getHeight();
 //        skillsButtons = new TextButton[SKILLS_NUMBERS];
         skillsButtons = new SkillButton[SKILLS_NUMBERS];
-        int initPositX = width/2;
+        int initPositX = 0;
         int initPositY = (int)(initPos.y - (SKILL_BUTTON_SIZE*height*2));
 
+        Texture[] skillTextures = new Texture[SKILLS_NUMBERS];
+        skillTextures[0] = Assets.instance.skillAssets.teleportTexture;
+        skillTextures[1] = Assets.instance.skillAssets.removeTexture;
+        skillTextures[2] = Assets.instance.skillAssets.colorelessTexture;
+        skillTextures[3] = Assets.instance.skillAssets.blockTexture;
+        skillTextures[4] = Assets.instance.skillAssets.bombTexture;
+
+        String[] skillCosts     = new String[SKILLS_NUMBERS];
+        skillCosts[0]    = Integer.toString(SKILL_TELEPORT_COST);
+        skillCosts[1]    = Integer.toString(SKILL_REMOVE_COST);
+        skillCosts[2]    = Integer.toString(SKILL_COLORLESS_COST);
+        skillCosts[3]    = Integer.toString(SKILL_BLOCK_COST);
+        skillCosts[4]    = Integer.toString(SKILL_BOMB_COST);
+
+        skillButtonsHitBoxes = new Rectangle[SKILLS_NUMBERS];
+
         for (int i = 0; i < skillsButtons.length; i++) {
-//            TextButton textButton = new TextButton("1", Assets.instance.skinAssets.skin);
-//            textButton.setPosition(initPositX,initPositY);
-//            initPositX += textButton.getPrefWidth();
-            SkillButton textButton = new SkillButton(Assets.instance.skinAssets.skin,"10");
-//            textButton.setSize(width*SKILL_BUTTON_SIZE,width*SKILL_BUTTON_SIZE );
-//            textButton.getStyle().imageUp = new TextureRegionDrawable( new TextureRegion(Assets.instance.skillAssets.teleportTexture) );
+            SkillButton textButton = new SkillButton(skillCosts[i],Assets.instance.skinAssets.skin,
+                    new TextureRegionDrawable( new TextureRegion(skillTextures[i])));
+            textButton.setSize(width*SKILL_BUTTON_SIZE,width*SKILL_BUTTON_SIZE/1.5f );
+//            textButton.getStyle().imageUp =
+//                    new TextureRegionDrawable( new TextureRegion(skillTextures[i]) );
+//            textButton.getImage().setDrawable(new TextureRegionDrawable( new TextureRegion(skillTextures[i])));
+//            textButton.getImage().se
+//            textButton.
             textButton.setPosition(initPositX,initPositY);
-            initPositX += textButton.getPrefWidth();
+            skillButtonsHitBoxes[i] = new Rectangle(initPositX,
+                    initPositY,
+                    width*SKILL_BUTTON_SIZE,
+                    width*SKILL_BUTTON_SIZE/1.5f);
+
+            textButton.addListener(new InputListener() {
+                @Override
+                public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                    Gdx.app.log(TAG,"skill test");
+                    return super.touchDown(event, x, y, pointer, button);
+                }
+            });
+
+//            fieldStage.addActor(textButton);
+
+            initPositX += width*SKILL_BUTTON_SIZE + width*0.01;
             skillsButtons[i] = textButton;
         }
         Gdx.app.log(TAG,"skills");
@@ -348,6 +398,8 @@ public class GameField {
         Gdx.gl.glClearColor(0.3f, 0.47f, 0.65f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         update(dt);
+
+//        fieldStage.act();
 
         background.render(batch);
 
@@ -481,6 +533,7 @@ public class GameField {
             squares[(int) selectedBall.x][(int) selectedBall.y].update(dt);
         }
         if (isInputProccActive) {
+
             Gdx.input.setInputProcessor(new InputAdapter() {
                 @Override
                 public boolean keyDown(int keycode) {
@@ -518,29 +571,31 @@ public class GameField {
                                     squares[(int) clickPosition.x][(int) clickPosition.y].setBallInCenter();
                                 } else if (squares[(int) clickPosition.x][(int) clickPosition.y].isHasBall()) {
                                     Gdx.app.log(TAG, "clicked  to ball i,j " + clickPosition.x + " " + clickPosition.y);
-                                } else if (pathIsFind) {
+                                } else if (pathIsFind || isTeleportPressed) {
 
                                     // получаем информацию из выбранного шара и убераем его
                                     BallsInfo info = getBallInfo();
-                                    path = finder.getPath();
+                                    if (!isTeleportPressed) {
+                                        path = finder.getPath();
 
-                                    // получаем координаты центров ячеек
-                                    ballPathCellsCoord = new Vector2[path.length];
-                                    for (int i = 0; i < path.length; i++) {
-                                        ballPathCellsCoord[i] = squares[(int) path[i].x][(int) path[i].y].getPosition();
+                                        // получаем координаты центров ячеек
+                                        ballPathCellsCoord = new Vector2[path.length];
+                                        for (int i = 0; i < path.length; i++) {
+                                            ballPathCellsCoord[i] = squares[(int) path[i].x][(int) path[i].y].getPosition();
+                                        }
+
+                                        ballMoveX = ballPathCellsCoord[0].x;
+                                        ballMoveY = ballPathCellsCoord[0].y;
+                                        textureBall = squares[(int) selectedBall.x][(int) selectedBall.y].getBallColorText();
+                                        if (path.length > 1) {
+                                            isDrawBallPath = true;
+                                        }
+
+                                        // переносим в другую ячейку
+                                        transportPosition = clickPosition;
                                     }
 
-                                    ballMoveX = ballPathCellsCoord[0].x;
-                                    ballMoveY = ballPathCellsCoord[0].y;
-                                    textureBall = squares[(int) selectedBall.x][(int) selectedBall.y].getBallColorText();
                                     returnSquareInitState(new Vector2(selectedBall), true);
-
-                                    if (path.length > 1) {
-                                        isDrawBallPath = true;
-                                    }
-
-                                    // переносим в другую ячейку
-                                    transportPosition = clickPosition;
 
                                     squares[(int) clickPosition.x][(int) clickPosition.y].setHasBall(true);
 //                                    squares[(int) clickPosition.x][(int) clickPosition.y].setBallColor(info.color);
@@ -551,25 +606,86 @@ public class GameField {
                                     }
                                     isBallSelected = false;
                                     selectedBall = null;
+
+                                    isAnySkillPressed = false;
+                                    isTeleportPressed = false;
                                 }
                             }
                         } else if (!isBallSelected) {
 
                             // если шар еще не выбран то выбираем его
                             clickPosition = checkClickEvent(screenX, screenY);
-                            if (clickPosition != null &&
+                            if ( clickPosition != null &&
                                     !clickPosition.equals(new Vector2(666,665)) &&
-                                    !clickPosition.equals(new Vector2(66, 77))) {
+                                    !clickPosition.equals(new Vector2(66, 77)) &&
+                                    clickPosition.x < fieldDimension && clickPosition.y < fieldDimension
+                                    ) {
                                 if ( squares[(int) clickPosition.x][(int) clickPosition.y].isHasBall() &&
-                                        !squares[(int) clickPosition.x][(int) clickPosition.y].ballIsFreeze ) {
+                                        !squares[(int) clickPosition.x][(int) clickPosition.y].ballIsFreeze
+                                        && !isAnySkillPressed) {
                                     squares[(int) clickPosition.x][(int) clickPosition.y].setActive(true);
                                     squares[(int) clickPosition.x][(int) clickPosition.y].update(dt);
                                     isBallSelected = true;
                                     selectedBall = clickPosition;
+                                } else if (isAnySkillPressed) {
+                                    if (isRemovePressed) {
+                                        isAnySkillPressed = false;
+                                        isRemovePressed   = false;
+                                        returnSquareInitState(clickPosition,true);
+                                    } else if (isColorlessPressed) {
+                                        isAnySkillPressed    = false;
+                                        isColorlessPressed   = false;
+                                        squares[(int) clickPosition.x][(int) clickPosition.y].
+                                                setBallIsColorless(true);
+                                        squares[(int) clickPosition.x][(int) clickPosition.y].
+                                                setBallColor(COLOR_COLORLEESS);
+                                    } else if (isBombPressed) {
+                                        isAnySkillPressed    = false;
+                                        isBombPressed   = false;
+                                        squares[(int) clickPosition.x][(int) clickPosition.y].
+                                                setBallIsBomb(true);
+//                                        squares[(int) clickPosition.x][(int) clickPosition.y].
+//                                                setBallColor(COLOR_COLORLEESS);
+                                    }
                                 }
                             } else if (clickPosition.equals(new Vector2(666,665) ))   {
                                 isInputProccActive = false;
                                 gameScreen.rulesDialog();
+                            } else if (clickPosition.equals(new Vector2(SKILL_TELEPORT, SKILL_TELEPORT ))) {
+                                if (energy >= SKILL_TELEPORT_COST) {
+//                                    isAnySkillPressed = true;
+                                    isTeleportPressed = true;
+                                    energy -= SKILL_TELEPORT_COST;
+                                }
+
+                            } else if (clickPosition.equals(new Vector2(SKILL_REMOVE, SKILL_REMOVE ))) {
+                                if (energy >= SKILL_REMOVE_COST ) {
+                                    isAnySkillPressed = true;
+                                    isRemovePressed = true;
+                                    energy -= SKILL_REMOVE_COST;
+                                }
+
+                            } else if (clickPosition.equals(new Vector2(SKILL_COLORLESS, SKILL_COLORLESS ))) {
+                                if (energy >= SKILL_COLORLESS_COST) {
+                                    isAnySkillPressed = true;
+                                    isColorlessPressed = true;
+                                    energy -= SKILL_COLORLESS_COST;
+                                }
+
+                            } else if (clickPosition.equals(new Vector2(SKILL_BLOCK, SKILL_BLOCK ))) {
+                                Gdx.app.log(TAG,"block press");
+                                if (energy >= SKILL_BLOCK_COST) {
+                                    isAnySkillPressed = true;
+                                    isBlockPressed = true;
+                                    energy -= SKILL_BLOCK_COST;
+                                }
+
+                            } else if (clickPosition.equals(new Vector2(SKILL_BOMB, SKILL_BOMB ))) {
+                                if (energy >= SKILL_BOMB_COST) {
+                                    isAnySkillPressed = true;
+                                    isBombPressed = true;
+                                    energy -= SKILL_BOMB_COST;
+                                }
                             }
                         }
                         return true;
@@ -656,12 +772,26 @@ public class GameField {
                     clickPosition = new Vector2(i, j);
 //                    aiTurn();
                 }
-                //squares[i][j].update(dt);
             }
         }
+
         if (rulesHitBox.contains(screenX, Gdx.graphics.getHeight() - screenY)) {
             clickPosition = new Vector2(666, 665);
         }
+
+        int[] skillType = new int[SKILLS_NUMBERS];
+        skillType[0] = SKILL_TELEPORT;
+        skillType[1] = SKILL_REMOVE;
+        skillType[2] = SKILL_COLORLESS;
+        skillType[3] = SKILL_BLOCK;
+        skillType[4] = SKILL_BOMB;
+
+        for (int i = 0; i < SKILLS_NUMBERS; i++) {
+            if(skillButtonsHitBoxes[i].contains(screenX,Gdx.graphics.getHeight() - screenY)) {
+                clickPosition = new Vector2(skillType[i],skillType[i]);
+            }
+        }
+
         if (clickPosition == null) {
             clickPosition = new Vector2(66,77);
         }
@@ -706,13 +836,19 @@ public class GameField {
     /* компьютер выбирает шарики и кладет их в рандомные ячейки
      */
     public void aiTurn() {
-        startTurnTime = TimeUtils.millis();
-        if (numberOfTurns == 0) {
+        if ( !isBlockPressed) {
+            startTurnTime = TimeUtils.millis();
+            if (numberOfTurns == 0) {
+                getNextTurnBalls();
+            }
+            putBall();
             getNextTurnBalls();
+            numberOfTurns++;
+        } else {
+            isAnySkillPressed = false;
+            isBlockPressed = false;
         }
-        putBall();
-        getNextTurnBalls();
-        numberOfTurns++;
+
     }
 
     public void checkAchieve() {

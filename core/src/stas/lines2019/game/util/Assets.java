@@ -64,6 +64,7 @@ public class Assets implements Disposable, AssetErrorListener {
     public BombAssets bombAssets;
     public NumberAssets numberAssets;
     public SkillAssets skillAssets;
+    public IconAssets iconAssets;
 
 
     public void init(AssetManager assetManager) {
@@ -71,6 +72,7 @@ public class Assets implements Disposable, AssetErrorListener {
         assetManager.setErrorListener(this);
         assetManager.load("mini_star.png", Pixmap.class);
         assetManager.load("mini_lock.png", Pixmap.class);
+
         assetManager.load("Balls/sphere_blue.png", Texture.class);
         assetManager.load("Balls/sphere_green.png",Texture.class);
         assetManager.load("Balls/sphere_purple.png",Texture.class);
@@ -84,6 +86,7 @@ public class Assets implements Disposable, AssetErrorListener {
         assetManager.load("mini_bomb.png"   ,Texture.class);
 
         assetManager.load("mini_block.png"   ,Texture.class);
+        assetManager.load("mini_rules.jpg"   ,Texture.class);
         assetManager.load("mini_remove.png"   ,Texture.class);
         assetManager.load("mini_telep.png"   ,Texture.class);
 
@@ -128,6 +131,7 @@ public class Assets implements Disposable, AssetErrorListener {
         Texture greenTileTexture = assetManager.get("green_rock.png");
         Texture brownTileTexture = assetManager.get("brown_rock.png");
         Texture bombTexture = assetManager.get("mini_bomb.png");
+        Texture rulesTexture = assetManager.get("mini_rules.jpg");
         Texture backT            = assetManager.get("back1.png");
 
         Texture teleportText = assetManager.get("mini_telep.png");
@@ -151,6 +155,7 @@ public class Assets implements Disposable, AssetErrorListener {
         tileAssets       = new TileAssets(greenTileTexture,brownTileTexture);
         skinAssets       = new SkinAssets(mySkin);
         lockAssets       = new LockAssets(lockTexture);
+        iconAssets       = new IconAssets(rulesTexture);
         bombAssets       = new BombAssets(bombTexture);
         soundsBase       = new SoundsBase(bubbleSound,tookSound,explosionSound);
         backAssets       = new BackAssets(backT);
@@ -461,7 +466,22 @@ public class Assets implements Disposable, AssetErrorListener {
             this.removeTexture = removeTexture;
             this.blockTexture  = blockTexture;
             this.colorelessTexture = colorelessTexture;
-            this.blockTexture      = blockTexture;
+            this.bombTexture      = bombTexture;
+            Gdx.app.log(TAG,"animation load");
+        }
+    }
+
+    public class IconAssets {
+        public Texture rulesTexture;
+        public Texture removeTexture;
+
+        public IconAssets(Texture rulesTexture
+                           ) {
+            this.rulesTexture = rulesTexture;
+//            this.removeTexture = removeTexture;
+//            this.blockTexture  = blockTexture;
+//            this.colorelessTexture = colorelessTexture;
+//            this.bombTexture      = bombTexture;
             Gdx.app.log(TAG,"animation load");
         }
     }

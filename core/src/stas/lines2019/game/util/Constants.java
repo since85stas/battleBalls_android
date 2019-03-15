@@ -118,12 +118,18 @@ public final class Constants {
     // skills constants
     public static final int SKILLS_NUMBERS = 5;
     public static final float ENERGY_BY_BALL = 1;
-    public static final float SKILL_BUTTON_SIZE = 0.1f;
+    public static final float SKILL_BUTTON_SIZE = 0.15f;
     public static final int   SKILL_TELEPORT =  22;
     public static final int   SKILL_REMOVE    = 23;
     public static final int   SKILL_COLORLESS = 24;
     public static final int   SKILL_BLOCK     = 25;
     public static final int   SKILL_BOMB      = 26;
+
+    public static final int   SKILL_TELEPORT_COST =  10;
+    public static final int   SKILL_REMOVE_COST    = 15;
+    public static final int   SKILL_COLORLESS_COST = 20;
+    public static final int   SKILL_BLOCK_COST     = 25;
+    public static final int   SKILL_BOMB_COST      = 40;
 
     //
     public static final String SURV_GAME_IS_BOUGHT = "surv_buy";
