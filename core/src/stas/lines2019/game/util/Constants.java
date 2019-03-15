@@ -131,8 +131,11 @@ public final class Constants {
     public static final int   SKILL_BLOCK_COST     = 25;
     public static final int   SKILL_BOMB_COST      = 40;
 
+    public static final int   EXPANSION_STAR_COST  = 10;
+
     //
     public static final String SURV_GAME_IS_BOUGHT = "surv_buy";
+    public static final String EXPANS_GAME_IS_BOUGHT = "expens_buy";
     public static final String GAME_OPENS = "menu opens";
 
     public static final String APP_KEY = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAyp3Sr3lWNIQc61" +

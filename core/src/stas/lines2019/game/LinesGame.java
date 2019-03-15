@@ -31,6 +31,7 @@ import stas.lines2019.game.Screens.MainMenuScreen;
 import stas.lines2019.game.results.AchivementsList;
 import stas.lines2019.game.util.Assets;
 import stas.lines2019.game.util.Constants;
+import static stas.lines2019.game.util.Constants.*;
 import stas.lines2019.game.util.ConstantsAchiveEng;
 
 import java.util.Hashtable;
@@ -44,6 +45,8 @@ public class LinesGame extends Game {
     public boolean findSaveGame;
 
     public boolean survGameIsBought;
+    public boolean expansGameIsBought;
+
     public boolean isScreenRendering;
 
     public int numberOfMainMenuOpens;
@@ -196,6 +199,7 @@ public class LinesGame extends Game {
         Preferences gamePref = Gdx.app.getPreferences(Constants.PREF_GAME);
         findSaveGame = gamePref.getBoolean(Constants.PREF_GAME_IS_PLAY,false);
         survGameIsBought = gamePref.getBoolean(Constants.SURV_GAME_IS_BOUGHT,false);
+        expansGameIsBought = gamePref.getBoolean(Constants.EXPANS_GAME_IS_BOUGHT,false);
         numberOfMainMenuOpens = gamePref.getInteger(Constants.GAME_OPENS,0);
         numberOfStars         = gamePref.getInteger(Constants.STARS_NUMBER,0);
         Preferences prefs = Gdx.app.getPreferences(Constants.PREF_ACHIEV);
@@ -224,7 +228,6 @@ public class LinesGame extends Game {
         } catch (Exception e) {
             Gdx.app.log("lineGame","catch e");
         }
-//        survLevelIsComp[0] = true;
     }
 
     public void setSurvGameIsBought()  {
@@ -232,6 +235,14 @@ public class LinesGame extends Game {
         gamePref.putBoolean(Constants.SURV_GAME_IS_BOUGHT,true);
         gamePref.flush();
         survGameIsBought = true;
+    }
+
+    public void setExpansGameIsBought() {
+        Preferences gamePref = Gdx.app.getPreferences(Constants.PREF_GAME);
+        gamePref.putBoolean(Constants.EXPANS_GAME_IS_BOUGHT,true);
+        gamePref.flush();
+        numberOfStars -= EXPANSION_STAR_COST;
+        expansGameIsBought = true;
     }
 
     public void saveSurvPref(int diffType) {

@@ -225,7 +225,9 @@ public class MainMenuScreen extends InputAdapter implements Screen{
                             break;
                         case 3:
                             mGame.findSaveGame = false;
-                            mGame.setGameScreenExpans();
+
+//                            mGame.setGameScreenExpans();
+                            showStarBuyDialog(10);
                             break;
                         case 5:
                             mGame.setAchieveScreen();
@@ -300,8 +302,44 @@ public class MainMenuScreen extends InputAdapter implements Screen{
 
         Gdx.input.setInputProcessor(stage);
         dialog.show(stage);
-
     }
+
+    public void showStarBuyDialog(int cost) {
+
+        BuyDialog dialog = new BuyDialog ("", Assets.instance.skinAssets.skin,mGame);
+        dialog.setTransform(true);
+        dialog.getBackground();
+
+        Label gameLable = new Label(Assets.instance.bundle.get("buyDialog"),
+                Assets.instance.skinAssets.skin,
+                "dialog");
+        gameLable.setWrap(true);
+        gameLable.setAlignment(Align.left);
+//        table.add(gameLable);
+        dialog.getContentTable().add(gameLable).padTop(40);
+        dialog.getContentTable().row();
+
+        dialog.button( Assets.instance.bundle.get("buy"),
+                true,
+                Assets.instance.skinAssets.skin.get("small", TextButton.TextButtonStyle.class)
+        );
+
+        TextButton starButton = new TextButton(Integer.toString(cost),
+                Assets.instance.skinAssets.skin.get("small", TextButton.TextButtonStyle.class)
+                );
+
+        starButton.setHeight(30);
+
+        starButton.add(new Image(Assets.instance.starAssets.achieveTexture));
+        dialog.getButtonTable().add(starButton);
+
+        dialog.getButtonTable().defaults().height(60);
+
+        Gdx.input.setInputProcessor(stage);
+        dialog.show(stage);
+    }
+
+
 //    }
 
     public void generateBalls() {
