@@ -56,15 +56,15 @@ public class AchivementsList {
             switch (achivements[i].getType()) {
                 case ConstantsAchiveEng.TYPE_SCORE:
                     int score = game.getGameScreen().gameField.getGameScore();
-                    if ( /*score > achivements[i].getCrit() &&
-                            achivements[i].isComplete() != 1*/ true)  {
+                    if ( score > achivements[i].getCrit() &&
+                            achivements[i].isComplete() != 1 )  {
                         achivements[i].setComplete(1);
                         achivementComplete = true;
                     }
                     break;
                 case  ConstantsAchiveEng.TYPE_TIME_SINGLE:
-                    if ( /*game.getGameScreen().gameField.gameTime > achivements[i].getCrit() &&
-                            achivements[i].isComplete() != 1*/ true )  {
+                    if ( game.getGameScreen().gameField.gameTime > achivements[i].getCrit() &&
+                            achivements[i].isComplete() !=  1 )  {
                         achivements[i].setComplete(1);
                         achivementComplete = true;
                     }

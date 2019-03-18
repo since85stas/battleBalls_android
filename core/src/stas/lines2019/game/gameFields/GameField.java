@@ -381,7 +381,7 @@ public class GameField {
                 squares[(int) balls[i].x][(int) balls[i].y].setNextTurnBall(false);
                 addNextTurnBalls();
             }
-            returnSquareInitState(balls[i], true);
+            returnSquareInitState(balls[i], false);
         }
         Assets.instance.soundsBase.explSound.play(0.2f);
     }
@@ -496,12 +496,13 @@ public class GameField {
     public void lineIsSet() {
         gameScore += lineLong * Constants.SCORED_PER_BALL +
                 (lineLong - 5) * 4;
+
         addEnergy(lineLong);
-        setEnergy(0);
+//        setEnergy(energy);
     }
 
     public void addEnergy(int lineLong) {
-
+        energy += ENERGY_BY_BALL*lineLong;
     }
 
     private void spawnParticleEffect(int x, int y) {
@@ -841,13 +842,20 @@ public class GameField {
 
     public void returnSquareInitState(Vector2 click, boolean delBall) {
         SquareItemExpans item = squares[(int) click.x][(int) click.y];
-        if (item.ballIsTough) {
+        if (item.ballIsTough && !delBall) {
+            item.setActive(false);
+            item.setBallInCenter();
+            item.ballDestroy();
+//            item.setBallColor(-3);
+//            item.setHasBall(false);
+        }  else if (item.ballIsTough && delBall) {
             item.setActive(false);
             item.setBallInCenter();
 //            item.ballDestroy();
             item.setBallColor(-3);
             item.setHasBall(false);
-        } else if(item.ballIsFreeze) {
+        }
+        else if(item.ballIsFreeze) {
             item.setActive(false);
             item.setBallIsFreeze(false);
             item.setBallInCenter();
@@ -869,10 +877,8 @@ public class GameField {
         else {
             squares[(int) click.x][(int) click.y].setActive(false);
             squares[(int) click.x][(int) click.y].setBallInCenter();
-            if (delBall) {
                 squares[(int) click.x][(int) click.y].setHasBall(false);
                 squares[(int) click.x][(int) click.y].setBallColor(-3);
-            }
         }
     }
 

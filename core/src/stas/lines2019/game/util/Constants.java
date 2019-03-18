@@ -128,9 +128,9 @@ public final class Constants {
     public static final int   SKILL_BLOCK     = 25;
     public static final int   SKILL_BOMB      = 26;
 
-    public static final int   SKILL_TELEPORT_COST =  10;
-    public static final int   SKILL_REMOVE_COST    = 15;
-    public static final int   SKILL_COLORLESS_COST = 20;
+    public static final int   SKILL_TELEPORT_COST =  20;
+    public static final int   SKILL_REMOVE_COST    = 20;
+    public static final int   SKILL_COLORLESS_COST = 25;
     public static final int   SKILL_BLOCK_COST     = 25;
     public static final int   SKILL_BOMB_COST      = 40;
 

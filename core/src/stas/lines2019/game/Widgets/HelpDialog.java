@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
@@ -55,28 +56,23 @@ public class HelpDialog extends Dialog {
 //        Label label = new Label("Buttons:",skin);
 //        label.setHeight(60);
 //        getContentTable().add(label).padLeft(10);
-        getContentTable().row().height(100);
-        getContentTable().setDebug(true);
+//        getContentTable().setDebug(true);
 
-
-//        textButton.setSize(WIDTH*SKILL_BUTTON_SIZE,WIDTH*SKILL_BUTTON_SIZE/1.5f );
-//        Image icon = new Image(Assets.instance.skillAssets.teleportTexture);
-//        icon.setSize(60,60);
-//        group.addActor(textButton);
 //        textButton.setSize(60,60);
-        Label tetLable = new Label("2232",skin,"small");
-//        getContentTable().add(textButton).width(100);
+        Label tetLable = new Label("Skills",skin,"small-energy");
+        getContentTable().add(tetLable).padTop(WIDTH*HELP_OFFSET_Y*5).padLeft(WIDTH*HELP_OFFSET_X);
+        getContentTable().row().height(HEIGHT*HELP_ROW_HEIGT);
 
         SkillButton textButton = new SkillButton("",Assets.instance.skinAssets.skin,
                 new TextureRegionDrawable( new TextureRegion(Assets.instance.skillAssets.teleportTexture)));
-        textButton.align(Align.left);
+        textButton.align(Align.left).padTop(WIDTH*HELP_OFFSET_Y*2);
         getContentTable().add(textButton).width(WIDTH*HELP_IMAGE_SIZE).height(WIDTH*HELP_IMAGE_SIZE).
                 padLeft(WIDTH*HELP_OFFSET_X);
         Label label2 = new Label(Assets.instance.bundle.get("helpTeleport"),skin,"small");
         label2.setWrap(true);
         getContentTable().add(label2).width(WIDTH-WIDTH*HELP_IMAGE_SIZE*2).
                 padLeft(WIDTH*HELP_OFFSET_X).padRight(WIDTH*HELP_OFFSET_X);
-        getContentTable().row() ; //.height(HEIGHT*HELP_ROW_HEIGT);
+        getContentTable().row().height(HEIGHT*HELP_ROW_HEIGT);
 
         textButton = new SkillButton("",Assets.instance.skinAssets.skin,
                 new TextureRegionDrawable( new TextureRegion(Assets.instance.skillAssets.removeTexture)));
@@ -87,7 +83,7 @@ public class HelpDialog extends Dialog {
         label2.setWrap(true);
         getContentTable().add(label2).width(WIDTH-WIDTH*HELP_IMAGE_SIZE*2).
                 padLeft(WIDTH*HELP_OFFSET_X).padRight(WIDTH*HELP_OFFSET_X);
-        getContentTable().row();//.height(HEIGHT*HELP_ROW_HEIGT);
+        getContentTable().row().height(HEIGHT*HELP_ROW_HEIGT);
 
         textButton = new SkillButton("",Assets.instance.skinAssets.skin,
                 new TextureRegionDrawable( new TextureRegion(Assets.instance.skillAssets.colorelessTexture)));
@@ -98,7 +94,7 @@ public class HelpDialog extends Dialog {
         label2.setWrap(true);
         getContentTable().add(label2).width(WIDTH-WIDTH*HELP_IMAGE_SIZE*2).
                 padLeft(WIDTH*HELP_OFFSET_X).padRight(WIDTH*HELP_OFFSET_X);
-        getContentTable();//.row().height(HEIGHT*HELP_ROW_HEIGT);
+        getContentTable().row().height(HEIGHT*HELP_ROW_HEIGT);
 
         textButton = new SkillButton("",Assets.instance.skinAssets.skin,
                 new TextureRegionDrawable( new TextureRegion(Assets.instance.skillAssets.blockTexture)));
@@ -109,7 +105,7 @@ public class HelpDialog extends Dialog {
         label2.setWrap(true);
         getContentTable().add(label2).width(WIDTH-WIDTH*HELP_IMAGE_SIZE*2).
                 padLeft(WIDTH*HELP_OFFSET_X).padRight(WIDTH*HELP_OFFSET_X);
-        getContentTable();//.row().height(HEIGHT*HELP_ROW_HEIGT);
+        getContentTable().row().height(HEIGHT*HELP_ROW_HEIGT);
 
         textButton = new SkillButton("",Assets.instance.skinAssets.skin,
                 new TextureRegionDrawable( new TextureRegion(Assets.instance.skillAssets.bombTexture)));
@@ -120,12 +116,15 @@ public class HelpDialog extends Dialog {
         label2.setWrap(true);
         getContentTable().add(label2).width(WIDTH-WIDTH*HELP_IMAGE_SIZE*2).
                 padLeft(WIDTH*HELP_OFFSET_X).padRight(WIDTH*HELP_OFFSET_X);
-        getContentTable();//.row().height(HEIGHT*HELP_ROW_HEIGT);
-
-        getContentTable();//.row().height(HEIGHT*HELP_ROW_HEIGT);
-
+        getContentTable().row().height(HEIGHT*HELP_ROW_HEIGT);
 
         // drawing balls
+
+        tetLable = new Label("Balls",skin,"small-energy");
+        getContentTable().add(tetLable).padTop(WIDTH*HELP_OFFSET_Y*3).padLeft(WIDTH*HELP_OFFSET_X).
+                padTop(HEIGHT*HELP_ROW_HEIGT*2);
+        getContentTable().row().height(HEIGHT*HELP_ROW_HEIGT);
+
         textButton = new SkillButton("",Assets.instance.skinAssets.skin,
                 new TextureRegionDrawable( new TextureRegion(Assets.instance.numberAssets.getNumTexture(2))));
         textButton.align(Align.left);
@@ -135,7 +134,7 @@ public class HelpDialog extends Dialog {
         label2.setWrap(true);
         getContentTable().add(label2).width(WIDTH-WIDTH*HELP_IMAGE_SIZE*2).
                 padLeft(WIDTH*HELP_OFFSET_X).padRight(WIDTH*HELP_OFFSET_X);
-        getContentTable();//.row().height(HEIGHT*HELP_ROW_HEIGT);
+        getContentTable().row().height(HEIGHT*HELP_ROW_HEIGT);
 
         textButton = new SkillButton("",Assets.instance.skinAssets.skin,
                 new TextureRegionDrawable( new TextureRegion(Assets.instance.lockAssets.texture)));
@@ -146,7 +145,7 @@ public class HelpDialog extends Dialog {
         label2.setWrap(true);
         getContentTable().add(label2).width(WIDTH-WIDTH*HELP_IMAGE_SIZE*2).
                 padLeft(WIDTH*HELP_OFFSET_X).padRight(WIDTH*HELP_OFFSET_X);
-        getContentTable();//.row().height(HEIGHT*HELP_ROW_HEIGT);
+        getContentTable().row().height(HEIGHT*HELP_ROW_HEIGT);
 
         textButton = new SkillButton("",Assets.instance.skinAssets.skin,
                 new TextureRegionDrawable( new TextureRegion(Assets.instance.colorlessBallAssets.texture)));
@@ -157,29 +156,25 @@ public class HelpDialog extends Dialog {
         label2.setWrap(true);
         getContentTable().add(label2).width(WIDTH-WIDTH*HELP_IMAGE_SIZE*2).
                 padLeft(WIDTH*HELP_OFFSET_X).padRight(WIDTH*HELP_OFFSET_X);
-        getContentTable();//.row().height(HEIGHT*HELP_ROW_HEIGT);
+        getContentTable().row().height(HEIGHT*HELP_ROW_HEIGT);
 
         textButton = new SkillButton("",Assets.instance.skinAssets.skin,
                 new TextureRegionDrawable( new TextureRegion(Assets.instance.bombAssets.texture)));
         textButton.align(Align.left);
         getContentTable().add(textButton).width(WIDTH*HELP_IMAGE_SIZE).height(WIDTH*HELP_IMAGE_SIZE).
                 padLeft(WIDTH*HELP_OFFSET_X);
-        label2 = new Label(Assets.instance.bundle.get("helpBallColorless"),skin,"small");
+        label2 = new Label(Assets.instance.bundle.get("helpBallBomb"),skin,"small");
         label2.setWrap(true);
         getContentTable().add(label2).width(WIDTH-WIDTH*HELP_IMAGE_SIZE*2).
                 padLeft(WIDTH*HELP_OFFSET_X).padRight(WIDTH*HELP_OFFSET_X);
-        getContentTable();//.row().height(HEIGHT*HELP_ROW_HEIGT);
-    }
+        getContentTable().row().height(HEIGHT*HELP_ROW_HEIGT);
 
-//    @Override
-//    public float getPrefWidth() {
-//        return WIDTH;
-//    }
-//
-//    @Override
-//    public float getPrefHeight() {
-//        return HEIGHT;
-//    }
+        button("Ok",
+                false,
+                Assets.instance.skinAssets.skin.get("small",
+                        TextButton.TextButtonStyle.class)
+        );
+    }
 
 
 

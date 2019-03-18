@@ -36,6 +36,7 @@ public class GameFieldExpans extends GameField {
     public GameFieldExpans (GameScreenExpans gameScreenExpans) {
         super(gameScreenExpans);
         getInitBallWeights();
+//        energy = 50;
 //        ballsWeights[2] = Constants.FREEZE_WEIGHT;
     }
 
@@ -52,8 +53,8 @@ public class GameFieldExpans extends GameField {
         }
 
 //        mGameScreenExpans = gameScreenExpans;
-        ballsWeights = new float[Constants.BALLS_TYPES_NUM];
-
+//        ballsWeights = new float[Constants.BALLS_TYPES_NUM];
+        ballsWeights = getInitBallWeights();
 //        SquareItemExpans squareItemExpans = squares[0][0];
     }
 
@@ -66,18 +67,18 @@ public class GameFieldExpans extends GameField {
         weights[3] = Constants.COLORLESS_WEIGHT;
         weights[4] = BOMB_WEIGHT;
 
-//        updateBallWeights(0);
-//        updateBallWeights(1);
-//        updateBallWeights(100);
-//        updateBallWeights(1000);
+        updateBallWeights(100);
+        updateBallWeights(200);
+        updateBallWeights(500);
+        updateBallWeights(1000);
         return weights;
     }
 
     private void updateBallWeights(int turns) {
 //        int turns = getNumberOfTurns();
 
-        float newWeight = (float) (TIGHT_WEIGHT + Math.atan(turns/100/Math.PI)/1.4915);
-        float[] initWeights = getInitBallWeights();
+        float newWeight = (float) (TIGHT_WEIGHT + Math.atan(180*turns/1000/Math.PI)/1.4915);
+//        float[] initWeights = getInitBallWeights();
     }
 
 
@@ -180,13 +181,13 @@ public class GameFieldExpans extends GameField {
         return num;
     }
 
-    @Override
-    public void addEnergy(int lineLong) {
-        energy += ENERGY_BY_BALL*lineLong;
-        if (energy > 100) {
-            energy = 100;
-        }
-    }
+//    @Override
+//    public void addEnergy(int lineLong) {
+//        energy += ENERGY_BY_BALL*lineLong;
+//        if (energy > 100) {
+//            energy = 100;
+//        }
+//    }
 
     @Override
     public void setEnergy(int val) {

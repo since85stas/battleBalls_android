@@ -327,7 +327,7 @@ public class GameScreen implements Screen {
         rulesDialog.getContentTable().add(gameLable).padTop(40);
         rulesDialog.getContentTable().row();
 
-        rulesDialog.button("Ok",
+        rulesDialog.button(Assets.instance.bundle.get("Ok"),
                 false,
                 Assets.instance.skinAssets.skin.get("small",
                         TextButton.TextButtonStyle.class)
