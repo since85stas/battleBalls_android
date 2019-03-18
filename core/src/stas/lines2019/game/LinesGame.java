@@ -64,26 +64,6 @@ public class LinesGame extends Game {
         batch = new SpriteBatch();
         isScreenRendering = true;
         setScreen(new LoadingScreen(this));
-
-//        // создаем текстуры
-//        AssetManager am = new AssetManager();
-//
-//        Assets.instance.init(am);
-//
-//        survLevelIsComp = new boolean[Constants.NUM_DIFFICULTIES];
-//
-//        // создаем достижения
-//        achivementsList = new AchivementsList(this);
-//        achivementsList.generateAchivemnets();
-//
-//        Gdx.input.setCatchBackKey(true);
-//
-//        PurchaseManagerConfig pmc = new PurchaseManagerConfig();
-//        pmc.addOffer(new Offer().setType(OfferType.ENTITLEMENT).setIdentifier(Constants.FRIEND_VERSION));
-//
-//        purchaseManager.install(new MyPurchaseObserver() , pmc, true);
-//
-//        updateFromManager();
     }
 
     public void prepareMainRes() {
@@ -194,7 +174,20 @@ public class LinesGame extends Game {
         gamePref.flush();
     }
 
+    public void dropKeys() {
+        Preferences gamePref = Gdx.app.getPreferences(Constants.PREF_GAME);
+        gamePref.putBoolean(Constants.PREF_GAME_IS_PLAY,false);
+        gamePref.putBoolean(Constants.SURV_GAME_IS_BOUGHT,false);
+        gamePref.putBoolean(Constants.EXPANS_GAME_IS_BOUGHT,false);
+        gamePref.putBoolean(DIFFICULT_HARD_BOUGHT,false);
+        gamePref.putBoolean(DIFFICULT_NIGHTMARE_BOUGHT,false);
+        numberOfMainMenuOpens = gamePref.getInteger(Constants.GAME_OPENS,0);
+        gamePref.putInteger(Constants.STARS_NUMBER,15);
+        gamePref.flush();
+    }
+
     public void loadAchieve() {
+//        dropKeys();
         Preferences gamePref = Gdx.app.getPreferences(Constants.PREF_GAME);
         findSaveGame = gamePref.getBoolean(Constants.PREF_GAME_IS_PLAY,false);
         friendGameIsBought = gamePref.getBoolean(Constants.SURV_GAME_IS_BOUGHT,false);

@@ -190,7 +190,6 @@ public class GameField {
         spawnParticleEffect(-300, -100);
         addRulesButton();
 
-
         if (gameScreen.isExpansionPlayed) {
             drawSkillsButtons() ;
         }
@@ -845,7 +844,9 @@ public class GameField {
         if (item.ballIsTough) {
             item.setActive(false);
             item.setBallInCenter();
-            item.ballDestroy();
+//            item.ballDestroy();
+            item.setBallColor(-3);
+            item.setHasBall(false);
         } else if(item.ballIsFreeze) {
             item.setActive(false);
             item.setBallIsFreeze(false);

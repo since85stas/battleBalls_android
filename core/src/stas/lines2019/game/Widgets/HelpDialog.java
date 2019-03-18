@@ -31,32 +31,31 @@ public class HelpDialog extends Dialog {
     public HelpDialog(String title, Skin skin, LinesGame game) {
         super(title, skin);
         this.game = game;
-//        setTransform(true);
+        setTransform(false);
         getBackground();
 
-        setModal(true);
-        setMovable(false);
+//        setSize(WIDTH,HEIGHT);
+
+//        setModal(true);
+//        setMovable(false);
         setResizable(false);
         padLeft(10);
 
-        getContentTable().setWidth(WIDTH);
+        getContentTable().setFillParent(true);
 
-        getContentTable().setHeight(HEIGHT);
-        getContentTable().defaults().maxHeight(40);
-        getContentTable().defaults().maxWidth(60);
+//        getContentTable().defaults().width(WIDTH - 0.05f*WIDTH);
+//        getContentTable().defaults().maxHeight(60);
+//        getContentTable().defaults().maxWidth(WIDTH - 0.05f*WIDTH);
         getContentTable().setPosition(0,0);;
-        getContentTable().align(Align.left);
+        getContentTable().align(Align.topLeft);
 
         Table table = getContentTable();
 
-        Label label = new Label("Buttons:",skin);
-        label.setHeight(60);
-        getContentTable().add(label).padLeft(10);
-        getContentTable().row().height(60);
-
-        HorizontalGroup group = new HorizontalGroup();
-        group.align(Align.left);
-        group.setHeight(40);
+//        Label label = new Label("Buttons:",skin);
+//        label.setHeight(60);
+//        getContentTable().add(label).padLeft(10);
+        getContentTable().row().height(100);
+        getContentTable().setDebug(true);
 
         SkillButton textButton = new SkillButton("",Assets.instance.skinAssets.skin,
                 new TextureRegionDrawable( new TextureRegion(Assets.instance.skillAssets.teleportTexture)));
@@ -65,52 +64,47 @@ public class HelpDialog extends Dialog {
 //        Image icon = new Image(Assets.instance.skillAssets.teleportTexture);
 //        icon.setSize(60,60);
 //        group.addActor(textButton);
-        getContentTable().add(textButton).padLeft(10);
-        label = new Label("teloport:11111111111111",skin,"small");
-        label.setAlignment(Align.left);
+//        textButton.setSize(60,60);
+        Label tetLable = new Label("2232",skin,"small");
+//        getContentTable().add(textButton).width(100);
+
+        getContentTable().add(textButton).width(60).height(60);
+
+        Label label2 = new Label("teleport ball in any position at game field1111111111111111111",skin,"small");
+//        label2.
+//        label2.setAlignment(Align.left);
+        label2.setWrap(true);
 //        group.addActor(label);
-        getContentTable().add(label).padLeft(10);
-        getContentTable().row().height(60);
+        getContentTable().add(label2).padLeft(10).width(WIDTH-60);
+//        getContentTable().row().height(60);
 
-        textButton = new SkillButton("",Assets.instance.skinAssets.skin,
-                new TextureRegionDrawable( new TextureRegion(Assets.instance.skillAssets.removeTexture)));
-//        textButton.setSize(WIDTH*SKILL_BUTTON_SIZE,WIDTH*SKILL_BUTTON_SIZE/1.5f );
-//        Image icon = new Image(Assets.instance.skillAssets.teleportTexture);
-//        icon.setSize(60,60);
-        getContentTable().add(textButton);
-        label = new Label("teloport:2",skin,"small");
-        getContentTable().add(label);
-        getContentTable().row().height(60);
-
-        textButton = new SkillButton("",Assets.instance.skinAssets.skin,
-                new TextureRegionDrawable( new TextureRegion(Assets.instance.skillAssets.blockTexture)));
-//        textButton.setSize(WIDTH*SKILL_BUTTON_SIZE,WIDTH*SKILL_BUTTON_SIZE/1.5f );
-//        Image icon = new Image(Assets.instance.skillAssets.teleportTexture);
-//        icon.setSize(60,60);
-        getContentTable().add(textButton);
-        label = new Label("teloport:3",skin,"small");
-        getContentTable().add(label);
-        getContentTable().row().height(60);
-
-        textButton = new SkillButton("",Assets.instance.skinAssets.skin,
-                new TextureRegionDrawable( new TextureRegion(Assets.instance.skillAssets.colorelessTexture)));
-//        textButton.setSize(WIDTH*SKILL_BUTTON_SIZE,WIDTH*SKILL_BUTTON_SIZE/1.5f );
-//        Image icon = new Image(Assets.instance.skillAssets.teleportTexture);
-//        icon.setSize(60,60);
-        getContentTable().add(textButton);
-        label = new Label("teloport:4",skin,"small");
-        getContentTable().add(label);
-        getContentTable().row().height(60);
-
-        textButton = new SkillButton("",Assets.instance.skinAssets.skin,
-                new TextureRegionDrawable( new TextureRegion(Assets.instance.skillAssets.bombTexture)));
-//        textButton.setSize(WIDTH*SKILL_BUTTON_SIZE,WIDTH*SKILL_BUTTON_SIZE/1.5f );
-//        Image icon = new Image(Assets.instance.skillAssets.teleportTexture);
-//        icon.setSize(60,60);
-        getContentTable().add(textButton);
-        label = new Label("teloport:5",skin,"small");
-        getContentTable().add(label);
-        getContentTable().row().height(60);
+//        textButton = new SkillButton("",Assets.instance.skinAssets.skin,
+//                new TextureRegionDrawable( new TextureRegion(Assets.instance.skillAssets.removeTexture)));
+//        getContentTable().add(textButton);
+//        label = new Label("teloport:2",skin,"small");
+//        getContentTable().add(label);
+//        getContentTable().row().height(60);
+//
+//        textButton = new SkillButton("",Assets.instance.skinAssets.skin,
+//                new TextureRegionDrawable( new TextureRegion(Assets.instance.skillAssets.blockTexture)));
+//        getContentTable().add(textButton);
+//        label = new Label("teloport:3",skin,"small");
+//        getContentTable().add(label);
+//        getContentTable().row().height(60);
+//
+//        textButton = new SkillButton("",Assets.instance.skinAssets.skin,
+//                new TextureRegionDrawable( new TextureRegion(Assets.instance.skillAssets.colorelessTexture)));
+//        getContentTable().add(textButton);
+//        label = new Label("teloport:4",skin,"small");
+//        getContentTable().add(label);
+//        getContentTable().row().height(60);
+//
+//        textButton = new SkillButton("",Assets.instance.skinAssets.skin,
+//                new TextureRegionDrawable( new TextureRegion(Assets.instance.skillAssets.bombTexture)));
+//        getContentTable().add(textButton);
+//        label = new Label("teloport:5",skin,"small");
+//        getContentTable().add(label);
+//        getContentTable().row().height(60);
     }
 
 //    @Override

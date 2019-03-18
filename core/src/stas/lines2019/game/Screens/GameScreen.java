@@ -342,6 +342,12 @@ public class GameScreen implements Screen {
 
         Gdx.input.setInputProcessor(stage);
         helpDialog.show(stage);
+        helpDialog.setFillParent(true);
+        Table table = helpDialog.getContentTable();
+        float w = stage.getWidth();
+        float h = stage.getHeight();
+
+        Gdx.app.log(TAG,"help dialog");
     }
 
     public String setRulesLable() {
