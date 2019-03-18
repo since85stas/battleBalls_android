@@ -87,6 +87,7 @@ public class Assets implements Disposable, AssetErrorListener {
 
         assetManager.load("mini_block.png"   ,Texture.class);
         assetManager.load("mini_rules.jpg"   ,Texture.class);
+        assetManager.load("help.png"   ,Texture.class);
         assetManager.load("mini_remove.png"   ,Texture.class);
         assetManager.load("mini_telep.png"   ,Texture.class);
 
@@ -132,6 +133,7 @@ public class Assets implements Disposable, AssetErrorListener {
         Texture brownTileTexture = assetManager.get("brown_rock.png");
         Texture bombTexture = assetManager.get("mini_bomb.png");
         Texture rulesTexture = assetManager.get("mini_rules.jpg");
+        Texture helpTexture = assetManager.get("help.png");
         Texture backT            = assetManager.get("back1.png");
 
         Texture teleportText = assetManager.get("mini_telep.png");
@@ -155,7 +157,7 @@ public class Assets implements Disposable, AssetErrorListener {
         tileAssets       = new TileAssets(greenTileTexture,brownTileTexture);
         skinAssets       = new SkinAssets(mySkin);
         lockAssets       = new LockAssets(lockTexture);
-        iconAssets       = new IconAssets(rulesTexture);
+        iconAssets       = new IconAssets(rulesTexture, helpTexture);
         bombAssets       = new BombAssets(bombTexture);
         soundsBase       = new SoundsBase(bubbleSound,tookSound,explosionSound);
         backAssets       = new BackAssets(backT);
@@ -473,11 +475,12 @@ public class Assets implements Disposable, AssetErrorListener {
 
     public class IconAssets {
         public Texture rulesTexture;
-        public Texture removeTexture;
+        public Texture helpTexture;
 
-        public IconAssets(Texture rulesTexture
+        public IconAssets(Texture rulesTexture, Texture helpTexture
                            ) {
             this.rulesTexture = rulesTexture;
+            this.helpTexture  = helpTexture;
 //            this.removeTexture = removeTexture;
 //            this.blockTexture  = blockTexture;
 //            this.colorelessTexture = colorelessTexture;

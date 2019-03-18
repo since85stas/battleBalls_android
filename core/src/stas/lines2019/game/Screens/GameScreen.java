@@ -16,6 +16,7 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.DelayedRemovalArray;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
+import stas.lines2019.game.Widgets.HelpDialog;
 import stas.lines2019.game.gameFields.GameField;
 import stas.lines2019.game.LinesGame;
 import stas.lines2019.game.MenuBall;
@@ -114,7 +115,7 @@ public class GameScreen implements Screen {
         energyLable = new Label("0",mySkin , "game");
 
         VerticalGroup timeLableGroup = new VerticalGroup();
-        timeLableGroup.setPosition(width/2 - width*0.1f,
+        timeLableGroup.setPosition(width/2 - width*0.13f,
                 height - lableItemHeight);
         timeLableGroup.setSize(HUD_ITEM_HOR_SIZE * width, lableItemHeight);
         Label titleLable = new Label("energy", mySkin, "small-energy");
@@ -156,9 +157,11 @@ public class GameScreen implements Screen {
 
         batch.begin();
 
-        if (isRenderGamefield) {
-            gameField.update(delta);
-            gameField.render(batch, delta);
+        gameField.update(delta);
+        gameField.render(batch, delta);
+
+        if (isExpansionPlayed) {
+            setEnergyLable(gameField.energy);
         }
         // Draw the number of player deaths in the top left
 
@@ -173,7 +176,7 @@ public class GameScreen implements Screen {
         int score =(int) gameField.getGameScore();
         setScoreLable(score);
 
-        setEnergyLable(gameField.energy);
+
 //        addRulesButton();
         batch.end();
 
@@ -330,6 +333,15 @@ public class GameScreen implements Screen {
                         TextButton.TextButtonStyle.class)
         );
         rulesDialog.show(stage);
+    }
+
+    public void helpDialog() {
+        HelpDialog helpDialog = new HelpDialog ("",
+                Assets.instance.skinAssets.skin,
+                lineGame);
+
+        Gdx.input.setInputProcessor(stage);
+        helpDialog.show(stage);
     }
 
     public String setRulesLable() {

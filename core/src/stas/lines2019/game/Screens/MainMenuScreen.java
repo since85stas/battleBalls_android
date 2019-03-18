@@ -226,8 +226,11 @@ public class MainMenuScreen extends InputAdapter implements Screen{
                         case 3:
                             mGame.findSaveGame = false;
 
-//                            mGame.setGameScreenExpans();
-                            showStarBuyDialog(10);
+                            if (mGame.expansGameIsBought || mGame.survGameIsBought) {
+                                mGame.setGameScreenExpans();
+                            } else {
+                                showStarBuyDialog(Constants.EXPANSION_STAR_COST);
+                            }
                             break;
                         case 5:
                             mGame.setAchieveScreen();
@@ -329,13 +332,18 @@ public class MainMenuScreen extends InputAdapter implements Screen{
                 );
 
         starButton.add(new Image(Assets.instance.starAssets.achieveTexture));
-        starButton.padLeft(150);
-        starButton.padRight(150);
+        starButton.padLeft(widtht*0.05f);
+        starButton.padRight(widtht*0.05f);
         starButton.align(Align.center);
 
         dialog.button( starButton,
-                false
+                1
                 );
+
+        dialog.button( Assets.instance.bundle.get("no"),
+                false,
+                Assets.instance.skinAssets.skin.get("small", TextButton.TextButtonStyle.class)
+        );
 
         Gdx.input.setInputProcessor(stage);
         dialog.show(stage);

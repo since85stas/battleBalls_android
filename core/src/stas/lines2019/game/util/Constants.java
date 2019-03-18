@@ -60,7 +60,7 @@ public final class Constants {
     public static final float BUTTONS_HEIGHT = 0.07f;
     public static final float BUTTONS_WIDTH = 0.9f;
     public static final float TITLE_UPPER_OFFSET = 0.07f;
-    public static final float BUTTONS_UPPER_OFFSET = 0.2f;
+    public static final float BUTTONS_UPPER_OFFSET = 0.15f;
     public static final float BUTTONS_BETWEEN_SPACE = 0.03f;
 
     public static final float HUD_FONT_SMALL = 0.02f;

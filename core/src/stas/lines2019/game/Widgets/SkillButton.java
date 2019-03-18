@@ -18,15 +18,15 @@ public class SkillButton extends TextButton {
     public int WIDTH =(int)( Gdx.graphics.getWidth()*SKILL_BUTTON_SIZE);
     public int HEIGHT =(int)( Gdx.graphics.getWidth()*SKILL_BUTTON_SIZE);
 
-    @Override
-    public float getPrefWidth() {
-        return WIDTH;
-    }
+//    @Override
+//    public float getPrefWidth() {
+//        return WIDTH;
+//    }
 
-    @Override
-    public float getPrefHeight() {
-        return HEIGHT;
-    }
+//    @Override
+//    public float getPrefHeight() {
+//        return HEIGHT;
+//    }
 
     public SkillButton(String text, Skin skin, Drawable drawable) {
         super(text, skin);
@@ -34,13 +34,5 @@ public class SkillButton extends TextButton {
         add(new Image(drawable));
 //        getStyle().imageUp = drawable;
     }
-
-
-//    public SkillButton(Skin skin, String text) {
-//        super(skin);
-//        Label energyLable = new Label(text,skin);
-//        add(energyLable);
-//        add(energyLable);
-//    }
 
 }

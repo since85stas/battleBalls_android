@@ -23,7 +23,7 @@ public class BuyDialog extends Dialog {
         super(title, skin);
         this.game = game;
         getContentTable().defaults().width(WIDTH - 0.05f*WIDTH);
-//        getButtonTable().defaults().width(WIDTH - 0.05f*WIDTH);
+        getButtonTable().defaults().width(WIDTH/3 - 0.07f*WIDTH);
 
     }
 
@@ -49,13 +49,15 @@ public class BuyDialog extends Dialog {
             game.purchaseManager.purchase(Constants.FRIEND_VERSION);
             Gdx.app.log("buy","true");
         } else if (object.equals(false)){
+            hide();
+        } else if (object.equals(1) && game.numberOfStars >= stars ) {
             Gdx.app.log("buy","fal"  );
             if  ( game.numberOfStars >= stars  ) {
-                game.numberOfStars -= stars;
-                game.saveStarsNumber();
+                game.setExpansGameIsBought();
+                game.setGameScreenExpans();
             }
-            hide();
         }
+
     }
 
     @Override

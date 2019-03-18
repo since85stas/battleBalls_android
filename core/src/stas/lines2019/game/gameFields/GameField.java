@@ -20,6 +20,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -47,6 +48,8 @@ import java.util.Collection;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.concurrent.SynchronousQueue;
+
+import javax.swing.Box;
 
 public class GameField {
     private static final String TAG = GameField.class.getName();
@@ -110,6 +113,9 @@ public class GameField {
 
     Button rulesButton;
     Rectangle rulesHitBox;
+
+    Button helpButton;
+    Rectangle helpHitBox;
 
     long startTime;
 
@@ -215,8 +221,8 @@ public class GameField {
         int height = Gdx.graphics.getHeight();
 //        skillsButtons = new TextButton[SKILLS_NUMBERS];
         skillsButtons = new SkillButton[SKILLS_NUMBERS];
-        int initPositX = 0;
-        int initPositY = (int)(initPos.y - (SKILL_BUTTON_SIZE*height*2));
+        int initPositX = (int)((width - 5*width*SKILL_BUTTON_SIZE)/2);
+        int initPositY = (int)(initPos.y - (SKILL_BUTTON_SIZE*height)/1.7);
 
         Texture[] skillTextures = new Texture[SKILLS_NUMBERS];
         skillTextures[0] = Assets.instance.skillAssets.teleportTexture;
@@ -392,9 +398,12 @@ public class GameField {
         background.render(batch);
 
         rulesButton.draw(batch, 1);
+        helpButton.draw(batch,1);
 
-        for (int i = 0; i < skillsButtons.length; i++) {
-            skillsButtons[i].draw(batch,1);
+        if (gameScreen.isExpansionPlayed) {
+            for (int i = 0; i < skillsButtons.length; i++) {
+                skillsButtons[i].draw(batch, 1);
+            }
         }
 
         for (int i = 0; i < fieldDimension; i++) {
@@ -544,7 +553,10 @@ public class GameField {
                         if (isBallSelected) {
                             // если шар уже выбран то проверяем куда потом нажали
                             clickPosition = checkClickEvent(screenX, screenY);
-                            if (!clickPosition.equals(new Vector2(666, 665)) && !clickPosition.equals(new Vector2(66, 77))) {
+                            if (!clickPosition.equals(new Vector2(666, 665)) &&
+                                    !clickPosition.equals(new Vector2(766, 765)) &&
+                                    !clickPosition.equals(new Vector2(66, 77))
+                                    ) {
                                 // проверяем на наличие прохода для шарика
                                 FindBallPath finder = new FindBallPath(squares,
                                         selectedBall,
@@ -605,6 +617,7 @@ public class GameField {
                             clickPosition = checkClickEvent(screenX, screenY);
                             if ( clickPosition != null &&
                                     !clickPosition.equals(new Vector2(666,665)) &&
+                                    !clickPosition.equals(new Vector2(766,765)) &&
                                     !clickPosition.equals(new Vector2(66, 77)) &&
                                     clickPosition.x < fieldDimension && clickPosition.y < fieldDimension
                                     ) {
@@ -639,7 +652,10 @@ public class GameField {
                             } else if (clickPosition.equals(new Vector2(666,665) ))   {
                                 isInputProccActive = false;
                                 gameScreen.rulesDialog();
-                            } else if (clickPosition.equals(new Vector2(SKILL_TELEPORT, SKILL_TELEPORT ))) {
+                            } else if (clickPosition.equals(new Vector2(766,765) ))   {
+                                isInputProccActive = false;
+                                gameScreen.helpDialog();
+                            }   else if (clickPosition.equals(new Vector2(SKILL_TELEPORT, SKILL_TELEPORT ))) {
                                 if (energy >= SKILL_TELEPORT_COST) {
 //                                    isAnySkillPressed = true;
                                     isTeleportPressed = true;
@@ -695,9 +711,15 @@ public class GameField {
     }
 
     private void addRulesButton() {
-        rulesButton = new TextButton(Assets.instance.bundle.get("rulesB"), Assets.instance.skinAssets.skin);
-        rulesButton.setPosition(0,
-                initPos.y - Constants.HUD_FONT_TITLE * Gdx.graphics.getHeight() * 1.5f);
+        rulesButton = new TextButton("", Assets.instance.skinAssets.skin);
+        float buttX = 0;
+//        float buttY = initPos.y - Constants.HUD_FONT_TITLE * Gdx.graphics.getHeight() * 1.5f;
+        float buttY  = gameScreen.height - gameScreen.width*SKILL_BUTTON_SIZE/1.4f;
+        rulesButton.setPosition(buttX, buttY);
+
+        rulesButton.setSize(gameScreen.width*SKILL_BUTTON_SIZE/1.4f,
+                gameScreen.width*SKILL_BUTTON_SIZE/1.4f);
+        rulesButton.add(new Image(Assets.instance.iconAssets.helpTexture));
         rulesButton.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -707,11 +729,36 @@ public class GameField {
             }
         });
 
-        rulesHitBox = new Rectangle(0,
-                initPos.y - Constants.HUD_FONT_TITLE * Gdx.graphics.getHeight() * 1.5f,
+        rulesHitBox = new Rectangle(buttX,
+                buttY,
                 rulesButton.getPrefWidth(),
                 rulesButton.getPrefHeight()
         );
+
+        if (gameScreen.isExpansionPlayed) {
+            helpButton = new TextButton("", Assets.instance.skinAssets.skin);
+            buttX = gameScreen.width - gameScreen.width*SKILL_BUTTON_SIZE/1.2f;
+            buttY = gameScreen.height - gameScreen.width*SKILL_BUTTON_SIZE/1.4f;
+            helpButton.setPosition(buttX, buttY);
+
+            helpButton.setSize(gameScreen.width*SKILL_BUTTON_SIZE/1.4f,
+                    gameScreen.width*SKILL_BUTTON_SIZE/1.4f);
+            helpButton.add(new Image(Assets.instance.iconAssets.rulesTexture));
+            helpButton.addListener(new InputListener() {
+                @Override
+                public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+//                gameScreen.rulesDialog();
+//                rulesButton();
+                    return true;
+                }
+            });
+
+            helpHitBox = new Rectangle(buttX,
+                    buttY,
+                    rulesButton.getPrefWidth(),
+                    rulesButton.getPrefHeight()
+            );
+        }
     }
 
     private void updateMove(float dt) {
@@ -767,16 +814,23 @@ public class GameField {
             clickPosition = new Vector2(666, 665);
         }
 
-        int[] skillType = new int[SKILLS_NUMBERS];
-        skillType[0] = SKILL_TELEPORT;
-        skillType[1] = SKILL_REMOVE;
-        skillType[2] = SKILL_COLORLESS;
-        skillType[3] = SKILL_BLOCK;
-        skillType[4] = SKILL_BOMB;
+        if (helpHitBox.contains(screenX, Gdx.graphics.getHeight() - screenY)) {
+            clickPosition = new Vector2(766, 765);
+        }
 
-        for (int i = 0; i < SKILLS_NUMBERS; i++) {
-            if(skillButtonsHitBoxes[i].contains(screenX,Gdx.graphics.getHeight() - screenY)) {
-                clickPosition = new Vector2(skillType[i],skillType[i]);
+        if (gameScreen.isExpansionPlayed) {
+            int[] skillType = new int[SKILLS_NUMBERS];
+            skillType[0] = SKILL_TELEPORT;
+            skillType[1] = SKILL_REMOVE;
+            skillType[2] = SKILL_COLORLESS;
+            skillType[3] = SKILL_BLOCK;
+            skillType[4] = SKILL_BOMB;
+
+
+            for (int i = 0; i < SKILLS_NUMBERS; i++) {
+                if (skillButtonsHitBoxes[i].contains(screenX, Gdx.graphics.getHeight() - screenY)) {
+                    clickPosition = new Vector2(skillType[i], skillType[i]);
+                }
             }
         }
 

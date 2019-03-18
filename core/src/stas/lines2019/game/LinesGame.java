@@ -246,6 +246,7 @@ public class LinesGame extends Game {
         gamePref.flush();
         numberOfStars -= EXPANSION_STAR_COST;
         expansGameIsBought = true;
+        saveStarsNumber();
     }
 
     public void saveSurvPref(int diffType) {
