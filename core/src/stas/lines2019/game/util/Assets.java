@@ -251,8 +251,7 @@ public class Assets implements Disposable, AssetErrorListener {
         fontsByName.put( "big-font", generator.generateFont( param ));
 //        param.size = Math.round( ppi / 4);
 
-        param.size = (int)(Gdx.graphics.getHeight() *Constants.HUD_FONT_SMALL);
-        fontsByName.put( "small-font", generator.generateFont( param ));
+
 
         param.size = (int)(Gdx.graphics.getHeight() *Constants.HUD_FONT_MAIN_MENU);
         fontsByName.put( "main-font", generator.generateFont( param ));
@@ -262,6 +261,12 @@ public class Assets implements Disposable, AssetErrorListener {
 
         param.size = (int)(Gdx.graphics.getHeight() *Constants.HUD_FONT_IN_DIALOG);
         fontsByName.put( "dialog-font", generator.generateFont( param ));
+
+        param.borderWidth = 1;
+        param.shadowOffsetX = 1;
+        param.shadowOffsetY = -1;
+        param.size = (int)(Gdx.graphics.getHeight() *Constants.HUD_FONT_SMALL);
+        fontsByName.put( "small-font", generator.generateFont( param ));
 
 //        param.size = (int)(Gdx.graphics.getHeight() *Constants.HUD_FONT_INBALLS);
 //        fontsByName.put( "inball-font", generator.generateFont( param ));
