@@ -309,7 +309,7 @@ public class Assets implements Disposable, AssetErrorListener {
         public StarAssets(Pixmap pixmap) {
 //            this.texture = texture;
             Pixmap pixmap_achieve = new Pixmap((int)(Constants.ACHIEVE_HEIGHT*Gdx.graphics.getWidth()),
-                    (int)(Constants.ACHIEVE_HEIGHT*Gdx.graphics.getHeight()),
+                    (int)(Constants.ACHIEVE_HEIGHT*Gdx.graphics.getWidth()),
                     pixmap.getFormat());
             pixmap_achieve.drawPixmap(pixmap,
                     0, 0, pixmap.getWidth(), pixmap.getHeight(),

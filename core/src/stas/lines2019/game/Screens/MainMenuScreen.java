@@ -328,12 +328,14 @@ public class MainMenuScreen extends InputAdapter implements Screen{
                 Assets.instance.skinAssets.skin.get("small", TextButton.TextButtonStyle.class)
                 );
 
-        starButton.setHeight(30);
-
         starButton.add(new Image(Assets.instance.starAssets.achieveTexture));
-        dialog.getButtonTable().add(starButton);
+        starButton.padLeft(150);
+        starButton.padRight(150);
+        starButton.align(Align.center);
 
-        dialog.getButtonTable().defaults().height(60);
+        dialog.button( starButton,
+                false
+                );
 
         Gdx.input.setInputProcessor(stage);
         dialog.show(stage);

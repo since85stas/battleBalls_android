@@ -157,15 +157,6 @@ public class GameField {
                 screnHeight,
                 fieldDimension);
 
-//        squares = new SquareItem[fieldDimension][fieldDimension];
-//        for (int i = 0; i < fieldDimension; i++) {
-//            for (int j = 0; j < fieldDimension; j++) {
-//                int x = (int) initPos.x + j * itemWidth;
-//                int y = (int) initPos.y + i * itemWidth;
-//                Vector2 position = new Vector2(x, y);
-//                squares[j][i] = new SquareItem(gameScreen, itemWidth, itemWidth, position);
-//            }
-//        }
         createSquares();
 
         loadPrefer();
@@ -192,10 +183,7 @@ public class GameField {
         touchEffectPool = new ParticleEffectPool(touchEffect, 8, 15);
         spawnParticleEffect(-300, -100);
         addRulesButton();
-//        addFakeBalls(9,0,0,6,1);
 
-
-//        fieldStage = new Stage();
 
         if (gameScreen.isExpansionPlayed) {
             drawSkillsButtons() ;
@@ -622,7 +610,7 @@ public class GameField {
                                     ) {
                                 if ( squares[(int) clickPosition.x][(int) clickPosition.y].isHasBall() &&
                                         !squares[(int) clickPosition.x][(int) clickPosition.y].ballIsFreeze
-                                        && !isAnySkillPressed) {
+                                        && (!isAnySkillPressed || isBlockPressed)) {
                                     squares[(int) clickPosition.x][(int) clickPosition.y].setActive(true);
                                     squares[(int) clickPosition.x][(int) clickPosition.y].update(dt);
                                     isBallSelected = true;
@@ -848,7 +836,6 @@ public class GameField {
             isAnySkillPressed = false;
             isBlockPressed = false;
         }
-
     }
 
     public void checkAchieve() {

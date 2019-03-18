@@ -10,6 +10,7 @@ import stas.lines2019.game.util.Constants;
 
 public class BuyDialog extends Dialog {
     LinesGame game;
+    int stars;
 
     public int WIDTH =(int)( Gdx.graphics.getWidth()*0.95);
     public int HEIGHT =(int)( Gdx.graphics.getHeight()*0.5);
@@ -22,6 +23,13 @@ public class BuyDialog extends Dialog {
         super(title, skin);
         this.game = game;
         getContentTable().defaults().width(WIDTH - 0.05f*WIDTH);
+//        getButtonTable().defaults().width(WIDTH - 0.05f*WIDTH);
+
+    }
+
+    @Override
+    public Dialog button(String text) {
+        return super.button(text);
     }
 
     @Override
@@ -42,6 +50,10 @@ public class BuyDialog extends Dialog {
             Gdx.app.log("buy","true");
         } else if (object.equals(false)){
             Gdx.app.log("buy","fal"  );
+            if  ( game.numberOfStars >= stars  ) {
+                game.numberOfStars -= stars;
+                game.saveStarsNumber();
+            }
             hide();
         }
     }

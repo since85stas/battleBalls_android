@@ -127,7 +127,6 @@ public class LinesGame extends Game {
         achivementsList.generateAchivemnets();
         isScreenRendering = true;
 
-
         loadAchieve();
 
         numberOfMainMenuOpens++;
@@ -189,10 +188,14 @@ public class LinesGame extends Game {
         prefs.put(hashTable);
         prefs.flush();
 
+        saveStarsNumber();
+
+    }
+
+    public void saveStarsNumber() {
         Preferences gamePref = Gdx.app.getPreferences(Constants.PREF_GAME);
         gamePref.putInteger(Constants.STARS_NUMBER,numberOfStars);
         gamePref.flush();
-
     }
 
     public void loadAchieve() {

@@ -200,6 +200,7 @@ com.badlogic.gdx.scenes.scene2d.ui.Window$WindowStyle: {
 
 		background: window
 		titleFont: big-font
+
 	}
 
 

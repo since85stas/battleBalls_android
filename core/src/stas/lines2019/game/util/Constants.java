@@ -109,11 +109,11 @@ public final class Constants {
     // color
     public static final int COLOR_COLORLEESS = 66;
 
-    public static final float NORMAL_WEIGHT = 0.4f;
-    public static final float TIGHT_WEIGHT = 0.2f;
+    public static final float NORMAL_WEIGHT = 1f;
+    public static final float TIGHT_WEIGHT = 0.1f;
     public static final float FREEZE_WEIGHT = 0.1f;
-    public static final float COLORLESS_WEIGHT = 0.1f;
-    public static final float BOMB_WEIGHT = 0.2f;
+    public static final float COLORLESS_WEIGHT = 0.02f;
+    public static final float BOMB_WEIGHT = 0.01f;
 
     // skills constants
     public static final int SKILLS_NUMBERS = 5;
