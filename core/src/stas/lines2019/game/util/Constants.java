@@ -96,6 +96,9 @@ public final class Constants {
     public static final String PREF_DIFFICULT_NIGHTMARE  = "-6";
     public static final String PREF_DIFFICULT_ENDLESS  = "-7";
 
+    public static final String DIFFICULT_HARD_BOUGHT  = "hard_bought";
+    public static final String DIFFICULT_NIGHTMARE_BOUGHT  = "night_bought";
+
     public static final String STARS_NUMBER = "stars_number";
 
     // ball types
@@ -132,6 +135,7 @@ public final class Constants {
     public static final int   SKILL_BOMB_COST      = 40;
 
     public static final int   EXPANSION_STAR_COST  = 10;
+    public static final int   SURV_MODE_COST  = 2;
 
     //
     public static final String SURV_GAME_IS_BOUGHT = "surv_buy";

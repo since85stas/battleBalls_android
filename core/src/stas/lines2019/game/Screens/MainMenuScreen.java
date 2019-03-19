@@ -4,16 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -25,7 +18,6 @@ import stas.lines2019.game.LinesGame;
 import stas.lines2019.game.MenuBall;
 import stas.lines2019.game.Widgets.BuyDialog;
 import stas.lines2019.game.Widgets.DifficultDialog;
-import stas.lines2019.game.Widgets.ExitDialog;
 import stas.lines2019.game.util.Assets;
 import stas.lines2019.game.util.Constants;
 import stas.lines2019.game.util.ConstantsAchiveEng;
@@ -217,7 +209,6 @@ public class MainMenuScreen extends InputAdapter implements Screen{
                         case 1:
                             mGame.findSaveGame = false;
                             mGame.setGameScreen();
-//                            mGame.setGameScreenExpans();
                             break;
                         case 2:
                             mGame.findSaveGame = false;
@@ -226,10 +217,11 @@ public class MainMenuScreen extends InputAdapter implements Screen{
                         case 3:
                             mGame.findSaveGame = false;
 
-                            if (mGame.expansGameIsBought || mGame.survGameIsBought) {
+                            if (mGame.expansGameIsBought || mGame.friendGameIsBought) {
                                 mGame.setGameScreenExpans();
                             } else {
-                                showStarBuyDialog(Constants.EXPANSION_STAR_COST);
+                                showStarBuyDialog(Constants.EXPANSION_STAR_COST,
+                                        Constants.EXPANS_GAME_IS_BOUGHT );
                             }
                             break;
                         case 5:
@@ -279,71 +271,41 @@ public class MainMenuScreen extends InputAdapter implements Screen{
         dialog.show(stage);
     }
 
-    public void showBuyDialog() {
+//    public void showBuyDialog() {
+//
+//        BuyDialog dialog = new BuyDialog ("", Assets.instance.skinAssets.skin,mGame);
+//        dialog.setTransform(true);
+//        dialog.getBackground();
+//
+//        Label gameLable = new Label(Assets.instance.bundle.get("buyDialog"),
+//                Assets.instance.skinAssets.skin,
+//                "dialog");
+//        gameLable.setWrap(true);
+//        gameLable.setAlignment(Align.left);
+////        table.add(gameLable);
+//        dialog.getContentTable().add(gameLable).padTop(40);
+//        dialog.getContentTable().row();
+//
+//        dialog.button(Assets.instance.bundle.get("buy"),
+//                true,
+//                Assets.instance.skinAssets.skin.get("small", TextButton.TextButtonStyle.class)
+//        );
+//        dialog.button(Assets.instance.bundle.get("no"),
+//                false,
+//                Assets.instance.skinAssets.skin.get("small", TextButton.TextButtonStyle.class)
+//        ); //sends "false" as the result
+//
+//        Gdx.input.setInputProcessor(stage);
+//        dialog.show(stage);
+//    }
 
-        BuyDialog dialog = new BuyDialog ("", Assets.instance.skinAssets.skin,mGame);
-        dialog.setTransform(true);
-        dialog.getBackground();
+    public void showStarBuyDialog(int cost, String key) {
 
-        Label gameLable = new Label(Assets.instance.bundle.get("buyDialog"),
+        BuyDialog dialog = new BuyDialog ("",
+                key,
+                cost ,
                 Assets.instance.skinAssets.skin,
-                "dialog");
-        gameLable.setWrap(true);
-        gameLable.setAlignment(Align.left);
-//        table.add(gameLable);
-        dialog.getContentTable().add(gameLable).padTop(40);
-        dialog.getContentTable().row();
-
-        dialog.button(Assets.instance.bundle.get("buy"),
-                true,
-                Assets.instance.skinAssets.skin.get("small", TextButton.TextButtonStyle.class)
-        );
-        dialog.button(Assets.instance.bundle.get("no"),
-                false,
-                Assets.instance.skinAssets.skin.get("small", TextButton.TextButtonStyle.class)
-        ); //sends "false" as the result
-
-        Gdx.input.setInputProcessor(stage);
-        dialog.show(stage);
-    }
-
-    public void showStarBuyDialog(int cost) {
-
-        BuyDialog dialog = new BuyDialog ("", Assets.instance.skinAssets.skin,mGame);
-        dialog.setTransform(true);
-        dialog.getBackground();
-
-        Label gameLable = new Label(Assets.instance.bundle.get("buyDialog"),
-                Assets.instance.skinAssets.skin,
-                "dialog");
-        gameLable.setWrap(true);
-        gameLable.setAlignment(Align.left);
-//        table.add(gameLable);
-        dialog.getContentTable().add(gameLable).padTop(40);
-        dialog.getContentTable().row();
-
-        dialog.button( Assets.instance.bundle.get("buy"),
-                true,
-                Assets.instance.skinAssets.skin.get("small", TextButton.TextButtonStyle.class)
-        );
-
-        TextButton starButton = new TextButton(Integer.toString(cost),
-                Assets.instance.skinAssets.skin.get("small", TextButton.TextButtonStyle.class)
-                );
-
-        starButton.add(new Image(Assets.instance.starAssets.achieveTexture));
-        starButton.padLeft(widtht*0.05f);
-        starButton.padRight(widtht*0.05f);
-        starButton.align(Align.center);
-
-        dialog.button( starButton,
-                1
-                );
-
-        dialog.button( Assets.instance.bundle.get("no"),
-                false,
-                Assets.instance.skinAssets.skin.get("small", TextButton.TextButtonStyle.class)
-        );
+                mGame);
 
         Gdx.input.setInputProcessor(stage);
         dialog.show(stage);

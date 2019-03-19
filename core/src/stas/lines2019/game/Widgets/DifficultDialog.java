@@ -1,16 +1,12 @@
 package stas.lines2019.game.Widgets;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
-import com.badlogic.gdx.utils.Align;
 
 import java.util.ArrayList;
 
@@ -147,7 +143,7 @@ public class DifficultDialog extends Dialog {
                             game.setGameSurvivScreen(Constants.DIFFICULT_NORMAL);
                             hide();
                         } else {
-                            screen.showBuyDialog();
+//                            screen.showStarBuyDialog(Constants.SURV_MODE_COST,);
                         }
                         return super.touchDown(event, x, y, pointer, button);
                     }
@@ -158,11 +154,11 @@ public class DifficultDialog extends Dialog {
                     @Override
                     public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                         Gdx.app.log("dial", "hard mode");
-                        if (game.survGameIsBought) {
+                        if (game.friendGameIsBought || game.hadrModeisBought) {
                             game.setGameSurvivScreen(Constants.DIFFICULT_HARD);
                             hide();
                         }else {
-                            screen.showBuyDialog();
+                            screen.showStarBuyDialog(Constants.SURV_MODE_COST, Constants.DIFFICULT_HARD_BOUGHT);
                         }
                         return super.touchDown(event, x, y, pointer, button);
                     }
@@ -173,11 +169,12 @@ public class DifficultDialog extends Dialog {
                     @Override
                     public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                         Gdx.app.log("dial", "nightmare mode");
-                        if (game.survGameIsBought) {
+                        if (game.friendGameIsBought || game.nightmareModeisBought) {
                             game.setGameSurvivScreen(Constants.DIFFICULT_NIGHTMARE);
                             hide();
                         }else {
-                            screen.showBuyDialog();
+                            screen.showStarBuyDialog(Constants.SURV_MODE_COST,
+                                    Constants.DIFFICULT_NIGHTMARE_BOUGHT);
                         }
                         return super.touchDown(event, x, y, pointer, button);
                     }
@@ -187,11 +184,12 @@ public class DifficultDialog extends Dialog {
                 endlessButton.addListener(new InputListener() {
                     @Override
                     public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                        if (game.survGameIsBought) {
+                        if (game.friendGameIsBought) {
                             game.setGameSurvivScreen(Constants.DIFFICULT_ENDLESS);
                             hide();
                         }else {
-                            screen.showBuyDialog();
+                            screen.showStarBuyDialog(Constants.SURV_MODE_COST,
+                                    Constants.DIFFICULT_NIGHTMARE_BOUGHT);
                         }
                         Gdx.app.log("dial", "endless mode");
                         return super.touchDown(event, x, y, pointer, button);

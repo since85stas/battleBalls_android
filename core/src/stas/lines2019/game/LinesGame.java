@@ -5,9 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.pay.Information;
 import com.badlogic.gdx.pay.Offer;
 import com.badlogic.gdx.pay.OfferType;
@@ -17,11 +15,8 @@ import com.badlogic.gdx.pay.PurchaseObserver;
 import com.badlogic.gdx.pay.Transaction;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.StringBuilder;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-import de.tomgrill.gdxdialogs.core.GDXDialogs;
-import de.tomgrill.gdxdialogs.core.GDXDialogsSystem;
 import stas.lines2019.game.Screens.AchieveScreen;
 import stas.lines2019.game.Screens.GameScreen;
 import stas.lines2019.game.Screens.GameScreenExpans;
@@ -44,8 +39,10 @@ public class LinesGame extends Game {
     public AchivementsList achivementsList;
     public boolean findSaveGame;
 
-    public boolean survGameIsBought;
+    public boolean friendGameIsBought;
     public boolean expansGameIsBought;
+    public boolean hadrModeisBought;
+    public boolean nightmareModeisBought;
 
     public boolean isScreenRendering;
 
@@ -189,7 +186,6 @@ public class LinesGame extends Game {
         prefs.flush();
 
         saveStarsNumber();
-
     }
 
     public void saveStarsNumber() {
@@ -201,8 +197,10 @@ public class LinesGame extends Game {
     public void loadAchieve() {
         Preferences gamePref = Gdx.app.getPreferences(Constants.PREF_GAME);
         findSaveGame = gamePref.getBoolean(Constants.PREF_GAME_IS_PLAY,false);
-        survGameIsBought = gamePref.getBoolean(Constants.SURV_GAME_IS_BOUGHT,false);
+        friendGameIsBought = gamePref.getBoolean(Constants.SURV_GAME_IS_BOUGHT,false);
         expansGameIsBought = gamePref.getBoolean(Constants.EXPANS_GAME_IS_BOUGHT,false);
+        hadrModeisBought = gamePref.getBoolean(DIFFICULT_HARD_BOUGHT,false);
+        nightmareModeisBought = gamePref.getBoolean(DIFFICULT_NIGHTMARE_BOUGHT,false);
         numberOfMainMenuOpens = gamePref.getInteger(Constants.GAME_OPENS,0);
         numberOfStars         = gamePref.getInteger(Constants.STARS_NUMBER,0);
         Preferences prefs = Gdx.app.getPreferences(Constants.PREF_ACHIEV);
@@ -237,7 +235,7 @@ public class LinesGame extends Game {
         Preferences gamePref = Gdx.app.getPreferences(Constants.PREF_GAME);
         gamePref.putBoolean(Constants.SURV_GAME_IS_BOUGHT,true);
         gamePref.flush();
-        survGameIsBought = true;
+        friendGameIsBought = true;
     }
 
     public void setExpansGameIsBought() {
@@ -246,6 +244,24 @@ public class LinesGame extends Game {
         gamePref.flush();
         numberOfStars -= EXPANSION_STAR_COST;
         expansGameIsBought = true;
+        saveStarsNumber();
+    }
+
+    public void setHardGameIsBought() {
+        Preferences gamePref = Gdx.app.getPreferences(Constants.PREF_GAME);
+        gamePref.putBoolean(DIFFICULT_HARD_BOUGHT,true);
+        gamePref.flush();
+        numberOfStars -= SURV_MODE_COST;
+        hadrModeisBought = true;
+        saveStarsNumber();
+    }
+
+    public void setNightGameIsBought() {
+        Preferences gamePref = Gdx.app.getPreferences(Constants.PREF_GAME);
+        gamePref.putBoolean(DIFFICULT_NIGHTMARE_BOUGHT,true);
+        gamePref.flush();
+        numberOfStars -= SURV_MODE_COST;
+        nightmareModeisBought = true;
         saveStarsNumber();
     }
 

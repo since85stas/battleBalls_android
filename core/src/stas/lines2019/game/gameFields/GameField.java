@@ -398,12 +398,13 @@ public class GameField {
         background.render(batch);
 
         rulesButton.draw(batch, 1);
-        helpButton.draw(batch,1);
+
 
         if (gameScreen.isExpansionPlayed) {
             for (int i = 0; i < skillsButtons.length; i++) {
                 skillsButtons[i].draw(batch, 1);
             }
+            helpButton.draw(batch,1);
         }
 
         for (int i = 0; i < fieldDimension; i++) {
@@ -814,11 +815,10 @@ public class GameField {
             clickPosition = new Vector2(666, 665);
         }
 
-        if (helpHitBox.contains(screenX, Gdx.graphics.getHeight() - screenY)) {
-            clickPosition = new Vector2(766, 765);
-        }
-
         if (gameScreen.isExpansionPlayed) {
+            if (helpHitBox.contains(screenX, Gdx.graphics.getHeight() - screenY)) {
+                clickPosition = new Vector2(766, 765);
+            }
             int[] skillType = new int[SKILLS_NUMBERS];
             skillType[0] = SKILL_TELEPORT;
             skillType[1] = SKILL_REMOVE;

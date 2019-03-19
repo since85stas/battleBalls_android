@@ -30,7 +30,7 @@ public class Background {
     public void render(SpriteBatch batch) {
         int itemWidth = width/fieldDimension;
 
-        batch.draw(Assets.instance.backAssets.texture,
+        batch.draw (Assets.instance.backAssets.texture,
                 0,
                 0,
                 width,

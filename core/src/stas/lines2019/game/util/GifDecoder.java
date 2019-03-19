@@ -730,9 +730,9 @@ public class GifDecoder {
         return result;
     }
 
-    public static Animation<TextureRegion> loadGIFAnimation(Animation.PlayMode playMode, InputStream is) {
-        GifDecoder gdec = new GifDecoder();
-        gdec.read(is);
-        return gdec.getAnimation(playMode);
-    }
+//    public static Animation<TextureRegion> loadGIFAnimation(Animation.PlayMode playMode, InputStream is) {
+//        GifDecoder gdec = new GifDecoder();
+//        gdec.read(is);
+//        return gdec.getAnimation(playMode);
+//    }
 }

@@ -35,5 +35,10 @@ public class GameScreenExpans extends GameScreen {
         isExpansionPlayed = true;
     }
 
+    @Override
+    public String setRulesLable() {
+        return Assets.instance.bundle.get("rulesExpansText");
+    }
+
 
 }
