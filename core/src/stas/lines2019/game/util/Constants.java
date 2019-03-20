@@ -113,14 +113,14 @@ public final class Constants {
     public static final int COLOR_COLORLEESS = 66;
 
     public static final float NORMAL_WEIGHT = 1f;
-    public static final float TIGHT_WEIGHT = 0.1f;
-    public static final float FREEZE_WEIGHT = 0.1f;
+    public static final float TIGHT_WEIGHT = 0.15f;
+    public static final float FREEZE_WEIGHT = 0.15f;
     public static final float COLORLESS_WEIGHT = 0.02f;
     public static final float BOMB_WEIGHT = 0.01f;
 
     // skills constants
     public static final int SKILLS_NUMBERS = 5;
-    public static final float ENERGY_BY_BALL = 1;
+    public static final float ENERGY_BY_BALL = 0.5f;
     public static final float SKILL_BUTTON_SIZE = 0.15f;
     public static final int   SKILL_TELEPORT =  22;
     public static final int   SKILL_REMOVE    = 23;
@@ -136,6 +136,12 @@ public final class Constants {
 
     public static final int   EXPANSION_STAR_COST  = 10;
     public static final int   SURV_MODE_COST  = 2;
+
+    // help dialog params
+    public static final float HELP_OFFSET_X = 0.05f;
+    public static final float HELP_OFFSET_Y = 0.03f;
+    public static final float HELP_ROW_HEIGT = 0.05f;
+    public static final float HELP_IMAGE_SIZE = 0.1f;
 
     //
     public static final String SURV_GAME_IS_BOUGHT = "surv_buy";

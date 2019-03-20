@@ -35,7 +35,7 @@ public class GameFieldExpans extends GameField {
 
     public GameFieldExpans (GameScreenExpans gameScreenExpans) {
         super(gameScreenExpans);
-
+        getInitBallWeights();
 //        ballsWeights[2] = Constants.FREEZE_WEIGHT;
     }
 
@@ -53,12 +53,31 @@ public class GameFieldExpans extends GameField {
 
 //        mGameScreenExpans = gameScreenExpans;
         ballsWeights = new float[Constants.BALLS_TYPES_NUM];
-        ballsWeights[0] = Constants.NORMAL_WEIGHT;
-        ballsWeights[1] = Constants.TIGHT_WEIGHT;
-        ballsWeights[2] = Constants.FREEZE_WEIGHT;
-        ballsWeights[3] = Constants.COLORLESS_WEIGHT;
-        ballsWeights[4] = BOMB_WEIGHT;
+
 //        SquareItemExpans squareItemExpans = squares[0][0];
+    }
+
+    private float[] getInitBallWeights() {
+
+        float[] weights = new float[Constants.BALLS_TYPES_NUM];
+        weights[0] = Constants.NORMAL_WEIGHT;
+        weights[1] = Constants.TIGHT_WEIGHT;
+        weights[2] = Constants.FREEZE_WEIGHT;
+        weights[3] = Constants.COLORLESS_WEIGHT;
+        weights[4] = BOMB_WEIGHT;
+
+//        updateBallWeights(0);
+//        updateBallWeights(1);
+//        updateBallWeights(100);
+//        updateBallWeights(1000);
+        return weights;
+    }
+
+    private void updateBallWeights(int turns) {
+//        int turns = getNumberOfTurns();
+
+        float newWeight = (float) (TIGHT_WEIGHT + Math.atan(turns/100/Math.PI)/1.4915);
+        float[] initWeights = getInitBallWeights();
     }
 
 

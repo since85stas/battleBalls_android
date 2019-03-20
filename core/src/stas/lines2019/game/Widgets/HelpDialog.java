@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
+import static stas.lines2019.game.util.Constants.*;
 
 import stas.lines2019.game.LinesGame;
 import stas.lines2019.game.util.Assets;
@@ -57,9 +58,7 @@ public class HelpDialog extends Dialog {
         getContentTable().row().height(100);
         getContentTable().setDebug(true);
 
-        SkillButton textButton = new SkillButton("",Assets.instance.skinAssets.skin,
-                new TextureRegionDrawable( new TextureRegion(Assets.instance.skillAssets.teleportTexture)));
-        textButton.align(Align.left);
+
 //        textButton.setSize(WIDTH*SKILL_BUTTON_SIZE,WIDTH*SKILL_BUTTON_SIZE/1.5f );
 //        Image icon = new Image(Assets.instance.skillAssets.teleportTexture);
 //        icon.setSize(60,60);
@@ -68,43 +67,108 @@ public class HelpDialog extends Dialog {
         Label tetLable = new Label("2232",skin,"small");
 //        getContentTable().add(textButton).width(100);
 
-        getContentTable().add(textButton).width(60).height(60);
-
-        Label label2 = new Label("teleport ball in any position at game field1111111111111111111",skin,"small");
-//        label2.
-//        label2.setAlignment(Align.left);
+        SkillButton textButton = new SkillButton("",Assets.instance.skinAssets.skin,
+                new TextureRegionDrawable( new TextureRegion(Assets.instance.skillAssets.teleportTexture)));
+        textButton.align(Align.left);
+        getContentTable().add(textButton).width(WIDTH*HELP_IMAGE_SIZE).height(WIDTH*HELP_IMAGE_SIZE).
+                padLeft(WIDTH*HELP_OFFSET_X);
+        Label label2 = new Label(Assets.instance.bundle.get("helpTeleport"),skin,"small");
         label2.setWrap(true);
-//        group.addActor(label);
-        getContentTable().add(label2).padLeft(10).width(WIDTH-60);
-//        getContentTable().row().height(60);
+        getContentTable().add(label2).width(WIDTH-WIDTH*HELP_IMAGE_SIZE*2).
+                padLeft(WIDTH*HELP_OFFSET_X).padRight(WIDTH*HELP_OFFSET_X);
+        getContentTable().row() ; //.height(HEIGHT*HELP_ROW_HEIGT);
 
-//        textButton = new SkillButton("",Assets.instance.skinAssets.skin,
-//                new TextureRegionDrawable( new TextureRegion(Assets.instance.skillAssets.removeTexture)));
-//        getContentTable().add(textButton);
-//        label = new Label("teloport:2",skin,"small");
-//        getContentTable().add(label);
-//        getContentTable().row().height(60);
-//
-//        textButton = new SkillButton("",Assets.instance.skinAssets.skin,
-//                new TextureRegionDrawable( new TextureRegion(Assets.instance.skillAssets.blockTexture)));
-//        getContentTable().add(textButton);
-//        label = new Label("teloport:3",skin,"small");
-//        getContentTable().add(label);
-//        getContentTable().row().height(60);
-//
-//        textButton = new SkillButton("",Assets.instance.skinAssets.skin,
-//                new TextureRegionDrawable( new TextureRegion(Assets.instance.skillAssets.colorelessTexture)));
-//        getContentTable().add(textButton);
-//        label = new Label("teloport:4",skin,"small");
-//        getContentTable().add(label);
-//        getContentTable().row().height(60);
-//
-//        textButton = new SkillButton("",Assets.instance.skinAssets.skin,
-//                new TextureRegionDrawable( new TextureRegion(Assets.instance.skillAssets.bombTexture)));
-//        getContentTable().add(textButton);
-//        label = new Label("teloport:5",skin,"small");
-//        getContentTable().add(label);
-//        getContentTable().row().height(60);
+        textButton = new SkillButton("",Assets.instance.skinAssets.skin,
+                new TextureRegionDrawable( new TextureRegion(Assets.instance.skillAssets.removeTexture)));
+        textButton.align(Align.left);
+        getContentTable().add(textButton).width(WIDTH*HELP_IMAGE_SIZE).height(WIDTH*HELP_IMAGE_SIZE).
+                padLeft(WIDTH*HELP_OFFSET_X);
+        label2 = new Label(Assets.instance.bundle.get("helpRemove"),skin,"small");
+        label2.setWrap(true);
+        getContentTable().add(label2).width(WIDTH-WIDTH*HELP_IMAGE_SIZE*2).
+                padLeft(WIDTH*HELP_OFFSET_X).padRight(WIDTH*HELP_OFFSET_X);
+        getContentTable().row();//.height(HEIGHT*HELP_ROW_HEIGT);
+
+        textButton = new SkillButton("",Assets.instance.skinAssets.skin,
+                new TextureRegionDrawable( new TextureRegion(Assets.instance.skillAssets.colorelessTexture)));
+        textButton.align(Align.left);
+        getContentTable().add(textButton).width(WIDTH*HELP_IMAGE_SIZE).height(WIDTH*HELP_IMAGE_SIZE).
+                padLeft(WIDTH*HELP_OFFSET_X);
+        label2 = new Label(Assets.instance.bundle.get("helpColoreless"),skin,"small");
+        label2.setWrap(true);
+        getContentTable().add(label2).width(WIDTH-WIDTH*HELP_IMAGE_SIZE*2).
+                padLeft(WIDTH*HELP_OFFSET_X).padRight(WIDTH*HELP_OFFSET_X);
+        getContentTable();//.row().height(HEIGHT*HELP_ROW_HEIGT);
+
+        textButton = new SkillButton("",Assets.instance.skinAssets.skin,
+                new TextureRegionDrawable( new TextureRegion(Assets.instance.skillAssets.blockTexture)));
+        textButton.align(Align.left);
+        getContentTable().add(textButton).width(WIDTH*HELP_IMAGE_SIZE).height(WIDTH*HELP_IMAGE_SIZE).
+                padLeft(WIDTH*HELP_OFFSET_X);
+        label2 = new Label(Assets.instance.bundle.get("helpBlock"),skin,"small");
+        label2.setWrap(true);
+        getContentTable().add(label2).width(WIDTH-WIDTH*HELP_IMAGE_SIZE*2).
+                padLeft(WIDTH*HELP_OFFSET_X).padRight(WIDTH*HELP_OFFSET_X);
+        getContentTable();//.row().height(HEIGHT*HELP_ROW_HEIGT);
+
+        textButton = new SkillButton("",Assets.instance.skinAssets.skin,
+                new TextureRegionDrawable( new TextureRegion(Assets.instance.skillAssets.bombTexture)));
+        textButton.align(Align.left);
+        getContentTable().add(textButton).width(WIDTH*HELP_IMAGE_SIZE).height(WIDTH*HELP_IMAGE_SIZE).
+                padLeft(WIDTH*HELP_OFFSET_X);
+        label2 = new Label(Assets.instance.bundle.get("helpBomb"),skin,"small");
+        label2.setWrap(true);
+        getContentTable().add(label2).width(WIDTH-WIDTH*HELP_IMAGE_SIZE*2).
+                padLeft(WIDTH*HELP_OFFSET_X).padRight(WIDTH*HELP_OFFSET_X);
+        getContentTable();//.row().height(HEIGHT*HELP_ROW_HEIGT);
+
+        getContentTable();//.row().height(HEIGHT*HELP_ROW_HEIGT);
+
+
+        // drawing balls
+        textButton = new SkillButton("",Assets.instance.skinAssets.skin,
+                new TextureRegionDrawable( new TextureRegion(Assets.instance.numberAssets.getNumTexture(2))));
+        textButton.align(Align.left);
+        getContentTable().add(textButton).width(WIDTH*HELP_IMAGE_SIZE).height(WIDTH*HELP_IMAGE_SIZE).
+                padLeft(WIDTH*HELP_OFFSET_X);
+        label2 = new Label(Assets.instance.bundle.get("helpBallTough"),skin,"small");
+        label2.setWrap(true);
+        getContentTable().add(label2).width(WIDTH-WIDTH*HELP_IMAGE_SIZE*2).
+                padLeft(WIDTH*HELP_OFFSET_X).padRight(WIDTH*HELP_OFFSET_X);
+        getContentTable();//.row().height(HEIGHT*HELP_ROW_HEIGT);
+
+        textButton = new SkillButton("",Assets.instance.skinAssets.skin,
+                new TextureRegionDrawable( new TextureRegion(Assets.instance.lockAssets.texture)));
+        textButton.align(Align.left);
+        getContentTable().add(textButton).width(WIDTH*HELP_IMAGE_SIZE).height(WIDTH*HELP_IMAGE_SIZE).
+                padLeft(WIDTH*HELP_OFFSET_X);
+        label2 = new Label(Assets.instance.bundle.get("helpBallLock"),skin,"small");
+        label2.setWrap(true);
+        getContentTable().add(label2).width(WIDTH-WIDTH*HELP_IMAGE_SIZE*2).
+                padLeft(WIDTH*HELP_OFFSET_X).padRight(WIDTH*HELP_OFFSET_X);
+        getContentTable();//.row().height(HEIGHT*HELP_ROW_HEIGT);
+
+        textButton = new SkillButton("",Assets.instance.skinAssets.skin,
+                new TextureRegionDrawable( new TextureRegion(Assets.instance.colorlessBallAssets.texture)));
+        textButton.align(Align.left);
+        getContentTable().add(textButton).width(WIDTH*HELP_IMAGE_SIZE).height(WIDTH*HELP_IMAGE_SIZE).
+                padLeft(WIDTH*HELP_OFFSET_X);
+        label2 = new Label(Assets.instance.bundle.get("helpBallColorless"),skin,"small");
+        label2.setWrap(true);
+        getContentTable().add(label2).width(WIDTH-WIDTH*HELP_IMAGE_SIZE*2).
+                padLeft(WIDTH*HELP_OFFSET_X).padRight(WIDTH*HELP_OFFSET_X);
+        getContentTable();//.row().height(HEIGHT*HELP_ROW_HEIGT);
+
+        textButton = new SkillButton("",Assets.instance.skinAssets.skin,
+                new TextureRegionDrawable( new TextureRegion(Assets.instance.bombAssets.texture)));
+        textButton.align(Align.left);
+        getContentTable().add(textButton).width(WIDTH*HELP_IMAGE_SIZE).height(WIDTH*HELP_IMAGE_SIZE).
+                padLeft(WIDTH*HELP_OFFSET_X);
+        label2 = new Label(Assets.instance.bundle.get("helpBallColorless"),skin,"small");
+        label2.setWrap(true);
+        getContentTable().add(label2).width(WIDTH-WIDTH*HELP_IMAGE_SIZE*2).
+                padLeft(WIDTH*HELP_OFFSET_X).padRight(WIDTH*HELP_OFFSET_X);
+        getContentTable();//.row().height(HEIGHT*HELP_ROW_HEIGT);
     }
 
 //    @Override
