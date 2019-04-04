@@ -6,6 +6,8 @@ public final class Constants {
 
     }
 
+    public static final int COLORS_INIT_NUM = 7;
+
     // константы экрана
 
     // ограничение на шаг по времени

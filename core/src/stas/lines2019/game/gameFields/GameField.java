@@ -3,7 +3,6 @@ package stas.lines2019.game.gameFields;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
-import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -18,11 +17,9 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
@@ -30,9 +27,9 @@ import com.badlogic.gdx.utils.TimeUtils;
 
 import stas.lines2019.game.Background;
 import stas.lines2019.game.Screens.GameScreen;
+import stas.lines2019.game.Widgets.ConstrBallButtons;
 import stas.lines2019.game.Widgets.SkillButton;
 import stas.lines2019.game.balls.BallsInfo;
-import stas.lines2019.game.balls.SquareItem;
 import stas.lines2019.game.balls.SquareItemExpans;
 import stas.lines2019.game.funcs.CheckBallLines;
 import stas.lines2019.game.funcs.FindBallPath;
@@ -40,16 +37,13 @@ import stas.lines2019.game.util.Assets;
 import stas.lines2019.game.util.Constants;
 
 import static stas.lines2019.game.util.Constants.*;
-
+import static stas.lines2019.game.util.ConstantsPuzzle.*;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.Hashtable;
 import java.util.List;
-import java.util.concurrent.SynchronousQueue;
 
-import javax.swing.Box;
+import javax.xml.soap.Text;
 
 public class GameField {
     private static final String TAG = GameField.class.getName();
@@ -124,12 +118,27 @@ public class GameField {
     private SkillButton[] skillsButtons;
     private Rectangle[]   skillButtonsHitBoxes;
 
+    private ConstrBallButtons[] ballConstrButtons;
+    private Rectangle[]   ballConstrButtonsHitBoxes;
+
+    private TextButton delBallButton ;
+    private Rectangle  delBallButtonHitBox;
+
+    private TextButton saveFieldButton;
+    private Rectangle  saveFieldButtonHitBox;
+
     private boolean isAnySkillPressed = false;
     private boolean isTeleportPressed = false;
     private boolean isRemovePressed = false;
     private boolean isColorlessPressed = false;
     private boolean isBlockPressed = false;
     private boolean isBombPressed = false;
+
+    private  boolean constrBallButtPressed = false;
+    private boolean  delBallButtonPressed  = false;
+    private boolean  saveFieldButtonPressed  = false;
+
+    public BallsInfo constrBallInfo;
 
     public void setEnergy(int val) {
         energy = val;
@@ -180,7 +189,10 @@ public class GameField {
         }
 
         nextTurnBallCells = new Vector2[numberOfAiBalls];
-        aiTurn();
+
+        if (!gameScreen.isPuzzleConstrPlayed) {
+            aiTurn();
+        }
 
         // определяем эффекты
         ParticleEffect touchEffect = new ParticleEffect();
@@ -192,8 +204,10 @@ public class GameField {
 
         if (gameScreen.isExpansionPlayed) {
             drawSkillsButtons() ;
+        } else if (gameScreen.isPuzzleConstrPlayed) {
+            drawPuzzleConstrButtons();
+            constrBallInfo = new BallsInfo();
         }
-
     }
 
     public void initStartTime() {
@@ -243,11 +257,6 @@ public class GameField {
             SkillButton textButton = new SkillButton(skillCosts[i],Assets.instance.skinAssets.skin,
                     new TextureRegionDrawable( new TextureRegion(skillTextures[i])));
             textButton.setSize(width*SKILL_BUTTON_SIZE,width*SKILL_BUTTON_SIZE/1.5f );
-//            textButton.getStyle().imageUp =
-//                    new TextureRegionDrawable( new TextureRegion(skillTextures[i]) );
-//            textButton.getImage().setDrawable(new TextureRegionDrawable( new TextureRegion(skillTextures[i])));
-//            textButton.getImage().se
-//            textButton.
             textButton.setPosition(initPositX,initPositY);
             skillButtonsHitBoxes[i] = new Rectangle(initPositX,
                     initPositY,
@@ -261,13 +270,73 @@ public class GameField {
                     return super.touchDown(event, x, y, pointer, button);
                 }
             });
-
-//            fieldStage.addActor(textButton);
-
             initPositX += width*SKILL_BUTTON_SIZE + width*0.01;
             skillsButtons[i] = textButton;
         }
         Gdx.app.log(TAG,"skills");
+    }
+
+    private void drawPuzzleConstrButtons() {
+        int width = Gdx.graphics.getWidth();
+        int height = Gdx.graphics.getHeight();
+//        skillsButtons = new TextButton[];
+        ballConstrButtons = new ConstrBallButtons[BALLS_CONSTR_NUM];
+        int initPositX = (int)((width - BALLS_CONSTR_NUM*width*CONST_BALL_BUTTON_SIZE)/2);
+        int initPositY = (int)(initPos.y - (CONST_BALL_BUTTON_SIZE*height)/1.7);
+
+        Texture[] ballsTextures = new Texture[BALLS_CONSTR_NUM];
+
+        for (int i = 0; i < COLORS_INIT_NUM; i++) {
+            ballsTextures[ i] = Assets.instance.getBallColorText(i);
+        }
+        ballsTextures[COLORS_INIT_NUM] = Assets.instance.getBallColorText(66);
+
+        ballConstrButtonsHitBoxes = new Rectangle[BALLS_CONSTR_NUM];
+
+        for (int i = 0; i < ballConstrButtonsHitBoxes.length; i++) {
+            ConstrBallButtons textButton = new ConstrBallButtons(i,Assets.instance.skinAssets.skin,
+                    new TextureRegionDrawable( new TextureRegion(ballsTextures[i])));
+            textButton.setSize(width*CONST_BALL_BUTTON_SIZE,width*CONST_BALL_BUTTON_SIZE );
+
+            textButton.setPosition(initPositX,initPositY);
+            ballConstrButtonsHitBoxes[i] = new Rectangle(initPositX,
+                    initPositY,
+                    width*CONST_BALL_BUTTON_SIZE,
+                    width*CONST_BALL_BUTTON_SIZE);
+
+            textButton.addListener(new InputListener() {
+                @Override
+                public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                    Gdx.app.log(TAG,"ball test");
+                    return super.touchDown(event, x, y, pointer, button);
+                }
+            });
+
+            initPositX += width*CONST_BALL_BUTTON_SIZE + width*0.01;
+            ballConstrButtons[i] = textButton;
+        }
+        Gdx.app.log(TAG,"balls");
+
+        delBallButton = new TextButton("",Assets.instance.skinAssets.skin);
+        delBallButton.add(new Image(Assets.instance.skillAssets.removeTexture));
+        delBallButton.setSize(width*CONST_BALL_BUTTON_SIZE,width*CONST_BALL_BUTTON_SIZE );
+        initPositX = (int)(width /2);
+        initPositY = (int)(initPos.y - (CONST_BALL_BUTTON_SIZE*height)*2);
+        delBallButton.setPosition(initPositX,initPositY);
+        delBallButtonHitBox = new Rectangle(initPositX,
+                initPositY,
+                width*CONST_BALL_BUTTON_SIZE,
+                width*CONST_BALL_BUTTON_SIZE);
+
+        saveFieldButton = new TextButton("save",Assets.instance.skinAssets.skin);
+        saveFieldButton.setSize(width*CONST_BALL_BUTTON_SIZE,width*CONST_BALL_BUTTON_SIZE );
+        initPositX = (int)(width /2 + width*CONST_BALL_BUTTON_SIZE*3);
+        initPositY = (int)(initPos.y - (CONST_BALL_BUTTON_SIZE*height)*2);
+        saveFieldButton.setPosition(initPositX,initPositY);
+        saveFieldButtonHitBox = new Rectangle(initPositX,
+                initPositY,
+                width*CONST_BALL_BUTTON_SIZE,
+                width*CONST_BALL_BUTTON_SIZE);
     }
 
 
@@ -392,18 +461,21 @@ public class GameField {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         update(dt);
 
-//        fieldStage.act();
-
         background.render(batch);
 
         rulesButton.draw(batch, 1);
-
 
         if (gameScreen.isExpansionPlayed) {
             for (int i = 0; i < skillsButtons.length; i++) {
                 skillsButtons[i].draw(batch, 1);
             }
             helpButton.draw(batch,1);
+        } else if (gameScreen.isPuzzleConstrPlayed) {
+            for (int i = 0; i < ballConstrButtons.length; i++) {
+                ballConstrButtons[i].draw(batch,1);
+                delBallButton.draw(batch,1);
+                saveFieldButton.draw(batch,1);
+            }
         }
 
         for (int i = 0; i < fieldDimension; i++) {
@@ -621,6 +693,11 @@ public class GameField {
                                     !clickPosition.equals(new Vector2(766,765)) &&
                                     !clickPosition.equals(new Vector2(66, 77)) &&
                                     clickPosition.x < fieldDimension && clickPosition.y < fieldDimension
+                                    && clickPosition.x != CHECK_CLICK_BALL_CONST
+                                    && !constrBallButtPressed
+                                    && !delBallButtonPressed
+                                    && !clickPosition.equals(new Vector2(DEL_BALL_CONST,DEL_BALL_CONST))
+                                    && !clickPosition.equals(new Vector2(SAVE_FIELD_CONST,SAVE_FIELD_CONST))
                                     ) {
                                 if ( squares[(int) clickPosition.x][(int) clickPosition.y].isHasBall() &&
                                         !squares[(int) clickPosition.x][(int) clickPosition.y].ballIsFreeze
@@ -690,6 +767,32 @@ public class GameField {
                                     isAnySkillPressed = true;
                                     isBombPressed = true;
                                     energy -= SKILL_BOMB_COST;
+                                }
+                            } else if ( gameScreen.isPuzzleConstrPlayed) {
+                                if (clickPosition.x == CHECK_CLICK_BALL_CONST) {
+                                    int colorNum = (int)clickPosition.y;
+                                    constrBallButtPressed = true;
+                                    constrBallInfo.color = colorNum;
+                                }  else if (clickPosition.equals(new Vector2(DEL_BALL_CONST,DEL_BALL_CONST)) ) {
+                                    delBallButtonPressed = true;
+                                }  else if (clickPosition.equals(new Vector2(SAVE_FIELD_CONST,SAVE_FIELD_CONST))) {
+                                    saveFieldButtonPressed = true;
+                                }  else if (constrBallButtPressed) {
+                                    if (clickPosition.x < fieldDimension && clickPosition.y < fieldDimension) {
+                                        returnSquareInitState(clickPosition,true);
+                                        squares[(int) clickPosition.x][(int) clickPosition.y].setHasBall(true);
+                                        squares[(int) clickPosition.x][(int) clickPosition.y].
+                                                setBallColor(constrBallInfo.color);
+                                        constrBallButtPressed = false;
+                                    }
+                                }  else if (delBallButtonPressed) {
+                                    if (clickPosition.x < fieldDimension && clickPosition.y < fieldDimension) {
+                                        returnSquareInitState(clickPosition,true);
+                                        delBallButtonPressed = false;
+                                    }
+                                }  else if (saveFieldButtonPressed) {
+
+                                    saveFieldButtonPressed = true;
                                 }
                             }
                         }
@@ -826,11 +929,26 @@ public class GameField {
             skillType[3] = SKILL_BLOCK;
             skillType[4] = SKILL_BOMB;
 
-
             for (int i = 0; i < SKILLS_NUMBERS; i++) {
                 if (skillButtonsHitBoxes[i].contains(screenX, Gdx.graphics.getHeight() - screenY)) {
                     clickPosition = new Vector2(skillType[i], skillType[i]);
                 }
+            }
+        }
+
+        if(gameScreen.isPuzzleConstrPlayed) {
+            for (int i = 0; i < ballConstrButtonsHitBoxes.length; i++) {
+                if (ballConstrButtonsHitBoxes[i].contains(screenX, Gdx.graphics.getHeight() - screenY)) {
+                    int val = CHECK_CLICK_BALL_CONST ;
+                    clickPosition = new Vector2(val,i);
+                }
+                if ( delBallButtonHitBox.contains(screenX, Gdx.graphics.getHeight() - screenY)) {
+                    clickPosition = new Vector2(DEL_BALL_CONST,DEL_BALL_CONST);
+                }
+                if ( saveFieldButtonHitBox.contains(screenX, Gdx.graphics.getHeight() - screenY)) {
+                    clickPosition = new Vector2(SAVE_FIELD_CONST,SAVE_FIELD_CONST);
+                }
+
             }
         }
 
@@ -916,6 +1034,7 @@ public class GameField {
     private void achievmentUnlocked() {
 
     }
+
 
     private void putBall() {
         for (int i = 0; i < fieldDimension; i++) {

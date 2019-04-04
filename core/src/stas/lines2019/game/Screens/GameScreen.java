@@ -55,6 +55,8 @@ public class GameScreen implements Screen {
     public boolean isRenderGamefield;
 
     public boolean isExpansionPlayed;
+    public boolean isPuzzleConstrPlayed;
+    public boolean isPuzzlePlayed;
 
     DelayedRemovalArray<MenuBall> menuBalls;
 
@@ -102,6 +104,8 @@ public class GameScreen implements Screen {
         if(isExpansionPlayed) {
             drawEnergy();
         }
+
+        setPuzzleConstrPlayed();
         setGameField();
         isRenderGamefield = true;
 
@@ -109,6 +113,10 @@ public class GameScreen implements Screen {
 
     public void setExpansionPlay() {
         isExpansionPlayed = false;
+    }
+
+    public void setPuzzleConstrPlayed() {
+        isPuzzleConstrPlayed = false;
     }
 
     private void drawEnergy() {

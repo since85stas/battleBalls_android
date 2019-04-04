@@ -517,6 +517,44 @@ public class Assets implements Disposable, AssetErrorListener {
     }
 
 
+    public Texture getBallColorText( int number ) {
+        String textureName = null;
+        Texture texture = null;
+        switch (number) {
+            case 0:
+                //textureName = "sphere_blue.png";
+                texture = Assets.instance.blueBallAssets.texture;
+                break;
+            case 1:
+//                textureName = "sphere_green.png";
+                texture = Assets.instance.greenBallAssets.texture;
+                break;
+            case 2:
+//                textureName = "sphere_purle.png";
+                texture = Assets.instance.purpleBallAssets.texture;
+                break;
+            case 3:
+//                textureName = "sphere_yellow.png";
+                texture = Assets.instance.yellowBallAssets.texture;
+                break;
+            case 4:
+//                textureName = "sphere_yellow.png";
+                texture = Assets.instance.pinkBallAssets.texture;
+                break;
+            case 5:
+//                textureName = "sphere_yellow.png";
+                texture = Assets.instance.redBallAssets.texture;
+                break;
+            case 6:
+//                textureName = "sphere_yellow.png";
+                texture = Assets.instance.lBlueBallAssets.texture;
+                break;
+            case 66:
+                texture = Assets.instance.colorlessBallAssets.texture;
+                break;
+        }
+        return texture;
+    }
 
 
 }

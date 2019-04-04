@@ -211,8 +211,10 @@ public class MainMenuScreen extends InputAdapter implements Screen{
                             mGame.setGameScreen();
                             break;
                         case 2:
+//                            mGame.findSaveGame = false;
+//                            selectDifficDialog();
                             mGame.findSaveGame = false;
-                            selectDifficDialog();
+                            mGame.setPuzzleConstrScreen();
                             break;
                         case 3:
                             mGame.findSaveGame = false;

@@ -17,12 +17,7 @@ import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.StringBuilder;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-import stas.lines2019.game.Screens.AchieveScreen;
-import stas.lines2019.game.Screens.GameScreen;
-import stas.lines2019.game.Screens.GameScreenExpans;
-import stas.lines2019.game.Screens.GameSurvScreen;
-import stas.lines2019.game.Screens.LoadingScreen;
-import stas.lines2019.game.Screens.MainMenuScreen;
+import stas.lines2019.game.Screens.*;
 import stas.lines2019.game.results.AchivementsList;
 import stas.lines2019.game.util.Assets;
 import stas.lines2019.game.util.Constants;
@@ -131,6 +126,11 @@ public class LinesGame extends Game {
 
     public void setGameScreenExpans() {
         gameScreen = new GameScreenExpans(this,batch);
+        setScreen(gameScreen);
+    }
+
+    public void setPuzzleConstrScreen() {
+        gameScreen = new PuzzleConstrScreen(this,batch);
         setScreen(gameScreen);
     }
 

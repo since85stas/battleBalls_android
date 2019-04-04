@@ -32,8 +32,6 @@ public class SkillButton extends TextButton {
     public SkillButton(String text, Skin skin, Drawable drawable) {
         super(text, skin);
         getLabel().setStyle(skin.get("small-energy", Label.LabelStyle.class));
-
-//        setSize(50,50);
         add(new Image(drawable));
 //        getStyle().imageUp = drawable;
     }

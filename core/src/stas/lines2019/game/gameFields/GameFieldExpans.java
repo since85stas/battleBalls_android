@@ -36,8 +36,7 @@ public class GameFieldExpans extends GameField {
     public GameFieldExpans (GameScreenExpans gameScreenExpans) {
         super(gameScreenExpans);
         getInitBallWeights();
-//        energy = 50;
-//        ballsWeights[2] = Constants.FREEZE_WEIGHT;
+//        energy = 50;=ZE_WEIGHT;
     }
 
     @Override
