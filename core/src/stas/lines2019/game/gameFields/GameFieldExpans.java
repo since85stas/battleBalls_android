@@ -34,7 +34,7 @@ public class GameFieldExpans extends GameField {
 //    private SquareItemExpans[][] squares;
 
     public GameFieldExpans (GameScreenExpans gameScreenExpans) {
-        super(gameScreenExpans);
+        super(gameScreenExpans, 9);
         getInitBallWeights();
 //        energy = 50;=ZE_WEIGHT;
     }

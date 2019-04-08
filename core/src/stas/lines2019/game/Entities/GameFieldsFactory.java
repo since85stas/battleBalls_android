@@ -4,12 +4,11 @@ import java.util.ArrayList;
 
 public class GameFieldsFactory {
 
-    private ArrayList<GameFieldClass> gameFieldClass;
+    public ArrayList<GameFieldClass> GameFieldClass;
 
     public GameFieldClass createField(int id) {
 
-        GameFieldClass p = gameFieldClass.get(id);
-
+        GameFieldClass p = GameFieldClass.get(id);
         GameFieldClass m = new GameFieldClass(p.name, p.dimX, p.dimY, p.gameField);
         //...other code to add behaviours
 

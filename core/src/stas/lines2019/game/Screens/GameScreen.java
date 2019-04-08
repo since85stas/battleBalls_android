@@ -111,6 +111,10 @@ public class GameScreen implements Screen {
 
     }
 
+//    public void initGamefieldDimens() {
+//        gameField.
+//    }
+
     public void setExpansionPlay() {
         isExpansionPlayed = false;
     }
@@ -138,7 +142,7 @@ public class GameScreen implements Screen {
     }
 
     public void setGameField() {
-        gameField = new GameField(this);
+        gameField = new GameField(this, 9);
     }
 
     public Label setLeftTitleLable() {

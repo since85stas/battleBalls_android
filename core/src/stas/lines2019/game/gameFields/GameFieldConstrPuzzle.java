@@ -9,8 +9,8 @@ import stas.lines2019.game.Screens.PuzzleConstrScreen;
 
 public class GameFieldConstrPuzzle extends GameField {
 
-    public GameFieldConstrPuzzle ( PuzzleConstrScreen puzzleConstrScreen) {
-        super(puzzleConstrScreen);
+    public GameFieldConstrPuzzle ( PuzzleConstrScreen puzzleConstrScreen, int dim) {
+        super(puzzleConstrScreen, dim);
     }
 
     @Override

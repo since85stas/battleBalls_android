@@ -14,13 +14,13 @@ public class GameFieldSurv extends GameField {
 
     public GameSurvScreen mGameSurvScreen;
 
-    public GameFieldSurv(GameScreen gameScreen) {
-        super(gameScreen);
-    }
+//    public GameFieldSurv(GameScreen gameScreen) {
+//        super(gameScreen);
+//    }
 
     public GameFieldSurv(GameSurvScreen gameSurvScreen) {
 
-        super(gameSurvScreen);
+        super(gameSurvScreen, 9);
         mGameSurvScreen = gameSurvScreen;
     }
 

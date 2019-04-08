@@ -148,7 +148,10 @@ public class GameField {
 
     }
 
-    public GameField(GameScreen gameScreen) {
+    public GameField(GameScreen gameScreen, int fieldDimension) {
+
+        this.fieldDimension = fieldDimension;
+//        initGameFieldDimens();
 
         energy = 50;
 
@@ -209,6 +212,7 @@ public class GameField {
             constrBallInfo = new BallsInfo();
         }
     }
+
 
     public void initStartTime() {
 
