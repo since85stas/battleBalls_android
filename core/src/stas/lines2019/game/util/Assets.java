@@ -556,5 +556,11 @@ public class Assets implements Disposable, AssetErrorListener {
         return texture;
     }
 
+//    public static String fromIntArrToString(int[][] field) {
+//        for (int i = 0; i < field.length; i++) {
+//
+//        }
+//    }
+
 
 }

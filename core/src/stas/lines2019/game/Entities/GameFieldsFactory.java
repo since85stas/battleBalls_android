@@ -6,6 +6,7 @@ public class GameFieldsFactory {
 
     public ArrayList<GameFieldClass> GameFieldClass;
 
+
     public GameFieldClass createField(int id) {
 
         GameFieldClass p = GameFieldClass.get(id);

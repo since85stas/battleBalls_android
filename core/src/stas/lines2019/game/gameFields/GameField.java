@@ -357,8 +357,23 @@ public class GameField {
             highScores = gameScore;
             gamePref.putInteger(Constants.PREF_HIGH_SCORE, gameScore);
         }
+
+        int[][] ballColors = getCurrentFieldInt();
+//        for (int i = 0; i < fieldDimension; i++) {
+//            for (int j = 0; j < fieldDimension; j++) {
+//                int color = squares[i][j].getBallColor();
+//                ballColors[i][j] = squares[i][j].getBallColor();
+//            }
+//        }
         Hashtable<String, String> hashTable = new Hashtable<String, String>();
         Json json = new Json();
+        hashTable.put(Constants.PREF_GAME_MASSIVE, json.toJson(ballColors)); //here you are serializing the array
+        gamePref.put(hashTable);
+        gamePref.flush();
+    }
+
+    public int[][] getCurrentFieldInt() {
+
         int[][] ballColors = new int[fieldDimension][fieldDimension];
         for (int i = 0; i < fieldDimension; i++) {
             for (int j = 0; j < fieldDimension; j++) {
@@ -366,9 +381,7 @@ public class GameField {
                 ballColors[i][j] = squares[i][j].getBallColor();
             }
         }
-        hashTable.put(Constants.PREF_GAME_MASSIVE, json.toJson(ballColors)); //here you are serializing the array
-        gamePref.put(hashTable);
-        gamePref.flush();
+        return ballColors;
     }
 
     public void savePrefTime() {

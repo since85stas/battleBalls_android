@@ -12,6 +12,7 @@ public class ConstantsPuzzle {
     public static final int CHECK_CLICK_BALL_CONST = -115;
 
     public static final String CONSTR_SAVE_BASE = "save_base";
+    public static final String CONSTR_PUZZL = "CONSTR_PUZZL1";
 
     public static final int DEL_BALL_CONST  = -47;
     public static final int SAVE_FIELD_CONST  = -48;
