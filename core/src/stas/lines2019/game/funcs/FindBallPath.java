@@ -7,7 +7,8 @@ import stas.lines2019.game.util.Constants;
 
 import java.util.ArrayList;
 
-public class FindBallPath {
+public class
+FindBallPath {
     private static final String TAG = FindBallPath.class.getName();
 
     private Vector2 from;
