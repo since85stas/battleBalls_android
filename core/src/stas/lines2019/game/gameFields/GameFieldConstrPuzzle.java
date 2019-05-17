@@ -1,6 +1,5 @@
 package stas.lines2019.game.gameFields;
 
-import stas.lines2019.game.Screens.GameScreenExpans;
 import stas.lines2019.game.Screens.PuzzleConstrScreen;
 
 /**

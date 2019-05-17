@@ -115,6 +115,7 @@ public class GameSurvScreen extends GameScreen {
 
     @Override
     public void setGameField() {
+        isRenderGamefield = true;
         gameField = new GameFieldSurv(this);
     }
 

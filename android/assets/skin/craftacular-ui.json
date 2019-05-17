@@ -202,7 +202,12 @@ com.badlogic.gdx.scenes.scene2d.ui.Window$WindowStyle: {
 		titleFont: big-font
 
 	}
-
-
 }
+	com.badlogic.gdx.scenes.scene2d.ui.SelectBox$SelectBoxStyle: {
+		default: {
+			font: font, fontColor: white, background: window,
+			scrollStyle: default,
+			listStyle: { font: font, selection:  gray }
+		}
+	}
 }

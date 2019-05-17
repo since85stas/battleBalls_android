@@ -2,10 +2,8 @@ package stas.lines2019.game.Screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Json;
-import com.badlogic.gdx.utils.JsonWriter;
 import com.badlogic.gdx.utils.StringBuilder;
 
 import java.util.ArrayList;
@@ -15,9 +13,9 @@ import java.util.List;
 import stas.lines2019.game.Entities.GameFieldClass;
 import stas.lines2019.game.Entities.GameFieldsFactory;
 import stas.lines2019.game.LinesGame;
+import stas.lines2019.game.Widgets.SelectLevelDialog;
 import stas.lines2019.game.gameFields.GameFieldConstrPuzzle;
-import stas.lines2019.game.gameFields.GameFieldExpans;
-import stas.lines2019.game.util.Constants;
+
 import static stas.lines2019.game.util.ConstantsPuzzle.*;
 
 /**
@@ -40,50 +38,49 @@ public class PuzzleConstrScreen extends GameScreen {
     @Override
     public void setPuzzleConstrPlayed() {
         isPuzzleConstrPlayed = true;
+//        isRenderGamefield = false;
     }
 
     @Override
     public void setGameField() {
-        gameFieldsBase = new ArrayList<int[][]>();
+        isRenderGamefield = true;
+//        SelectLevelDialog dialog = new SelectLevelDialog("select",mySkin,3,this);
+//        dialog.show(stage);
+        setGameFieldConstr();
+    }
 
-        saveCurrentfield();
+    public void setGameFieldConstr() {
+        gameFieldsBase = new ArrayList<int[][]>();
+//        deleteFieldsBase();
         loadFieldsBase();
-        saveCurrentfield();
-        loadFieldsBase();
+//        loadCurrentField();
         boolean def = true;
         if (def) {
-            gameField = new GameFieldConstrPuzzle(this, 9);
+            gameField = new GameFieldConstrPuzzle(this, 8);
         } else {
             gameField = new GameFieldConstrPuzzle(this, initGameField.dimX);
         }
-
+        isRenderGamefield = true;
     }
 
-    public void saveCurrentfield() {
-//        GameFieldClass gameFieldClass = new GameFieldClass("field03",5,5,"1,1,1,1,1,1,2,3");
+    @Override
+    public void saveCurrentField() {
+        gameFieldsBase = new ArrayList<int[][]>();
         Preferences prefs = Gdx.app.getPreferences(CONSTR_PUZZL);
         Hashtable<String, String> hashTable = new Hashtable<String, String>();
         Json json = new Json();
-        int[][] field  =  new  int[2][2];
-        for (int i = 0; i < 2; i++) {
-            for (int j = 0; j < 2; j++) {
-                field[i][j] = i+j;
-            }
-        }
-        gameFieldsBase.add(field);
+        gameFieldsBase.add(gameField.getCurrentFieldInt());
         hashTable.put(CONSTR_SAVE_BASE, json.toJson(gameFieldsBase)); //here you are serializing the array
         prefs.put(hashTable);
         prefs.flush();
         Gdx.app.log(TAG,"json save");
     }
 
-
     public void loadCurrentField() {
         Json json = new Json();
-        GameFieldsFactory f = json.fromJson(GameFieldsFactory.class,
-                Gdx.files.internal("gameFieldsSave/gameFieldsSave.json"));
-        initGameField = f.GameFieldClass.get(0);
-        Gdx.app.log(TAG,"json load");
+        if (gameFieldsBase.size() != 0 && gameFieldsBase != null) {
+            gameField.setGameField(gameFieldsBase.get(0));
+        }
     }
 
     public void  loadFieldsBase() {
@@ -93,9 +90,23 @@ public class PuzzleConstrScreen extends GameScreen {
         StringBuilder defaultAcieveStr = new StringBuilder();
         String serializedInts = prefs.getString(CONSTR_SAVE_BASE,"");
         gameFieldsBase = json.fromJson(List.class, serializedInts);
-        Gdx.app.log(TAG,"base load");
 
+        Gdx.app.log(TAG,"base load");
     }
+
+    public void deleteFieldsBase() {
+        gameFieldsBase = new ArrayList<int[][]>();
+        Preferences prefs = Gdx.app.getPreferences(CONSTR_PUZZL);
+        Json json = new Json();
+        Hashtable<String, String> hashTable = new Hashtable<String, String>();
+        hashTable.put(CONSTR_SAVE_BASE, json.toJson(gameFieldsBase)); //here you are serializing the array
+        prefs.put(hashTable);
+        prefs.flush();
+//        gameFieldsBase = json.fromJson(List.class, serializedInts);
+        Gdx.app.log(TAG,"base load");
+    }
+
+
 
 
 }

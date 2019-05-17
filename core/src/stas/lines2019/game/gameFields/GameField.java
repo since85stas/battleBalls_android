@@ -180,15 +180,16 @@ public class GameField {
         loadPrefer();
         if (gameScreen.lineGame.findSaveGame) {
 
-            for (int i = 0; i < fieldDimension; i++) {
-                for (int j = 0; j < fieldDimension; j++) {
-                    if (ballColors[i][j] > 0) {
-                        squares[i][j].setHasBall(true);
-                        squares[i][j].setBallColor(ballColors[i][j]);
-//                        squares[i][j].
-                    }
-                }
-            }
+            setGameField(ballColors);
+//            for (int i = 0; i < fieldDimension; i++) {
+//                for (int j = 0; j < fieldDimension; j++) {
+//                    if (ballColors[i][j] > 0) {
+//                        squares[i][j].setHasBall(true);
+//                        squares[i][j].setBallColor(ballColors[i][j]);
+////                        squares[i][j].
+//                    }
+//                }
+//            }
         }
 
         nextTurnBallCells = new Vector2[numberOfAiBalls];
@@ -211,6 +212,24 @@ public class GameField {
             drawPuzzleConstrButtons();
             constrBallInfo = new BallsInfo();
         }
+    }
+
+    public void setGameField ( int[][] field ) {
+
+        int[] filedSlice = field[0];
+        if (filedSlice.length == fieldDimension) {
+            for (int i = 0; i < fieldDimension; i++) {
+                for (int j = 0; j < fieldDimension; j++) {
+                    if ( field[i][j] > 0) {
+                        squares[i][j].setHasBall(true);
+                        squares[i][j].setBallColor( field[i][j]);
+                    }
+                }
+            }
+        } else {
+            Gdx.app.log(TAG,"wrong field color size");
+        }
+
     }
 
 
@@ -333,14 +352,14 @@ public class GameField {
                 width*CONST_BALL_BUTTON_SIZE);
 
         saveFieldButton = new TextButton("save",Assets.instance.skinAssets.skin);
-        saveFieldButton.setSize(width*CONST_BALL_BUTTON_SIZE,width*CONST_BALL_BUTTON_SIZE );
+        saveFieldButton.setSize(width*CONST_BALL_BUTTON_SIZE*2,width*CONST_BALL_BUTTON_SIZE*2 );
         initPositX = (int)(width /2 + width*CONST_BALL_BUTTON_SIZE*3);
         initPositY = (int)(initPos.y - (CONST_BALL_BUTTON_SIZE*height)*2);
         saveFieldButton.setPosition(initPositX,initPositY);
         saveFieldButtonHitBox = new Rectangle(initPositX,
                 initPositY,
-                width*CONST_BALL_BUTTON_SIZE,
-                width*CONST_BALL_BUTTON_SIZE);
+                width*CONST_BALL_BUTTON_SIZE*2,
+                width*CONST_BALL_BUTTON_SIZE*2);
     }
 
 
@@ -793,7 +812,8 @@ public class GameField {
                                 }  else if (clickPosition.equals(new Vector2(DEL_BALL_CONST,DEL_BALL_CONST)) ) {
                                     delBallButtonPressed = true;
                                 }  else if (clickPosition.equals(new Vector2(SAVE_FIELD_CONST,SAVE_FIELD_CONST))) {
-                                    saveFieldButtonPressed = true;
+                                    gameScreen.saveCurrentField();
+                                    saveFieldButtonPressed = false;
                                 }  else if (constrBallButtPressed) {
                                     if (clickPosition.x < fieldDimension && clickPosition.y < fieldDimension) {
                                         returnSquareInitState(clickPosition,true);
@@ -808,8 +828,8 @@ public class GameField {
                                         delBallButtonPressed = false;
                                     }
                                 }  else if (saveFieldButtonPressed) {
-
-                                    saveFieldButtonPressed = true;
+                                    gameScreen.saveCurrentField();
+                                    saveFieldButtonPressed = false;
                                 }
                             }
                         }
@@ -961,9 +981,11 @@ public class GameField {
                 }
                 if ( delBallButtonHitBox.contains(screenX, Gdx.graphics.getHeight() - screenY)) {
                     clickPosition = new Vector2(DEL_BALL_CONST,DEL_BALL_CONST);
+                    break;
                 }
                 if ( saveFieldButtonHitBox.contains(screenX, Gdx.graphics.getHeight() - screenY)) {
                     clickPosition = new Vector2(SAVE_FIELD_CONST,SAVE_FIELD_CONST);
+                    break;
                 }
 
             }

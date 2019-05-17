@@ -107,7 +107,7 @@ public class GameScreen implements Screen {
 
         setPuzzleConstrPlayed();
         setGameField();
-        isRenderGamefield = true;
+//        isRenderGamefield = true;
 
     }
 
@@ -142,6 +142,7 @@ public class GameScreen implements Screen {
     }
 
     public void setGameField() {
+        isRenderGamefield = true;
         gameField = new GameField(this, 9);
     }
 
@@ -169,8 +170,15 @@ public class GameScreen implements Screen {
 
         batch.begin();
 
-        gameField.update(delta);
-        gameField.render(batch, delta);
+        if (isRenderGamefield) {
+            gameField.update(delta);
+            gameField.render(batch, delta);
+            int time = (int) gameField.getGameTime();
+            setTimeLable(time);
+
+            int score = (int) gameField.getGameScore();
+            setScoreLable(score);
+        }
 
         if (isExpansionPlayed) {
             setEnergyLable(gameField.energy);
@@ -182,11 +190,7 @@ public class GameScreen implements Screen {
             Gdx.app.log(TAG, "fps =" + fps);
         }
 
-        int time = (int)gameField.getGameTime();
-        setTimeLable(time);
 
-        int score =(int) gameField.getGameScore();
-        setScoreLable(score);
 
 
 //        addRulesButton();
@@ -427,5 +431,9 @@ public class GameScreen implements Screen {
             stage.addActor(ball);
 
         }
+    }
+
+    public void saveCurrentField() {
+
     }
 }

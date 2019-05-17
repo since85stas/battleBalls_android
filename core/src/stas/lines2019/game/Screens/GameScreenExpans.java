@@ -17,8 +17,6 @@ import static stas.lines2019.game.util.Constants.*;
 
 public class GameScreenExpans extends GameScreen {
 
-
-
     public GameScreenExpans(LinesGame lineGame, SpriteBatch batch) {
         super(lineGame, batch);
     }
@@ -27,6 +25,7 @@ public class GameScreenExpans extends GameScreen {
     public void setGameField() {
 //        drawEnergy();
 //        stage.addActor(energyLable);
+        isRenderGamefield = true;
         gameField = new GameFieldExpans(this);
     }
 
